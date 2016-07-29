@@ -27,6 +27,7 @@
 		E41B29751D4BDB8100F48095 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41B29721D4BDB8100F48095 /* FBSDKCoreKit.framework */; };
 		E41B29761D4BDB8100F48095 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41B29731D4BDB8100F48095 /* FBSDKShareKit.framework */; };
 		E41B29771D4BDB8100F48095 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41B29741D4BDB8100F48095 /* FBSDKLoginKit.framework */; };
+		E41B29791D4BEA9500F48095 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41B29781D4BEA9500F48095 /* Bolts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		E41B29721D4BDB8100F48095 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		E41B29731D4BDB8100F48095 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		E41B29741D4BDB8100F48095 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		E41B29781D4BEA9500F48095 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41B29791D4BEA9500F48095 /* Bolts.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				E41B29751D4BDB8100F48095 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -340,6 +343,7 @@
 		E41B29711D4BD7DC00F48095 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E41B29781D4BEA9500F48095 /* Bolts.framework */,
 				E41B29721D4BDB8100F48095 /* FBSDKCoreKit.framework */,
 				E41B29731D4BDB8100F48095 /* FBSDKShareKit.framework */,
 				E41B29741D4BDB8100F48095 /* FBSDKLoginKit.framework */,
