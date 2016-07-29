@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/FJ_Junior/Development/code/dbc/Random_Acts_Of_Pizza_Frontend/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.m \
-  /Users/FJ_Junior/Development/code/dbc/Random_Acts_Of_Pizza_Frontend/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h \
+  /Users/noahschutte/Desktop/Random_Acts_Of_Pizza_Frontend/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.m \
+  /Users/noahschutte/Desktop/Random_Acts_Of_Pizza_Frontend/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h \
   ../../React/Modules/RCTEventEmitter.h ../../React/Base/RCTBridge.h \
   ../../React/Base/RCTBridgeDelegate.h \
   ../../React/Base/RCTBridgeModule.h ../../React/Base/RCTDefines.h \
