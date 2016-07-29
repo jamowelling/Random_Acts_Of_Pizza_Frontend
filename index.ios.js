@@ -3,7 +3,6 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,6 +11,32 @@ import {
   View
 } from 'react-native';
 
+const FBSDK = require('react-native-fbsdk');
+const { LoginButton } = FBSDK;
+
+var Login = React.createClass({
+  render: function() {
+    return (
+      <View>
+        <LoginButton
+          publishPermissions={["publish_actions"]}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("Login failed with error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("Login was cancelled");
+              } else {
+                alert("Login was successful with permissions: " + result.grantedPermissions)
+              }
+            }
+          }
+          onLogoutFinished={() => alert("User logged out")}/>
+      </View>
+    );
+  }
+});
+
 class Raop extends Component {
   render() {
     return (
@@ -19,13 +44,7 @@ class Raop extends Component {
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Login />
       </View>
     );
   }
