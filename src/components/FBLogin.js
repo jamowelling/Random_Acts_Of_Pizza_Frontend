@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import FBSDK, { LoginButton } from 'react-native-fbsdk';
+import FBSDK, { LoginButton, LoginManager } from 'react-native-fbsdk';
 
 export default class Login extends Component {
   render() {
@@ -15,11 +15,12 @@ export default class Login extends Component {
               } else if (result.isCancelled) {
                 alert("Login was cancelled");
               } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
+                alert("Login was successful with permissions: " + result.grantedPermissions);
               }
             }
           }
-          onLogoutFinished={() => alert("User logged out")}/>
+          onLogoutFinished={() => alert("User logged out")}
+        />
       </View>
     );
   }
