@@ -12,7 +12,7 @@ class Raop extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Random Acts of Pizza
         </Text>
         <Login />
       </View>
