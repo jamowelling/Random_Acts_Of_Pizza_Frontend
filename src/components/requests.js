@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Button from './button';
 
 export default class Requests extends Component {
   render() {
@@ -8,8 +9,12 @@ export default class Requests extends Component {
         <Text>
           Requests Page
         </Text>
+        <Button text={'Create Request'} onPress={this.onNewRequestPress} />
       </View>
     );
+  }
+  onNewRequestPress() {
+    // this.props.navigator.push({name: 'new_request'});
   }
 };
 
