@@ -1,35 +1,25 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './components/FBLogin';
+import { Navigator } from 'react-native';
+import Signin from './components/signin';
+import Requests from './components/requests';
+
+const ROUTES = {
+  signin: Signin,
+  requests: Requests
+};
 
 export default class Raop extends Component {
+  renderScene(route, navigator) {
+    const Component = ROUTES[route.name];
+    return <Component route={route} navigator={navigator} />;
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Random Acts of Pizza
-        </Text>
-        <Login />
-      </View>
+      <Navigator
+      initialRoute={{name: 'requests'}}
+      renderScene={this.renderScene}
+      configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; }}
+      />
     );
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+};

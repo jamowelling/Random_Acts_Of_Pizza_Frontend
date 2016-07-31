@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import FBSDK, { LoginButton, LoginManager } from 'react-native-fbsdk';
+import FBSDK, { LoginButton } from 'react-native-fbsdk';
 
 export default class Login extends Component {
   render() {
