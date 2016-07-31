@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Navigator } from 'react-native';
 import Signin from './components/signin';
 import Requests from './components/requests';
+import NewRequest from './components/new_request';
 
 const ROUTES = {
   signin: Signin,
-  requests: Requests
+  requests: Requests,
+  new_request: NewRequest
 };
 
 export default class Raop extends Component {
@@ -16,7 +18,7 @@ export default class Raop extends Component {
   render() {
     return (
       <Navigator
-      initialRoute={{name: 'requests'}}
+      initialRoute={{name: 'new_request'}}
       renderScene={this.renderScene}
       configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; }}
       />
