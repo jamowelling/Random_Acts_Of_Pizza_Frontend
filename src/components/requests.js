@@ -6,10 +6,13 @@ export default class Requests extends Component {
   render() {
     return (
       <View style={styles.container}>
+
+        <Button text={'Create Request'} onPress={this.onNewRequestPress} />
+
         <Text>
           Requests Page
         </Text>
-        <Button text={'Create Request'} onPress={this.onNewRequestPress} />
+
       </View>
     );
   }

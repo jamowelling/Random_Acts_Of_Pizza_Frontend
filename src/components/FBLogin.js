@@ -16,6 +16,8 @@ export default class Login extends Component {
                 alert("Login was cancelled");
               } else {
                 alert("Login was successful with permissions: " + result.grantedPermissions);
+                // immediatelyResetRouteStack
+                // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
               }
             }
           }

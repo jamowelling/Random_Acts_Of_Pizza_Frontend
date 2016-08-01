@@ -3,16 +3,21 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Button from './button';
 
 export default class NewRequest extends Component {
-  getInitialState() {
-    return {
+  constructor(props, context) {
+    super(props, context)
+
+    this.state = {
       title: '',
       location: '',
-      pizzas: 0
+      pizzas: 0,
+      errorMessage: ''
     }
   }
   render() {
     return (
       <View style={styles.container}>
+        <Button text={'Cancel Request'} onPress={this.onCancelRequest} />
+
         <Text>
           New Request Form
         </Text>
@@ -24,8 +29,38 @@ export default class NewRequest extends Component {
           style={styles.input}
           />
 
+        <Text style={styles.label}>
+          Location:
+        </Text>
+        <TextInput
+          style={styles.input}
+          />
+
+        <Text style={styles.label}>
+          Pizzas:
+        </Text>
+        <TextInput
+          style={styles.input}
+          />
+
+        <Text>
+          {this.state.errorMessage}
+        </Text>
+
+        <Button text={'Submit Request'} onPress={this.onSubmitRequest} />
+
       </View>
     );
+  }
+  onSubmitRequest() {
+    if (this.state.title.length < 1) {
+      console.log("Test")
+      return this.setState({errorMessage: 'Your title must be at least 30 characters.'})
+    }
+    // Submit new request form
+  };
+  onCancelRequest() {
+    // this.props.navigator.pop();
   }
 };
 

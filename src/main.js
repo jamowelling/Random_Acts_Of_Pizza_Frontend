@@ -18,7 +18,7 @@ export default class Raop extends Component {
   render() {
     return (
       <Navigator
-      initialRoute={{name: 'new_request'}}
+      initialRoute={{name: 'requests'}}
       renderScene={this.renderScene}
       configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; }}
       />
