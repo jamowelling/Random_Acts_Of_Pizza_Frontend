@@ -3,17 +3,25 @@ import { Navigator } from 'react-native';
 import Signin from './components/signin';
 import Requests from './components/requests';
 import NewRequest from './components/new_request';
+import UserProfile from './components/user_profile';
 
 const ROUTES = {
   signin: Signin,
+  userProfile: UserProfile,
   requests: Requests,
   new_request: NewRequest
 };
 
 export default class Raop extends Component {
-  renderScene(route, navigator) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    };
+  }
+  renderScene(route, navigator, user) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} />;
+    return <Component route={route} navigator={navigator} user={user} />;
   }
   render() {
     return (
