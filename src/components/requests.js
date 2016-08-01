@@ -23,7 +23,6 @@ export default class Requests extends Component {
 
         <Button
           text={'Donate'}
-          onPress={this.onDonatePress.bind(this)}
           />
 
       </View>
