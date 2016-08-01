@@ -8,6 +8,11 @@ export default class Requests extends Component {
       <View style={styles.container}>
 
         <Button
+          text={'Logout'}
+          onPress={this.onLogoutPress.bind(this)}
+          />
+
+        <Button
           text={'Create Request'}
           onPress={this.onNewRequestPress.bind(this)}
           />
@@ -29,6 +34,9 @@ export default class Requests extends Component {
   }
   onNewRequestPress() {
     this.props.navigator.push({name: 'new_request'});
+  }
+  onLogoutPress() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
   }
 };
 

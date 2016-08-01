@@ -11,9 +11,15 @@ export default class Signin extends Component {
           Random Acts of Pizza
         </Text>
         <Login />
-        <Button />
+        <Button
+          text={'Go to Requests'}
+          onPress={this.onRequestsPress.bind(this)}
+          />
       </View>
     )
+  }
+  onRequestsPress() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
   }
 };
 
