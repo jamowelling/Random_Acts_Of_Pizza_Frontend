@@ -7,17 +7,28 @@ export default class Requests extends Component {
     return (
       <View style={styles.container}>
 
-        <Button text={'Create Request'} onPress={this.onNewRequestPress} />
+        <Button
+          text={'Create Request'}
+          onPress={this.onNewRequestPress.bind(this)}
+          />
 
         <Text>
           Requests Page
         </Text>
 
+        <Button
+          text={'Donate'}
+          onPress={this.onDonatePress.bind(this)}
+          />
+
       </View>
     );
   }
+  onDonatePress() {
+    // patch route
+  }
   onNewRequestPress() {
-    // this.props.navigator.push({name: 'new_request'});
+    this.props.navigator.push({name: 'new_request'});
   }
 };
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Login from './FBLogin';
+import Button from './button';
 
 export default class Signin extends Component {
   render() {
@@ -10,6 +11,7 @@ export default class Signin extends Component {
           Random Acts of Pizza
         </Text>
         <Login />
+        <Button />
       </View>
     )
   }
