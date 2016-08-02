@@ -33,6 +33,8 @@ export default class UserProfile extends Component {
 
         <Button
           text={'Update email'}
+          autoCapitalize = "none"
+          onPress={this.onUpdateEmailPress.bind(this)}
           />
 
       </View>
@@ -40,6 +42,9 @@ export default class UserProfile extends Component {
   }
   onBackPress() {
     this.props.navigator.pop();
+  }
+  onUpdateEmailPress() {
+    // Update email address
   }
 }
 
