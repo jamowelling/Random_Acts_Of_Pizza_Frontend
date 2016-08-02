@@ -7,7 +7,7 @@ export default class NewRequest extends Component {
     super(props)
 
     this.state = {
-      title: 'Placeholder',
+      title: '',
       city: '',
       state: '',
       pizzas: '',
@@ -17,7 +17,10 @@ export default class NewRequest extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button text={'Cancel Request'} onPress={this.onCancelRequest.bind(this)} />
+        <Button
+          text={'Cancel Request'}
+          onPress={this.onCancelRequest.bind(this)}
+          />
 
         <Text>
           New Request Form

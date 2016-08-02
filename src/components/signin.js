@@ -7,18 +7,23 @@ export default class Signin extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         <Text style={styles.welcome}>
           Random Acts of Pizza
         </Text>
+
         <Login />
+
         <Button
           text={'User Profile'}
           onPress={this.onProfilePress.bind(this)}
           />
+
         <Button
           text={'Go to Requests'}
           onPress={this.onRequestsPress.bind(this)}
           />
+
       </View>
     )
   }
@@ -41,10 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
