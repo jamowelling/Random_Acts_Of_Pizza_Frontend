@@ -13,10 +13,11 @@ export default class UserProfile extends Component {
   render() {
     return (
       <View style={styles.container}>
+
         <Button
-        text={'Back'}
-        onPress={this.onBackPress.bind(this)}
-        />
+          text={'Back'}
+          onPress={this.onBackPress.bind(this)}
+          />
 
         <Text>
           User Profile
@@ -25,10 +26,11 @@ export default class UserProfile extends Component {
         <Text>
           Email:
         </Text>
+
         <TextInput
-        onChangeText={(email) => this.setState({email})}
-        value={this.state.text}
-        style={styles.input}
+          onChangeText={(email) => this.setState({email})}
+          value={this.state.text}
+          style={styles.input}
           />
 
         <Button

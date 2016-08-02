@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Navigator } from 'react-native';
 import Signin from './components/signin';
+import UserProfile from './components/user_profile';
 import Requests from './components/requests';
 import NewRequest from './components/new_request';
-import UserProfile from './components/user_profile';
 
 const ROUTES = {
   signin: Signin,
@@ -15,6 +15,7 @@ const ROUTES = {
 export default class Raop extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       user: null
     };
