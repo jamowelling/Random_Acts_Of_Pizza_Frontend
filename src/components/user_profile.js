@@ -10,6 +10,11 @@ export default class UserProfile extends Component {
       email: ''
     };
   }
+  fetch(`http://localhost:3000/users/1`, {
+    method: "GET",
+    headers: headers,
+    body:body
+  })
   render() {
     return (
       <View style={styles.container}>
