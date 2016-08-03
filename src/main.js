@@ -13,16 +13,9 @@ const ROUTES = {
 };
 
 export default class Raop extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      user: null
-    };
-  }
   renderScene(route, navigator, user) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} user={user} />;
+    return <Component route={route} navigator={navigator} />;
   }
   render() {
     return (

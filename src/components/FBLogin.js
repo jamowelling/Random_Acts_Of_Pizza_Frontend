@@ -3,13 +3,6 @@ import { View } from 'react-native';
 import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: null
-    };
-  }
   render() {
     return (
       <View>
@@ -22,21 +15,17 @@ export default class Login extends Component {
               } else if (result.isCancelled) {
                 alert("Login was cancelled");
               } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions);
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
                     let accessToken = data.accessToken
-                    alert(accessToken.toString())
                     const responseInfoCallback = (error, result) => {
                       if (error) {
-                        console.log(error)
                         alert('Error fetching data: ' + error.toString());
                       } else {
                         console.log(result)
-                        alert('Success fetching data: ' + result.toString());
+                        // Call to back end with results
                       }
                     }
-
                     const infoRequest = new GraphRequest(
                       '/me',
                       {
@@ -57,7 +46,6 @@ export default class Login extends Component {
               }
             }
           }
-          onLogoutFinished={() => alert("User logged out")}
         />
       </View>
     );
