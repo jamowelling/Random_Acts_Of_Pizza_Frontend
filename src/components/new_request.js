@@ -13,6 +13,27 @@ export default class NewRequest extends Component {
       pizzas: '',
       errorMessage: ''
     };
+    this.onTitleChange = this.onTitleChange.bind(this);
+  }
+  onTitleChange() {
+    this.setState({title: "yo"})
+  }
+  onSubmitRequest() {
+    if (this.state.title.length < 15) {
+      this.setState({errorMessage: 'Your title must be at least 15 characters.'})
+    } else if (this.state.city.length < 2) {
+      this.setState({errorMessage: 'What city are you in?'})
+    } else if (this.state.state.length < 2) {
+      this.setState({errorMessage: 'What state are you in?'})
+    } else if (this.state.pizzas.length < 1) {
+      this.setState({errorMessage: 'How many pizzas are you requesting?'})
+    } else {
+      this.setState({errorMessage: ''})
+    }
+    // Submit new request form
+  };
+  onCancelRequest() {
+    this.props.navigator.pop();
   }
   render() {
     return (
@@ -33,7 +54,9 @@ export default class NewRequest extends Component {
           maxLength = {50}
           multiline = {true}
           numberOfLines = {4}
-          onChangeText={(title) => this.setState({title})}
+          autoCapitalize = "sentences"
+          // onChangeText={(title) => this.setState({title})}
+          onChangeText={onTitleChange}
           value={this.state.text}
           style={styles.input}
           />
@@ -44,6 +67,7 @@ export default class NewRequest extends Component {
         <TextInput
           placeholder = "New York"
           maxLength = {20}
+          autoCapitalize = "words"
           onChangeText={(city) => this.setState({city})}
           value={this.state.text}
           style={styles.input}
@@ -80,23 +104,6 @@ export default class NewRequest extends Component {
 
       </View>
     );
-  }
-  onSubmitRequest() {
-    if (this.state.title.length < 15) {
-      return this.setState({errorMessage: 'Your title must be at least 15 characters.'})
-    } else if (this.state.city.length < 2) {
-      return this.setState({errorMessage: 'What city are you in?'})
-    } else if (this.state.state.length < 2) {
-      return this.setState({errorMessage: 'What state are you in?'})
-    } else if (this.state.pizzas.length < 1) {
-      return this.setState({errorMessage: 'How many pizzas are you requesting?'})
-    } else {
-      return this.setState({errorMessage: ''})
-    }
-    // Submit new request form
-  };
-  onCancelRequest() {
-    this.props.navigator.pop();
   }
 };
 

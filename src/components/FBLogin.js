@@ -17,7 +17,7 @@ export default class Login extends Component {
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                    let accessToken = data.accessToken
+                    const accessToken = data.accessToken
                     const responseInfoCallback = (error, result) => {
                       if (error) {
                         alert('Error fetching data: ' + error.toString());
@@ -29,7 +29,7 @@ export default class Login extends Component {
                     const infoRequest = new GraphRequest(
                       '/me',
                       {
-                        accessToken: accessToken,
+                        accessToken,
                         parameters: {
                           fields: {
                             string: 'email,name,first_name,middle_name,last_name'
