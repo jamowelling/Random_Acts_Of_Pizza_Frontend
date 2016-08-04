@@ -10,6 +10,10 @@ export default class UserProfile extends Component {
       currentEmail: 'loading...',
       updatedEmail: ''
     };
+    this.onEmailChange = this.onEmailChange.bind(this);
+  }
+  onEmailChange(updatedEmail) {
+    this.setState({updatedEmail})
   }
   onBackPress() {
     this.props.navigator.pop();
@@ -25,26 +29,24 @@ export default class UserProfile extends Component {
     });
   }
   onUpdateEmailPress() {
-    // Update email address
+    const { updatedEmail } = this.state;
     fetch('http://localhost:3000/users/1', {
-      method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      method: 'PATCH',
+      body: JSON.stringify({updatedEmail})
     })
-    .then((response) => response.json())
+    .then((response) => {
+      return response.json()})
     .then((responseJson) => {
-      console.log(responseJson.user.email);
       this.setState({currentEmail: responseJson.user.email})
-      // this.setState({currentEmail: 'updated'})
+      this.setState({updatedEmail: ''})
     })
     .catch((error) => {
       console.error(error);
     });
-    // console.log(responseJson.user.email);
-    console.log(this.state.currentEmail);
-    console.log(this.state.updatedEmail);
   }
   render() {
     return (
@@ -56,7 +58,7 @@ export default class UserProfile extends Component {
           />
 
         <Text>
-          User Profile
+          Current Email:
         </Text>
 
         <Text>
@@ -64,13 +66,15 @@ export default class UserProfile extends Component {
         </Text>
 
         <Text>
-          Email:
+          Update Email:
         </Text>
 
         <TextInput
-          onChangeText={(updatedEmail) => this.setState({updatedEmail})}
+          onChangeText={this.onEmailChange}
+          maxLength = {254}
+          autoCorrect={false}
           autoCapitalize = "none"
-          value={this.state.text}
+          value={this.state.updatedEmail}
           style={styles.input}
           />
 

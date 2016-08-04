@@ -14,9 +14,21 @@ export default class NewRequest extends Component {
       errorMessage: ''
     };
     this.onTitleChange = this.onTitleChange.bind(this);
+    this.onCityChange = this.onCityChange.bind(this);
+    this.onStateChange = this.onStateChange.bind(this);
+    this.onPizzasChange = this.onPizzasChange.bind(this);
   }
-  onTitleChange() {
-    this.setState({title: "yo"})
+  onTitleChange(title) {
+    this.setState({title})
+  }
+  onCityChange(city) {
+    this.setState({city})
+  }
+  onStateChange(state) {
+    this.setState({state})
+  }
+  onPizzasChange(pizzas) {
+    this.setState({pizzas})
   }
   onSubmitRequest() {
     if (this.state.title.length < 15) {
@@ -29,9 +41,36 @@ export default class NewRequest extends Component {
       this.setState({errorMessage: 'How many pizzas are you requesting?'})
     } else {
       this.setState({errorMessage: ''})
-    }
     // Submit new request form
-  };
+      const {
+        title,
+        city,
+        state,
+        pizzas
+      } = this.state;
+      fetch('http://localhost:3000/requests', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          title,
+          city,
+          state,
+          pizzas
+        })
+      })
+      .then((response) => {
+        return response.json()})
+      .then((responseJson) => {
+        this.setState({errorMessage: responseJson.errorMessage})
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  }
   onCancelRequest() {
     this.props.navigator.pop();
   }
@@ -55,9 +94,8 @@ export default class NewRequest extends Component {
           multiline = {true}
           numberOfLines = {4}
           autoCapitalize = "sentences"
-          // onChangeText={(title) => this.setState({title})}
-          onChangeText={onTitleChange}
-          value={this.state.text}
+          onChangeText={this.onTitleChange}
+          value={this.state.title}
           style={styles.input}
           />
 
@@ -67,9 +105,9 @@ export default class NewRequest extends Component {
         <TextInput
           placeholder = "New York"
           maxLength = {20}
+          autoCorrect={false}
           autoCapitalize = "words"
-          onChangeText={(city) => this.setState({city})}
-          value={this.state.text}
+          onChangeText={this.onCityChange}          value={this.state.city}
           style={styles.input}
           />
 
@@ -79,9 +117,10 @@ export default class NewRequest extends Component {
         <TextInput
           placeholder = "NY"
           maxLength = {2}
+          autoCorrect={false}
           autoCapitalize = "characters"
-          onChangeText={(state) => this.setState({state})}
-          value={this.state.text}
+          onChangeText={this.onStateChange}
+          value={this.state.state}
           style={styles.input}
           />
 
@@ -91,8 +130,9 @@ export default class NewRequest extends Component {
         <TextInput
           placeholder = "1"
           maxLength = {1}
-          onChangeText={(pizzas) => this.setState({pizzas})}
-          value={this.state.text}
+          autoCorrect={false}
+          onChangeText={this.onPizzasChange}
+          value={this.state.pizzas}
           style={styles.input}
           />
 
