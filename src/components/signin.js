@@ -4,6 +4,12 @@ import Login from './FBLogin';
 import Button from './button';
 
 export default class Signin extends Component {
+  onRequestsPress() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
+  }
+  onProfilePress() {
+    this.props.navigator.push({name: 'userProfile'});
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -26,12 +32,6 @@ export default class Signin extends Component {
 
       </View>
     )
-  }
-  onRequestsPress() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
-  }
-  onProfilePress() {
-    this.props.navigator.push({name: 'userProfile'});
   }
 };
 

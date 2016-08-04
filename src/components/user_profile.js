@@ -7,14 +7,45 @@ export default class UserProfile extends Component {
     super(props)
 
     this.state = {
-      email: ''
+      currentEmail: 'loading...',
+      updatedEmail: ''
     };
   }
-  fetch(`http://localhost:3000/users/1`, {
-    method: "GET",
-    headers: headers,
-    body:body
-  })
+  onBackPress() {
+    this.props.navigator.pop();
+  }
+  componentDidMount() {
+    fetch('http://localhost:3000/users/1')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({currentEmail: responseJson.user.email})
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+  onUpdateEmailPress() {
+    // Update email address
+    fetch('http://localhost:3000/users/1', {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson.user.email);
+      this.setState({currentEmail: responseJson.user.email})
+      // this.setState({currentEmail: 'updated'})
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    // console.log(responseJson.user.email);
+    console.log(this.state.currentEmail);
+    console.log(this.state.updatedEmail);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -29,29 +60,27 @@ export default class UserProfile extends Component {
         </Text>
 
         <Text>
+          {this.state.currentEmail}
+        </Text>
+
+        <Text>
           Email:
         </Text>
 
         <TextInput
-          onChangeText={(email) => this.setState({email})}
+          onChangeText={(updatedEmail) => this.setState({updatedEmail})}
+          autoCapitalize = "none"
           value={this.state.text}
           style={styles.input}
           />
 
         <Button
           text={'Update email'}
-          autoCapitalize = "none"
           onPress={this.onUpdateEmailPress.bind(this)}
           />
 
       </View>
     )
-  }
-  onBackPress() {
-    this.props.navigator.pop();
-  }
-  onUpdateEmailPress() {
-    // Update email address
   }
 }
 
