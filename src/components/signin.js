@@ -5,7 +5,7 @@ import Button from './button';
 
 export default class Signin extends Component {
   onRequestsPress() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
+    this.props.navigator.push({name: 'requests'});
   }
   onProfilePress() {
     this.props.navigator.push({name: 'userProfile'});

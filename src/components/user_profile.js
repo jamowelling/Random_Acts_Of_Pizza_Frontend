@@ -8,7 +8,8 @@ export default class UserProfile extends Component {
 
     this.state = {
       currentEmail: 'loading...',
-      updatedEmail: ''
+      updatedEmail: '',
+      errorMessage: ' '
     };
     this.onEmailChange = this.onEmailChange.bind(this);
   }
@@ -22,7 +23,7 @@ export default class UserProfile extends Component {
     fetch('http://localhost:3000/users/1')
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({currentEmail: responseJson.user.email})
+      this.setState({currentEmail: responseJson.email})
     })
     .catch((error) => {
       console.error(error);
@@ -30,7 +31,7 @@ export default class UserProfile extends Component {
   }
   onUpdateEmailPress() {
     const { updatedEmail } = this.state;
-    fetch('http://localhost:3000/users/1', {
+    fetch('http://localhost:3000/users/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -41,8 +42,13 @@ export default class UserProfile extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      this.setState({currentEmail: responseJson.user.email})
-      this.setState({updatedEmail: ''})
+      if (responseJson.errorMessage) {
+        this.setState({errorMessage: responseJson.errorMessage})
+      } else {
+        this.setState({currentEmail: responseJson.email})
+        this.setState({updatedEmail: ''})
+        this.setState({errorMessage: ' '})
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -77,6 +83,10 @@ export default class UserProfile extends Component {
           value={this.state.updatedEmail}
           style={styles.input}
           />
+
+        <Text>
+          {this.state.errorMessage}
+        </Text>
 
         <Button
           text={'Update Email'}

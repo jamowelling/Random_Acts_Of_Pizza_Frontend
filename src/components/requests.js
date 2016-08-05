@@ -31,6 +31,9 @@ export default class Requests extends Component {
       console.error(error);
     });
   }
+  onInfoSend() {
+    alert(`You have 30 minutes to send a gift card to ${this.state.name}`)
+  }
   onConfirmPress() {
     const { name } = this.state;
     fetch('http://localhost:3000/requests/1', {
@@ -44,7 +47,7 @@ export default class Requests extends Component {
     .then((response) => {
       return response.json()})
       .then((responseJson) => {
-        console.log(responseJson);
+        this.onInfoSend()
       })
       .catch((error) => {
         console.error(error);
@@ -70,7 +73,7 @@ export default class Requests extends Component {
     this.props.navigator.push({name: 'new_request'});
   }
   onLogoutPress() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'signin'}]);
+    this.props.navigator.push({name: 'signin'});
   }
   render() {
     return (
@@ -85,10 +88,6 @@ export default class Requests extends Component {
           text={'Create Request'}
           onPress={this.onNewRequestPress.bind(this)}
           />
-
-        <Text>
-          Requests Page
-        </Text>
 
         <Text>
           {this.state.name}
