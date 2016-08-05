@@ -11,7 +11,7 @@ export default class NewRequest extends Component {
       city: '',
       state: '',
       pizzas: '',
-      errorMessage: ''
+      errorMessage: ' '
     };
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onCityChange = this.onCityChange.bind(this);
@@ -40,7 +40,7 @@ export default class NewRequest extends Component {
     } else if (this.state.pizzas.length < 1) {
       this.setState({errorMessage: 'How many pizzas are you requesting?'})
     } else {
-      this.setState({errorMessage: ''})
+      this.setState({errorMessage: ' '})
     // Submit new request form
       const {
         title,
