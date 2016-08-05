@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, AlertIOS, StyleSheet } from 'react-native';
 import Button from './button';
 
 export default class Requests extends Component {
@@ -31,8 +31,35 @@ export default class Requests extends Component {
       console.error(error);
     });
   }
+  onConfirmPress() {
+    console.log("")
+    const { name } = this.state;
+    fetch('http://localhost:3000/requests/1', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PATCH',
+      body: JSON.stringify({name})
+    })
+    .then((response) => {
+      return response.json()})
+      .then((responseJson) => {
+        console.log("test");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   onDonatePress() {
-    // patch route
+    AlertIOS.alert(
+      'Are you sure you want to donate?',
+      'You will have 30 minutes to send a gift certificate from Pizza House.',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'Donate', onPress: () => {this.onConfirmPress}}
+      ]
+    );
   }
   onNewRequestPress() {
     this.props.navigator.push({name: 'new_request'});
@@ -70,8 +97,13 @@ export default class Requests extends Component {
           {this.state.pizzas} Pizzas - {this.state.city}, {this.state.state}
         </Text>
 
+        <Text>
+          {this.state.errorMessage}
+        </Text>
+
         <Button
           text={'Donate'}
+          onPress={this.onDonatePress.bind(this)}
           />
 
       </View>

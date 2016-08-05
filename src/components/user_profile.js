@@ -79,7 +79,7 @@ export default class UserProfile extends Component {
           />
 
         <Button
-          text={'Update email'}
+          text={'Update Email'}
           onPress={this.onUpdateEmailPress.bind(this)}
           />
 
