@@ -13,16 +13,17 @@ const ROUTES = {
 };
 
 export default class Raop extends Component {
-  renderScene(route, navigator, user) {
+
+  renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} />;
+    return <Component route={route} navigator={navigator}/>;
   }
   render() {
     return (
       <Navigator
       initialRoute={{name: 'signin'}}
       renderScene={this.renderScene}
-      configureScene={() =>  Navigator.SceneConfigs.FloatFromRight }
+      configureScene={() =>  Navigator.SceneConfigs.FloatFromRight}
       />
     );
   }

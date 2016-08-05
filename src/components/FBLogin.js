@@ -3,6 +3,32 @@ import { View } from 'react-native';
 import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currentUser: null
+    }
+  }
+  createSession(userInfo) {
+    fetch('http://localhost:3000/users', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({userInfo})
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      this.setState({currentUser: responseJson})
+      console.log(this.state.currentUser);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
   render() {
     return (
       <View>
@@ -22,8 +48,11 @@ export default class Login extends Component {
                       if (error) {
                         alert('Error fetching data: ' + error.toString());
                       } else {
-                        console.log(result)
+                        this.createSession(result)
                         // Call to back end with results
+                        // immediatelyResetRouteStack
+                        // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
+                        // user={this.state.currentUser}
                       }
                     }
                     const infoRequest = new GraphRequest(
@@ -41,11 +70,12 @@ export default class Login extends Component {
                     new GraphRequestManager().addRequest(infoRequest).start()
                   }
                 )
-                // immediatelyResetRouteStack
-                // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
               }
             }
           }
+          // onLogoutFinished={
+            // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
+          // }
         />
       </View>
     );
