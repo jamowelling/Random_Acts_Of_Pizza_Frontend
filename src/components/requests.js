@@ -13,7 +13,7 @@ export default class Requests extends Component {
       city: '',
       state: '',
       pizzas: '',
-      errorMessage: ''
+      errorMessage: ' '
     };
   }
   componentDidMount() {
@@ -32,7 +32,6 @@ export default class Requests extends Component {
     });
   }
   onConfirmPress() {
-    console.log("")
     const { name } = this.state;
     fetch('http://localhost:3000/requests/1', {
       headers: {
@@ -45,7 +44,7 @@ export default class Requests extends Component {
     .then((response) => {
       return response.json()})
       .then((responseJson) => {
-        console.log("test");
+        console.log(responseJson);
       })
       .catch((error) => {
         console.error(error);
@@ -56,10 +55,16 @@ export default class Requests extends Component {
       'Are you sure you want to donate?',
       'You will have 30 minutes to send a gift certificate from Pizza House.',
       [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'Donate', onPress: () => {this.onConfirmPress}}
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Donate',
+          onPress: this.onConfirmPress.bind(this)
+        }
       ]
-    );
+    )
   }
   onNewRequestPress() {
     this.props.navigator.push({name: 'new_request'});
