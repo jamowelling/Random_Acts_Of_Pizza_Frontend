@@ -3,13 +3,6 @@ import { View } from 'react-native';
 import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      currentUser: null
-    }
-  }
   createSession(userInfo) {
     fetch('http://localhost:3000/users', {
       headers: {
@@ -22,8 +15,7 @@ export default class Login extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      this.setState({currentUser: responseJson})
-      console.log(this.state.currentUser);
+      this.props.onUserChange(responseJson)
     })
     .catch((error) => {
       console.error(error);
@@ -52,7 +44,7 @@ export default class Login extends Component {
                         // Call to back end with results
                         // immediatelyResetRouteStack
                         // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
-                        // user={this.state.currentUser}
+                        // user={this.state.user}
                       }
                     }
                     const infoRequest = new GraphRequest(
@@ -74,7 +66,7 @@ export default class Login extends Component {
             }
           }
           // onLogoutFinished={
-            // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
+          //   this.props.onUserChange(null)
           // }
         />
       </View>

@@ -31,6 +31,7 @@ export default class NewRequest extends Component {
     this.setState({pizzas})
   }
   onSubmitRequest() {
+    const userID = this.props.user.id
     if (this.state.title.length < 15) {
       this.setState({errorMessage: 'Your title must be at least 15 characters.'})
     } else if (this.state.city.length < 2) {
@@ -55,6 +56,7 @@ export default class NewRequest extends Component {
         },
         method: 'POST',
         body: JSON.stringify({
+          userID,
           title,
           city,
           state,
@@ -70,6 +72,7 @@ export default class NewRequest extends Component {
         console.error(error);
       });
     }
+    this.props.navigator.pop();
   }
   onCancelRequest() {
     this.props.navigator.pop();
