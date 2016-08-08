@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, AlertIOS, StyleSheet } from 'react-native';
+import Swiper from 'react-native-swiper';
 import Button from './button';
 
 export default class Requests extends Component {
@@ -8,31 +9,19 @@ export default class Requests extends Component {
 
     this.state = {
       requests: [],
-      id: '',
-      name: 'loading...',
-      hours: '',
-      title: '',
-      city: '',
-      state: '',
-      pizzas: '',
       errorMessage: ' '
     };
   }
   componentDidMount() {
-    fetch('http://localhost:3000/requests/1')
+    fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
-      // console.log(responseJson);
-      // if (responseJson[errorMessage] === "No requests") {
-      //   this.setState({errorMessage: responseJson})
-      // } else {
-        this.setState({name: responseJson.request.name})
-        this.setState({hours: responseJson.request.hours})
-        this.setState({title: responseJson.request.title})
-        this.setState({city: responseJson.request.city})
-        this.setState({state: responseJson.request.state})
-        this.setState({pizzas: responseJson.request.pizzas})
-      // }
+      if (responseJson.errorMessage === 'No current requests.') {
+        this.setState({errorMessage: responseJson.errorMessage})
+      } else {
+        this.setState({errorMessage: null})
+        this.setState({requests: responseJson.requests})
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -84,39 +73,48 @@ export default class Requests extends Component {
     this.props.navigator.push({name: 'signin'});
   }
   render() {
+    let currentRequests;
+    if (this.state.errorMessage !== ' ') {
+      currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
+        {this.state.requests.map((request, i) => {
+          return (
+            <View key={i} style={styles.request}>
+              <Text style={styles.text}>
+                {request.first_name}
+              </Text>
+              <Text style={styles.text}>
+                {request.title}
+              </Text>
+              <Button text={'Donate'} onPress={this.onDonatePress.bind(this)} />
+            </View>
+          )
+        })}
+      </Swiper>
+    }
     return (
       <View style={styles.container}>
+        <View style={styles.toolbar}>
+          <Button
+            styles={styles.toolbarButton}
+            text={'Logout'}
+            onPress={this.onLogoutPress.bind(this)}
+            />
 
-        <Button
-          text={'Logout'}
-          onPress={this.onLogoutPress.bind(this)}
-          />
+          <Text style={styles.toolbarTitle}>
+            RAOP
+          </Text>
 
-        <Button
-          text={'Create Request'}
-          onPress={this.onNewRequestPress.bind(this)}
-          />
-
-        <Text>
-          {this.state.name}
-        </Text>
-
-        <Text>
-          {this.state.title}
-        </Text>
-
-        <Text>
-          {this.state.pizzas} Pizzas - {this.state.city}, {this.state.state}
-        </Text>
+          <Button
+            style={styles.toolbarButton}
+            text={'Create Request'}
+            onPress={this.onNewRequestPress.bind(this)}
+            />
+        </View>
+        {currentRequests}
 
         <Text>
           {this.state.errorMessage}
         </Text>
-
-        <Button
-          text={'Donate'}
-          onPress={this.onDonatePress.bind(this)}
-          />
 
       </View>
     );
@@ -129,5 +127,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  toolbar: {
+    backgroundColor:'#81c04d',
+    paddingTop:30,
+    paddingBottom:10,
+    flexDirection:'row'
+  },
+  toolbarTitle: {
+    color:'white',
+    textAlign:'center',
+    fontWeight:'bold',
+    flex: 1
+  },
+  toolbarButton: {
+    color:'white',
+    textAlign:'center'
+  },
+  wrapper: {
+  },
+  request: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB',
+  },
+  text: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
   }
 });

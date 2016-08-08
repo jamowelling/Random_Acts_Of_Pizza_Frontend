@@ -11,6 +11,14 @@ export default class Signin extends Component {
     this.props.navigator.push({name: 'userProfile'});
   }
   render() {
+    let showUserProfileButton;
+    if (this.props.user) {
+      showUserProfileButton = <Button
+        text={'User Profile'}
+        onPress={this.onProfilePress.bind(this)}
+        />
+    }
+
     return (
       <View style={styles.container}>
 
@@ -18,14 +26,12 @@ export default class Signin extends Component {
           Random Acts of Pizza
         </Text>
 
+
         <Login
           onUserChange={this.props.onUserChange}
           />
 
-        <Button
-          text={'User Profile'}
-          onPress={this.onProfilePress.bind(this)}
-          />
+        {showUserProfileButton}
 
         <Button
           text={'Go to Requests'}
