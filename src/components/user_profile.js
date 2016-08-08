@@ -20,7 +20,8 @@ export default class UserProfile extends Component {
     this.props.navigator.pop();
   }
   componentDidMount() {
-    fetch('http://localhost:3000/users/1')
+    const userID = this.props.user.id
+    fetch(`http://localhost:3000/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({currentEmail: responseJson.email})
@@ -30,8 +31,9 @@ export default class UserProfile extends Component {
     });
   }
   onUpdateEmailPress() {
+    const userID = this.props.user.id
     const { updatedEmail } = this.state;
-    fetch('http://localhost:3000/users/', {
+    fetch(`http://localhost:3000/users/${userID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

@@ -13,10 +13,21 @@ const ROUTES = {
 };
 
 export default class Raop extends Component {
+  constructor(props) {
+    super(props)
 
+    this.state = {
+      user: null
+    }
+    this.onUserChange = this.onUserChange.bind(this);
+    this.renderScene = this.renderScene.bind(this);
+  }
+  onUserChange(user) {
+    this.setState({user: user})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator}/>;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user}/>;
   }
   render() {
     return (
@@ -24,6 +35,7 @@ export default class Raop extends Component {
       initialRoute={{name: 'signin'}}
       renderScene={this.renderScene}
       configureScene={() =>  Navigator.SceneConfigs.FloatFromRight}
+
       />
     );
   }

@@ -7,6 +7,8 @@ export default class Requests extends Component {
     super(props)
 
     this.state = {
+      requests: [],
+      id: '',
       name: 'loading...',
       hours: '',
       title: '',
@@ -20,12 +22,17 @@ export default class Requests extends Component {
     fetch('http://localhost:3000/requests/1')
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({name: responseJson.request.name})
-      this.setState({hours: responseJson.request.hours})
-      this.setState({title: responseJson.request.title})
-      this.setState({city: responseJson.request.city})
-      this.setState({state: responseJson.request.state})
-      this.setState({pizzas: responseJson.request.pizzas})
+      // console.log(responseJson);
+      // if (responseJson[errorMessage] === "No requests") {
+      //   this.setState({errorMessage: responseJson})
+      // } else {
+        this.setState({name: responseJson.request.name})
+        this.setState({hours: responseJson.request.hours})
+        this.setState({title: responseJson.request.title})
+        this.setState({city: responseJson.request.city})
+        this.setState({state: responseJson.request.state})
+        this.setState({pizzas: responseJson.request.pizzas})
+      // }
     })
     .catch((error) => {
       console.error(error);
@@ -35,14 +42,15 @@ export default class Requests extends Component {
     alert(`You have 30 minutes to send a gift card to ${this.state.name}`)
   }
   onConfirmPress() {
-    const { name } = this.state;
-    fetch('http://localhost:3000/requests/1', {
+    const userID = this.props.user.id;
+    const requestID = this.state.id;
+    fetch(`http://localhost:3000/requests/1`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: 'PATCH',
-      body: JSON.stringify({name})
+      body: JSON.stringify({requestID, userID})
     })
     .then((response) => {
       return response.json()})

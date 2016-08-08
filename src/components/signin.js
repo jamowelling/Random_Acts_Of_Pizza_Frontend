@@ -18,7 +18,9 @@ export default class Signin extends Component {
           Random Acts of Pizza
         </Text>
 
-        <Login />
+        <Login
+          onUserChange={this.props.onUserChange}
+          />
 
         <Button
           text={'User Profile'}
