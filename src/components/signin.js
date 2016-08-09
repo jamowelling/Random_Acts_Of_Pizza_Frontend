@@ -12,13 +12,18 @@ export default class Signin extends Component {
   }
   render() {
     let showUserProfileButton;
+    let showRequestsButton;
+
     if (this.props.user) {
       showUserProfileButton = <Button
         text={'User Profile'}
         onPress={this.onProfilePress.bind(this)}
         />
+      showRequestsButton = <Button
+        text={'Go to Requests'}
+        onPress={this.onRequestsPress.bind(this)}
+        />
     }
-
     return (
       <View style={styles.container}>
 
@@ -31,12 +36,9 @@ export default class Signin extends Component {
           onUserChange={this.props.onUserChange}
           />
 
-        {showUserProfileButton}
+        {showRequestsButton}
 
-        <Button
-          text={'Go to Requests'}
-          onPress={this.onRequestsPress.bind(this)}
-          />
+        {showUserProfileButton}
 
       </View>
     )
