@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Button from './button';
+import { SegmentedControls } from 'react-native-radio-buttons'
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -8,46 +9,41 @@ export default class NewRequest extends Component {
 
     this.state = {
       title: '',
-      city: '',
-      state: '',
       pizzas: '',
+      vendor: '',
+      video: '',
       errorMessage: ' '
     };
     this.onTitleChange = this.onTitleChange.bind(this);
-    this.onCityChange = this.onCityChange.bind(this);
-    this.onStateChange = this.onStateChange.bind(this);
     this.onPizzasChange = this.onPizzasChange.bind(this);
+    this.onVendorChange = this.onVendorChange.bind(this);
   }
   onTitleChange(title) {
     this.setState({title})
   }
-  onCityChange(city) {
-    this.setState({city})
-  }
-  onStateChange(state) {
-    this.setState({state})
-  }
   onPizzasChange(pizzas) {
     this.setState({pizzas})
   }
+  onVendorChange(vendor) {
+    this.setState({vendor})
+  }
   onSubmitRequest() {
     const userID = this.props.user.id
+    const first_name = this.props.user.first_name
+    const video = '555.com'
     if (this.state.title.length < 15) {
       this.setState({errorMessage: 'Your title must be at least 15 characters.'})
-    } else if (this.state.city.length < 2) {
-      this.setState({errorMessage: 'What city are you in?'})
-    } else if (this.state.state.length < 2) {
-      this.setState({errorMessage: 'What state are you in?'})
     } else if (this.state.pizzas.length < 1) {
       this.setState({errorMessage: 'How many pizzas are you requesting?'})
+    } else if (this.state.vendor.length < 5) {
+      this.setState({errorMessage: 'Please choose pizza vendor.'})
     } else {
       this.setState({errorMessage: ' '})
     // Submit new request form
       const {
         title,
-        city,
-        state,
-        pizzas
+        pizzas,
+        vendor
       } = this.state;
       fetch('http://localhost:3000/requests', {
         headers: {
@@ -57,27 +53,46 @@ export default class NewRequest extends Component {
         method: 'POST',
         body: JSON.stringify({
           userID,
+          first_name,
           title,
-          city,
-          state,
-          pizzas
+          pizzas,
+          vendor,
+          video
         })
       })
       .then((response) => {
         return response.json()})
       .then((responseJson) => {
         this.setState({errorMessage: responseJson.errorMessage})
+        if (this.state.errorMessage === 'Request has been created.') {
+          this.props.navigator.pop();
+        }
       })
       .catch((error) => {
         console.error(error);
       });
     }
-    this.props.navigator.pop();
   }
   onCancelRequest() {
     this.props.navigator.pop();
   }
+  selectPizzas(pizzas){
+    this.setState({pizzas});
+  }
+  selectVendor(vendor){
+    this.setState({vendor});
+  }
   render() {
+    const pizzas= [
+      1,
+      2,
+      3
+    ]
+    const vendors= [
+      "Papa Johns",
+      "Dominos",
+      "Pizza Hut"
+    ]
     return (
       <View style={styles.container}>
         <Button
@@ -90,7 +105,7 @@ export default class NewRequest extends Component {
         </Text>
 
         <Text style={styles.label}>
-          Title:
+          Tell us your story.
         </Text>
         <TextInput
           maxLength = {50}
@@ -103,45 +118,27 @@ export default class NewRequest extends Component {
           />
 
         <Text style={styles.label}>
-          City:
+          How many pizzas do you need?
         </Text>
-        <TextInput
-          placeholder = "New York"
-          maxLength = {20}
-          autoCorrect={false}
-          autoCapitalize = "words"
-          onChangeText={this.onCityChange}          value={this.state.city}
-          style={styles.input}
+        <SegmentedControls
+          options={ pizzas }
+          onSelection={ this.selectPizzas.bind(this) }
+          selectedOption={ this.state.pizzas }
           />
 
         <Text style={styles.label}>
-          State:
+          Who delivers to you?
         </Text>
-        <TextInput
-          placeholder = "NY"
-          maxLength = {2}
-          autoCorrect={false}
-          autoCapitalize = "characters"
-          onChangeText={this.onStateChange}
-          value={this.state.state}
-          style={styles.input}
-          />
-
-        <Text style={styles.label}>
-          Pizzas:
-        </Text>
-        <TextInput
-          placeholder = "1"
-          maxLength = {1}
-          autoCorrect={false}
-          onChangeText={this.onPizzasChange}
-          value={this.state.pizzas}
-          style={styles.input}
+        <SegmentedControls
+          options={ vendors }
+          onSelection={ this.selectVendor.bind(this) }
+          selectedOption={ this.state.vendor }
           />
 
         <Text>
           {this.state.errorMessage}
         </Text>
+
 
         <Button text={'Submit Request'} onPress={this.onSubmitRequest.bind(this)} />
 
@@ -163,7 +160,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 20,
     padding: 4,
-    height: 40,
+    height: 120,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
