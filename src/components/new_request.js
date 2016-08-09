@@ -110,6 +110,7 @@ export default class NewRequest extends Component {
         <TextInput
           maxLength = {50}
           multiline = {true}
+          numberOfLines = {4}
           autoCapitalize = "sentences"
           onChangeText={this.onTitleChange}
           value={this.state.title}
