@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Button from './button';
+import Login from './FBLogin';
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -44,12 +45,12 @@ export default class UserProfile extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      if (responseJson.errorMessage) {
-        this.setState({errorMessage: responseJson.errorMessage})
-      } else {
+      if (responseJson.email) {
         this.setState({currentEmail: responseJson.email})
         this.setState({updatedEmail: ''})
-        this.setState({errorMessage: ' '})
+        this.setState({errorMessage: responseJson.errorMessage})
+      } else {
+        this.setState({errorMessage: responseJson.errorMessage})
       }
     })
     .catch((error) => {
@@ -57,13 +58,22 @@ export default class UserProfile extends Component {
     });
   }
   render() {
+    let showFBButton;
+    if (true) {
+      showFBButton = <Login
+        onUserChange={this.props.onUserChange}
+        />
+    }
+
     return (
       <View style={styles.container}>
 
         <Button
-          text={'Back'}
+          text={'Back to Requests'}
           onPress={this.onBackPress.bind(this)}
           />
+
+        {showFBButton}
 
         <Text>
           Current Email:
@@ -91,7 +101,7 @@ export default class UserProfile extends Component {
         </Text>
 
         <Button
-          text={'Update Email'}
+          text={'Update Email Address'}
           onPress={this.onUpdateEmailPress.bind(this)}
           />
 

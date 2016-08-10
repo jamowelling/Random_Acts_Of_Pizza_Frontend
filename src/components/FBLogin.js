@@ -66,8 +66,6 @@ export default class Login extends Component {
             }
           }
           // onLogoutFinished={
-          //   console.log("logged out");
-          //   this.props.onUserChange(null)
           // }
         />
       </View>

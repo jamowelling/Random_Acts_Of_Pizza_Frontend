@@ -34,9 +34,9 @@ export default class NewRequest extends Component {
     if (this.state.title.length < 15) {
       this.setState({errorMessage: 'Your title must be at least 15 characters.'})
     } else if (this.state.pizzas.length < 1) {
-      this.setState({errorMessage: 'How many pizzas are you requesting?'})
+      this.setState({errorMessage: 'Please select the number of pizzas you are requesting.'})
     } else if (this.state.vendor.length < 5) {
-      this.setState({errorMessage: 'Please choose pizza vendor.'})
+      this.setState({errorMessage: 'Please choose your preferred pizza place.'})
     } else {
       this.setState({errorMessage: ' '})
     // Submit new request form
