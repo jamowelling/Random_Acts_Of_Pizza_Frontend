@@ -66,6 +66,7 @@ export default class NewRequest extends Component {
         this.setState({errorMessage: responseJson.errorMessage})
         if (this.state.errorMessage === 'Request has been created.') {
           this.props.navigator.pop();
+          this.props.collectRequests(responseJson.requests)
         }
       })
       .catch((error) => {

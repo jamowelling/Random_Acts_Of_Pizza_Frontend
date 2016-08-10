@@ -17,17 +17,22 @@ export default class Raop extends Component {
     super(props)
 
     this.state = {
-      user: null
+      user: null,
+      requests: []
     }
     this.onUserChange = this.onUserChange.bind(this);
+    this.collectRequests = this.collectRequests.bind(this);
     this.renderScene = this.renderScene.bind(this);
   }
   onUserChange(user) {
-    this.setState({user: user})
+    this.setState({user})
+  }
+  collectRequests(requests) {
+    this.setState({requests})
   }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user}/>;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} collectRequests={this.collectRequests} requests={this.state.requests}/>;
   }
   render() {
     return (

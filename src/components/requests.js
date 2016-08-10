@@ -10,7 +10,6 @@ export default class Requests extends Component {
 
     this.state = {
       totalDonatedPizzas: null,
-      requests: [],
       errorMessage: " "
     };
   }
@@ -21,10 +20,9 @@ export default class Requests extends Component {
       if (responseJson.errorMessage === 'No current requests.') {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
-        console.log(responseJson);
         this.setState({totalDonatedPizzas: responseJson.totalDonatedPizzas})
         this.setState({errorMessage: ' '})
-        this.setState({requests: responseJson.requests})
+        this.props.collectRequests(responseJson.requests)
       }
     })
     .catch((error) => {
@@ -47,8 +45,7 @@ export default class Requests extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      this.setState({errorMessage: responseJson.errorMessage})
-      this.setState({requests: responseJson.requests})
+      this.props.collectRequests(responseJson.requests)
     })
     .catch((error) => {
       console.error(error);
@@ -106,7 +103,7 @@ export default class Requests extends Component {
     let currentRequests;
     if (this.state.errorMessage === " ") {
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
-        {this.state.requests.map((request, i) => {
+        {this.props.requests.map((request, i) => {
           let requestID = request.id
           let isDonated;
           let showDonateButton;
