@@ -9,19 +9,18 @@ export default class Requests extends Component {
     super(props)
 
     this.state = {
-      totalDonatedPizzas: null,
       errorMessage: " "
     };
   }
   componentWillMount() {
-    fetch('http://localhost:3000/requests')
+    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage === 'No current requests.') {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
-        this.setState({totalDonatedPizzas: responseJson.totalDonatedPizzas})
         this.setState({errorMessage: ' '})
+        this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
         this.props.collectRequests(responseJson.requests)
       }
     })
@@ -34,7 +33,7 @@ export default class Requests extends Component {
   }
   onDonatePress(requestID) {
     const userID = this.props.user.id;
-    fetch(`http://localhost:3000/requests/${requestID}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${requestID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -46,6 +45,7 @@ export default class Requests extends Component {
       return response.json()})
     .then((responseJson) => {
       this.props.collectRequests(responseJson.requests)
+      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
     })
     .catch((error) => {
       console.error(error);
@@ -112,7 +112,7 @@ export default class Requests extends Component {
             return showWelcomePage =
             <View key={requestID} style={styles.request}>
               <Text>
-                {this.state.totalDonatedPizzas} pizzas have been donated through:
+                {this.props.totalDonatedPizzas} pizzas have been donated through:
               </Text>
               <Text style={styles.text}>
                 {request.title}

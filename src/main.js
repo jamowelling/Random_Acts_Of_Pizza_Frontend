@@ -18,10 +18,12 @@ export default class Raop extends Component {
 
     this.state = {
       user: null,
-      requests: []
+      requests: [],
+      totalDonatedPizzas: null
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.collectRequests = this.collectRequests.bind(this);
+    this.sumDonatedPizzas = this.sumDonatedPizzas.bind(this);
     this.renderScene = this.renderScene.bind(this);
   }
   onUserChange(user) {
@@ -30,9 +32,12 @@ export default class Raop extends Component {
   collectRequests(requests) {
     this.setState({requests})
   }
+  sumDonatedPizzas(totalDonatedPizzas) {
+    this.setState({totalDonatedPizzas})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} collectRequests={this.collectRequests} requests={this.state.requests}/>;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas}/>;
   }
   render() {
     return (
@@ -40,7 +45,6 @@ export default class Raop extends Component {
       initialRoute={{name: 'requests'}}
       renderScene={this.renderScene}
       configureScene={() =>  Navigator.SceneConfigs.FloatFromRight}
-
       />
     );
   }

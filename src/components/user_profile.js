@@ -22,7 +22,7 @@ export default class UserProfile extends Component {
   }
   componentDidMount() {
     const userID = this.props.user.id
-    fetch(`http://localhost:3000/users/${userID}`)
+    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({currentEmail: responseJson.email})
@@ -34,7 +34,7 @@ export default class UserProfile extends Component {
   onUpdateEmailPress() {
     const userID = this.props.user.id
     const { updatedEmail } = this.state;
-    fetch(`http://localhost:3000/users/${userID}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -62,6 +62,7 @@ export default class UserProfile extends Component {
     if (true) {
       showFBButton = <Login
         onUserChange={this.props.onUserChange}
+        navigator={this.props.navigator}
         />
     }
 

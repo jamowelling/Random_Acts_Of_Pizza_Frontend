@@ -11,7 +11,7 @@ export default class Signin extends Component {
     }
   }
   componentWillMount() {
-    fetch(`http://localhost:3000/users`)
+    fetch(`http://random-acts-of-pizza.herokuapp.com/users`)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({totalDonatedPizzas: responseJson.totalDonatedPizzas})
