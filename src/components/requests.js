@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   toolbar: {
     backgroundColor:'#81c04d',
-    paddingTop:30,
+    paddingTop:80,
     paddingBottom:10,
     flexDirection:'row'
   },
