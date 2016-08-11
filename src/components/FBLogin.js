@@ -4,7 +4,7 @@ import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } fr
 
 export default class Login extends Component {
   createSession(userInfo) {
-    fetch('http://localhost:3000/users', {
+    fetch('http://random-acts-of-pizza.herokuapp.com/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -26,6 +26,16 @@ export default class Login extends Component {
       <View>
         <LoginButton
           readPermissions={["email", "public_profile"]}
+          onLogoutFinished={
+            (error, result) => {
+              if (error) {
+                alert("Logout failed with error: " + result.error);
+              } else {
+                this.props.onUserChange(null)
+                this.props.navigator.pop();
+              }
+            }
+          }
           onLoginFinished={
             (error, result) => {
               if (error) {
@@ -65,10 +75,6 @@ export default class Login extends Component {
               }
             }
           }
-          // onLogoutFinished={
-          //   console.log("logged out");
-          //   this.props.onUserChange(null)
-          // }
         />
       </View>
     );

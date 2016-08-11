@@ -34,9 +34,9 @@ export default class NewRequest extends Component {
     if (this.state.title.length < 15) {
       this.setState({errorMessage: 'Your title must be at least 15 characters.'})
     } else if (this.state.pizzas.length < 1) {
-      this.setState({errorMessage: 'How many pizzas are you requesting?'})
+      this.setState({errorMessage: 'Please select the number of pizzas you are requesting.'})
     } else if (this.state.vendor.length < 5) {
-      this.setState({errorMessage: 'Please choose pizza vendor.'})
+      this.setState({errorMessage: 'Please choose your preferred pizza place.'})
     } else {
       this.setState({errorMessage: ' '})
     // Submit new request form
@@ -45,7 +45,7 @@ export default class NewRequest extends Component {
         pizzas,
         vendor
       } = this.state;
-      fetch('http://localhost:3000/requests', {
+      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -66,6 +66,7 @@ export default class NewRequest extends Component {
         this.setState({errorMessage: responseJson.errorMessage})
         if (this.state.errorMessage === 'Request has been created.') {
           this.props.navigator.pop();
+          this.props.collectRequests(responseJson.requests)
         }
       })
       .catch((error) => {

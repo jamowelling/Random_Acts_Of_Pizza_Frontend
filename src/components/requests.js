@@ -2,25 +2,26 @@ import React, { Component } from 'react';
 import { View, Text, AlertIOS, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Button from './button';
+import Login from './FBLogin';
 
 export default class Requests extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      requests: [],
-      errorMessage: ' '
+      errorMessage: " "
     };
   }
-  componentDidMount() {
-    fetch('http://localhost:3000/requests')
+  componentWillMount() {
+    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage === 'No current requests.') {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
         this.setState({errorMessage: ' '})
-        this.setState({requests: responseJson.requests})
+        this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+        this.props.collectRequests(responseJson.requests)
       }
     })
     .catch((error) => {
@@ -32,7 +33,7 @@ export default class Requests extends Component {
   }
   onDonatePress(requestID) {
     const userID = this.props.user.id;
-    fetch(`http://localhost:3000/requests/${requestID}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${requestID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -42,12 +43,13 @@ export default class Requests extends Component {
     })
     .then((response) => {
       return response.json()})
-      .then((responseJson) => {
-        this.setState({errorMessage: responseJson.errorMessage})
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((responseJson) => {
+      this.props.collectRequests(responseJson.requests)
+      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
   // onDonatePress() {
   //   AlertIOS.alert(
@@ -68,19 +70,59 @@ export default class Requests extends Component {
   onNewRequestPress() {
     this.props.navigator.push({name: 'new_request'});
   }
-  onLogoutPress() {
-    this.props.navigator.push({name: 'signin'});
+  onProfilePress() {
+    this.props.navigator.push({name: 'userProfile'});
   }
   render() {
+    let profileButton;
+    if (this.props.user !== null) {
+      profileButton = <Button
+        styles={styles.toolbarButton}
+        text={'Profile'}
+        onPress={this.onProfilePress.bind(this)}
+        />
+    }
+
+    let showLoginDialog;
+    if (this.props.user === null) {
+      showLoginDialog = <Login
+        onUserChange={this.props.onUserChange}
+        navigator={this.props.navigator}
+        />
+    }
+
+    let showCreateRequestButton;
+    if (this.props.user !== null) {
+      showCreateRequestButton = <Button
+        style={styles.toolbarButton}
+        text={'Create Request'}
+        onPress={this.onNewRequestPress.bind(this)}
+        />
+    }
+
     let currentRequests;
-    if (this.state.errorMessage === ' ') {
+    if (this.state.errorMessage === " ") {
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
-        {this.state.requests.map((request, i) => {
+        {this.props.requests.map((request, i) => {
           let requestID = request.id
           let isDonated;
           let showDonateButton;
-          if (request.donor_id !== null) {
-            isDonated = <Text>DONATED!</Text>
+          let showWelcomePage;
+          if (requestID === 1) {
+            return showWelcomePage =
+            <View key={requestID} style={styles.request}>
+              <Text>
+                {this.props.totalDonatedPizzas} pizzas have been donated through:
+              </Text>
+              <Text style={styles.text}>
+                {request.title}
+              </Text>
+            </View>
+          } else if (request.donor_id !== null) {
+            isDonated = <Text>DONATION RECEIVED!</Text>
+          } else if (this.props.user === null) {
+            // not logged in
+            // no donate button
           } else if (this.props.user.id === request.creator_id) {
             // is not donated
             // no donate button
@@ -91,12 +133,13 @@ export default class Requests extends Component {
             <View key={i} style={styles.request}>
               {isDonated}
               <Text style={styles.text}>
-                {request.first_name}
+                {request.first_name} - {request.pizzas} pizza(s)
               </Text>
               <Text style={styles.text}>
                 {request.title}
               </Text>
               {showDonateButton}
+              {showLoginDialog}
             </View>
           )
         })}
@@ -105,22 +148,17 @@ export default class Requests extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.toolbar}>
-          <Button
-            styles={styles.toolbarButton}
-            text={'Logout'}
-            onPress={this.onLogoutPress.bind(this)}
-            />
+
+          {profileButton}
 
           <Text style={styles.toolbarTitle}>
             RAOP
           </Text>
 
-          <Button
-            style={styles.toolbarButton}
-            text={'Create Request'}
-            onPress={this.onNewRequestPress.bind(this)}
-            />
+          {showCreateRequestButton}
+
         </View>
+
         {currentRequests}
 
         <Text>
