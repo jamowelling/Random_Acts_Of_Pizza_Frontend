@@ -3,23 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import Button from './button';
 
 export default class Signin extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      totalDonatedPizzas: null
-    }
-  }
-  componentWillMount() {
-    fetch(`http://random-acts-of-pizza.herokuapp.com/users`)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({totalDonatedPizzas: responseJson.totalDonatedPizzas})
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
   onRequestsPress() {
     this.props.navigator.push({name: 'requests'});
   }

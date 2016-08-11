@@ -8,7 +8,6 @@ export default class UserProfile extends Component {
     super(props)
 
     this.state = {
-      currentEmail: 'loading...',
       updatedEmail: '',
       errorMessage: ' '
     };
@@ -20,17 +19,17 @@ export default class UserProfile extends Component {
   onBackPress() {
     this.props.navigator.pop();
   }
-  componentDidMount() {
-    const userID = this.props.user.id
-    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({currentEmail: responseJson.email})
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+  // componentDidMount() {
+  //   const userID = this.props.user.id
+  //   fetch(`http://localhost:3000/users/${userID}`)
+  //   .then((response) => response.json())
+  //   .then((responseJson) => {
+  //     this.setState({currentEmail: responseJson.email})
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+  // }
   onUpdateEmailPress() {
     const userID = this.props.user.id
     const { updatedEmail } = this.state;
@@ -46,7 +45,7 @@ export default class UserProfile extends Component {
       return response.json()})
     .then((responseJson) => {
       if (responseJson.email) {
-        this.setState({currentEmail: responseJson.email})
+        this.props.onEmailChange(responseJson.email)
         this.setState({updatedEmail: ''})
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
@@ -58,6 +57,7 @@ export default class UserProfile extends Component {
     });
   }
   render() {
+    console.log(this.props.currentEmail);
     let showFBButton;
     if (true) {
       showFBButton = <Login
@@ -81,7 +81,7 @@ export default class UserProfile extends Component {
         </Text>
 
         <Text>
-          {this.state.currentEmail}
+          {this.props.currentEmail}
         </Text>
 
         <Text>

@@ -15,7 +15,8 @@ export default class Login extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      this.props.onUserChange(responseJson)
+      this.props.onUserChange(responseJson.user)
+      this.props.onEmailChange(responseJson.email)
     })
     .catch((error) => {
       console.error(error);

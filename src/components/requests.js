@@ -20,6 +20,7 @@ export default class Requests extends Component {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
         this.setState({errorMessage: ' '})
+        this.props.onEmailChange(responseJson.email)
         this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
         this.props.collectRequests(responseJson.requests)
       }
@@ -87,6 +88,7 @@ export default class Requests extends Component {
     if (this.props.user === null) {
       showLoginDialog = <Login
         onUserChange={this.props.onUserChange}
+        onEmailChange={this.props.onEmailChange}
         navigator={this.props.navigator}
         />
     }
@@ -102,6 +104,7 @@ export default class Requests extends Component {
 
     let currentRequests;
     if (this.state.errorMessage === " ") {
+      console.log(this.props.user);
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
         {this.props.requests.map((request, i) => {
           let requestID = request.id

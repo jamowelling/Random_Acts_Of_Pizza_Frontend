@@ -18,16 +18,21 @@ export default class Raop extends Component {
 
     this.state = {
       user: null,
+      currentEmail: '',
       requests: [],
       totalDonatedPizzas: null
     }
     this.onUserChange = this.onUserChange.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
     this.collectRequests = this.collectRequests.bind(this);
     this.sumDonatedPizzas = this.sumDonatedPizzas.bind(this);
     this.renderScene = this.renderScene.bind(this);
   }
   onUserChange(user) {
     this.setState({user})
+  }
+  onEmailChange(currentEmail) {
+    this.setState({currentEmail})
   }
   collectRequests(requests) {
     this.setState({requests})
@@ -37,7 +42,7 @@ export default class Raop extends Component {
   }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas}/>;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas}/>;
   }
   render() {
     return (
