@@ -104,7 +104,6 @@ export default class Requests extends Component {
 
     let currentRequests;
     if (this.state.errorMessage === " ") {
-      console.log(this.props.user);
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
         {this.props.requests.map((request, i) => {
           let requestID = request.id
