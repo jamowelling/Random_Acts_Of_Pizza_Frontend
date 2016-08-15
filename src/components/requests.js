@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
+    fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage === 'No current requests.') {
@@ -29,14 +29,9 @@ export default class Requests extends Component {
       console.error(error);
     });
   }
-  onInfoSend() {
-    alert(`You have 30 minutes to send a gift card to ${this.state.name}`)
-  }
-  onDonatePress(requestID) {
-    console.log(requestID);
-    console.log(this.props.user.id);
+  onConfirmPress(request) {
     const userID = this.props.user.id;
-    // fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${requestID}`, {
+    // fetch(`http://localhost:3000/requests/${request.id}`, {
     //   headers: {
     //     'Accept': 'application/json',
     //     'Content-Type': 'application/json'
@@ -55,22 +50,22 @@ export default class Requests extends Component {
     // });
     this.props.navigator.push({name: 'request'})
   }
-  // onDonatePress() {
-  //   AlertIOS.alert(
-  //     'Are you sure you want to donate?',
-  //     'You will have 30 minutes to send a gift certificate from Pizza House.',
-  //     [
-  //       {
-  //         text: 'Cancel',
-  //         style: 'cancel'
-  //       },
-  //       {
-  //         text: 'Donate',
-  //         onPress: this.onConfirmPress.bind(this)
-  //       }
-  //     ]
-  //   )
-  // }
+  onDonatePress(request) {
+    AlertIOS.alert(
+      `Are you sure you want to donate ${request.pizzas} pizza(s)?`,
+      `You will have 30 minutes to send a gift certificate by email from the ${request.vendor} website.`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Donate',
+          onPress: this.onConfirmPress.bind(this, request)
+        }
+      ]
+    )
+  }
   onNewRequestPress() {
     this.props.navigator.push({name: 'new_request'});
   }
@@ -109,6 +104,7 @@ export default class Requests extends Component {
     if (this.state.errorMessage === " ") {
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
         {this.props.requests.map((request, i) => {
+          console.log(request);
           let requestID = request.id
           let isDonated;
           let showDonateButton;
@@ -132,13 +128,13 @@ export default class Requests extends Component {
             // is not donated
             // no donate button
           } else {
-            showDonateButton = <Button text={'Donate'} onPress={this.onDonatePress.bind(this, request.id)}/>
+            showDonateButton = <Button text={'Donate'} onPress={this.onDonatePress.bind(this, request)}/>
           }
           return (
             <View key={i} style={styles.request}>
               {isDonated}
               <Text style={styles.text}>
-                {request.first_name} - {request.pizzas} pizza(s)
+                {request.first_name} - {request.pizzas} pizza(s) - {request.vendor}
               </Text>
               <Text style={styles.text}>
                 {request.title}
@@ -208,7 +204,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
   }
 });
