@@ -33,24 +33,27 @@ export default class Requests extends Component {
     alert(`You have 30 minutes to send a gift card to ${this.state.name}`)
   }
   onDonatePress(requestID) {
+    console.log(requestID);
+    console.log(this.props.user.id);
     const userID = this.props.user.id;
-    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${requestID}`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'PATCH',
-      body: JSON.stringify({userID})
-    })
-    .then((response) => {
-      return response.json()})
-    .then((responseJson) => {
-      this.props.collectRequests(responseJson.requests)
-      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    // fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${requestID}`, {
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   method: 'PATCH',
+    //   body: JSON.stringify({userID})
+    // })
+    // .then((response) => {
+    //   return response.json()})
+    // .then((responseJson) => {
+    //   this.props.collectRequests(responseJson.requests)
+    //   this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
+    this.props.navigator.push({name: 'request'})
   }
   // onDonatePress() {
   //   AlertIOS.alert(
