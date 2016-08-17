@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Navigator } from 'react-native';
-import Signin from './components/signin';
 import UserProfile from './components/user_profile';
 import Requests from './components/requests';
 import Request from './components/request';
 import NewRequest from './components/new_request';
 
 const ROUTES = {
-  signin: Signin,
   userProfile: UserProfile,
   requests: Requests,
   request: Request,

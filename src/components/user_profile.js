@@ -57,7 +57,6 @@ export default class UserProfile extends Component {
     });
   }
   render() {
-    console.log(this.props.currentEmail);
     let showFBButton;
     if (true) {
       showFBButton = <Login

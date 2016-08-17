@@ -39,6 +39,7 @@ export default class NewRequest extends Component {
       this.setState({errorMessage: 'Please choose your preferred pizza place.'})
     } else {
       this.setState({errorMessage: ' '})
+
     // Submit new request form
       const {
         title,
@@ -63,6 +64,7 @@ export default class NewRequest extends Component {
       .then((response) => {
         return response.json()})
       .then((responseJson) => {
+        console.log(responseJson);
         this.setState({errorMessage: responseJson.errorMessage})
         if (this.state.errorMessage === 'Request has been created.') {
           this.props.navigator.pop();

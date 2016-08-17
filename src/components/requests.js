@@ -104,7 +104,6 @@ export default class Requests extends Component {
     if (this.state.errorMessage === " ") {
       currentRequests = <Swiper style={styles.wrapper} showsButtons={true}>
         {this.props.requests.map((request, i) => {
-          console.log(request);
           let requestID = request.id
           let isDonated;
           let showDonateButton;
