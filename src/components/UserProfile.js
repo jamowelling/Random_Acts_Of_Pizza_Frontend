@@ -57,9 +57,9 @@ export default class UserProfile extends Component {
     });
   }
   render() {
-    let showFBButton;
+    let showLogin;
     if (true) {
-      showFBButton = <Login
+      showLogin = <Login
         onUserChange={this.props.onUserChange}
         navigator={this.props.navigator}
         />
@@ -73,7 +73,7 @@ export default class UserProfile extends Component {
           onPress={this.onBackPress.bind(this)}
           />
 
-        {showFBButton}
+        {showLogin}
 
         <Text>
           Current Email:
