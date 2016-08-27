@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import Button from './button';
+import Button from './Button';
 import { SegmentedControls } from 'react-native-radio-buttons'
 
 export default class NewRequest extends Component {
