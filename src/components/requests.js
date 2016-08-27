@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, AlertIOS, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
-import Button from './button';
-import Login from './FBLogin';
+import Button from './Button';
+import Login from './Login';
 
 export default class Requests extends Component {
   constructor(props) {

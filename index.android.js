@@ -1,5 +1,5 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import Raop from './src/main';
+import Raop from './src/Raop';
 
 AppRegistry.registerComponent('Raop', () => Raop);
