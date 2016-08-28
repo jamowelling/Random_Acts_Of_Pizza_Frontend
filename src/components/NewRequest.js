@@ -40,7 +40,6 @@ export default class NewRequest extends Component {
     } else {
       this.setState({errorMessage: ' '})
 
-    // Submit new request form
       const {
         title,
         pizzas,
@@ -64,7 +63,6 @@ export default class NewRequest extends Component {
       .then((response) => {
         return response.json()})
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({errorMessage: responseJson.errorMessage})
         if (this.state.errorMessage === 'Request has been created.') {
           this.props.navigator.pop();
@@ -143,8 +141,9 @@ export default class NewRequest extends Component {
         </Text>
 
 
-        <Button text={'Submit Request'} onPress={this.onSubmitRequest.bind(this)} />
-
+        <Button text={'Submit Request'}
+          onPress={this.onSubmitRequest.bind(this)}
+          />
       </View>
     );
   }
