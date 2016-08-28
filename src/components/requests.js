@@ -31,23 +31,23 @@ export default class Requests extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    // fetch(`http://localhost:3000/requests/${request.id}`, {
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   method: 'PATCH',
-    //   body: JSON.stringify({userID})
-    // })
-    // .then((response) => {
-    //   return response.json()})
-    // .then((responseJson) => {
-    //   this.props.collectRequests(responseJson.requests)
-    //   this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
+    fetch(`http://localhost:3000/requests/${request.id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PATCH',
+      body: JSON.stringify({userID})
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      this.props.collectRequests(responseJson.requests)
+      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
     this.props.navigator.push({name: 'request'})
   }
   onDonatePress(request) {
