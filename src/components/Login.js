@@ -52,10 +52,6 @@ export default class Login extends Component {
                         alert('Error fetching data: ' + error.toString());
                       } else {
                         this.createSession(result)
-                        // Call to back end with results
-                        // immediatelyResetRouteStack
-                        // this.props.navigator.immediatelyResetRouteStack([{name: 'requests'}]);
-                        // user={this.state.user}
                       }
                     }
                     const infoRequest = new GraphRequest(
