@@ -19,17 +19,6 @@ export default class UserProfile extends Component {
   onBackPress() {
     this.props.navigator.pop();
   }
-  // componentDidMount() {
-  //   const userID = this.props.user.id
-  //   fetch(`http://localhost:3000/users/${userID}`)
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     this.setState({currentEmail: responseJson.email})
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
   onUpdateEmailPress() {
     const userID = this.props.user.id
     const { updatedEmail } = this.state;
@@ -57,13 +46,10 @@ export default class UserProfile extends Component {
     });
   }
   render() {
-    let showLogin;
-    if (true) {
-      showLogin = <Login
-        onUserChange={this.props.onUserChange}
-        navigator={this.props.navigator}
-        />
-    }
+    const showLogin = <Login
+      onUserChange={this.props.onUserChange}
+      navigator={this.props.navigator}
+      />
 
     return (
       <View style={styles.container}>
