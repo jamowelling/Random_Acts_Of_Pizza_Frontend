@@ -10,6 +10,7 @@
     "react-native": "0.30.0",
     "react-native-fbsdk": "^0.3.0",
     "react-native-radio-buttons": "^0.12.1",
-    "react-native-swiper": "^1.4.8"
+    "react-native-swiper": "^1.4.8",
+    "react-native-video": "^0.9.0"
   }
 }
