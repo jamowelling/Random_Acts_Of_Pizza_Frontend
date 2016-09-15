@@ -11,7 +11,7 @@ export default class Request extends Component {
     };
   }
   componentWillMount() {
-    fetch(`http://localhost:3000/requests/1`)
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`)
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage === 'No current requests.') {

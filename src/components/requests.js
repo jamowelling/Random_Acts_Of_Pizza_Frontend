@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, AlertIOS, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
-import Button from './Button';
+import Button from './button';
 import Login from './Login';
 
 export default class Requests extends Component {
@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://localhost:3000/requests')
+    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage === 'No current requests.') {
@@ -31,7 +31,7 @@ export default class Requests extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://localhost:3000/requests/${request.id}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
