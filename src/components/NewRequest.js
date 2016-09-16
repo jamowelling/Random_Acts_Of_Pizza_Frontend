@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import Button from './Button';
-import { SegmentedControls } from 'react-native-radio-buttons'
+import Button from './button';
+import { SegmentedControls } from 'react-native-radio-buttons';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ export default class NewRequest extends Component {
         pizzas,
         vendor
       } = this.state;
-      fetch('http://localhost:3000/requests', {
+      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -77,6 +77,9 @@ export default class NewRequest extends Component {
   onCancelRequest() {
     this.props.navigator.pop();
   }
+  openVideoRec() {
+    this.props.navigator.push({name: 'camera'});
+  }
   selectPizzas(pizzas){
     this.setState({pizzas});
   }
@@ -100,24 +103,16 @@ export default class NewRequest extends Component {
           text={'Cancel Request'}
           onPress={this.onCancelRequest.bind(this)}
           />
-
         <Text>
           New Request Form
         </Text>
-
         <Text style={styles.label}>
           Tell us your story.
         </Text>
-        <TextInput
-          maxLength = {50}
-          multiline = {true}
-          numberOfLines = {4}
-          autoCapitalize = "sentences"
-          onChangeText={this.onTitleChange}
-          value={this.state.title}
-          style={styles.input}
+        <Button
+          text={'Record Video'}
+          onPress={this.openVideoRec.bind(this)}
           />
-
         <Text style={styles.label}>
           How many pizzas do you need?
         </Text>

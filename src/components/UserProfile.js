@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import Button from './Button';
+import Button from './button';
 import Login from './Login';
 
 export default class UserProfile extends Component {
@@ -22,7 +22,7 @@ export default class UserProfile extends Component {
   onUpdateEmailPress() {
     const userID = this.props.user.id
     const { updatedEmail } = this.state;
-    fetch(`http://localhost:3000/users/${userID}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

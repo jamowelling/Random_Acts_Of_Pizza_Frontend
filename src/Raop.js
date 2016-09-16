@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Navigator } from 'react-native';
 import UserProfile from './components/UserProfile';
-import Requests from './components/Requests';
-import Request from './components/Request';
+import Requests from './components/requests';
+import Request from './components/request';
 import NewRequest from './components/NewRequest';
+import Camera from './components/camera';
 
 const ROUTES = {
   userProfile: UserProfile,
   requests: Requests,
   request: Request,
-  new_request: NewRequest
+  new_request: NewRequest,
+  camera: Camera
 };
 
 export default class Raop extends Component {
