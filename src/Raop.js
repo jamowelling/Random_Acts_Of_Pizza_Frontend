@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Navigator } from 'react-native';
 import UserProfile from './components/UserProfile';
-import Requests from './components/requests';
-import Request from './components/request';
+import Requests from './components/Requests';
+import Request from './components/Request';
 import NewRequest from './components/NewRequest';
-import Camera from './components/camera';
+import Camera from './components/Camera';
 
 const ROUTES = {
   userProfile: UserProfile,
