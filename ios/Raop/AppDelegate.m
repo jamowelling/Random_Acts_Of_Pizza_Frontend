@@ -13,7 +13,7 @@
 #import "RCTRootView.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <AVFoundation/AVFoundation.h>  // import
+#import <AVFoundation/AVFoundation.h>
 
 @implementation AppDelegate
 
@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
-  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];  // allow
+  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
   
   NSURL *jsCodeLocation;
 
