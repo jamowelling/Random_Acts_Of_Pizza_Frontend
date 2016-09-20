@@ -3,6 +3,7 @@ import { View, Text, AlertIOS, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Button from './Button';
 import Login from './Login';
+import VideoExample from './Video';
 
 export default class Requests extends Component {
   constructor(props) {
@@ -131,6 +132,7 @@ export default class Requests extends Component {
           }
           return (
             <View key={i} style={styles.request}>
+              <VideoExample />
               {isDonated}
               <Text style={styles.text}>
                 {request.first_name} - {request.pizzas} pizza(s) - {request.vendor}
