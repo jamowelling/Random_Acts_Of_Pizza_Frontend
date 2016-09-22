@@ -5,8 +5,12 @@ import Requests from './components/Requests';
 import Request from './components/Request';
 import NewRequest from './components/NewRequest';
 import Camera from './components/Camera';
+import Main from './components/Main';
+import Instructions from './components/Instructions';
 
 const ROUTES = {
+  main: Main,
+  instructions: Instructions,
   userProfile: UserProfile,
   requests: Requests,
   request: Request,
@@ -49,7 +53,7 @@ export default class Raop extends Component {
   render() {
     return (
       <Navigator
-      initialRoute={{name: 'requests'}}
+      initialRoute={{name: 'main'}}
       renderScene={this.renderScene}
       configureScene={() =>  Navigator.SceneConfigs.FloatFromRight}
       />

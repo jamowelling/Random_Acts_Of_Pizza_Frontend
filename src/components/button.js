@@ -20,13 +20,10 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   button: {
-    justifyContent: 'center',
-    alignItems: 'center',
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,
     borderColor: 'black',
-    marginTop: 10
   },
   buttonText: {
     flex: 1,
