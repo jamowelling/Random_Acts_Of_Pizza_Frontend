@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Button from './Button';
 import Login from './Login';
+import Nav from './Nav';
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -52,45 +53,48 @@ export default class UserProfile extends Component {
       />
 
     return (
-      <View style={styles.container}>
+      <View>
+        <Nav {...this.props} />
+        <View style={styles.container}>
 
-        <Button
-          text={'Back to Requests'}
-          onPress={this.onBackPress.bind(this)}
-          />
+          <Button
+            text={'Back to Requests'}
+            onPress={this.onBackPress.bind(this)}
+            />
 
-        {showLogin}
+          {showLogin}
 
-        <Text>
-          Current Email:
-        </Text>
+          <Text>
+            Current Email:
+          </Text>
 
-        <Text>
-          {this.props.currentEmail}
-        </Text>
+          <Text>
+            {this.props.currentEmail}
+          </Text>
 
-        <Text>
-          Update Email:
-        </Text>
+          <Text>
+            Update Email:
+          </Text>
 
-        <TextInput
-          onChangeText={this.onEmailChange}
-          maxLength = {254}
-          autoCorrect={false}
-          autoCapitalize = "none"
-          value={this.state.updatedEmail}
-          style={styles.input}
-          />
+          <TextInput
+            onChangeText={this.onEmailChange}
+            maxLength = {254}
+            autoCorrect={false}
+            autoCapitalize = "none"
+            value={this.state.updatedEmail}
+            style={styles.input}
+            />
 
-        <Text>
-          {this.state.errorMessage}
-        </Text>
+          <Text>
+            {this.state.errorMessage}
+          </Text>
 
-        <Button
-          text={'Update Email Address'}
-          onPress={this.onUpdateEmailPress.bind(this)}
-          />
+          <Button
+            text={'Update Email Address'}
+            onPress={this.onUpdateEmailPress.bind(this)}
+            />
 
+        </View>
       </View>
     )
   }
@@ -98,6 +102,7 @@ export default class UserProfile extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    top: 50,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

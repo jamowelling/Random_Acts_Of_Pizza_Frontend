@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Button from './Button';
 import { SegmentedControls } from 'react-native-radio-buttons';
+import Nav from './Nav';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -98,47 +99,50 @@ export default class NewRequest extends Component {
       "Pizza Hut"
     ]
     return (
-      <View style={styles.container}>
-        <Button
-          text={'Cancel Request'}
-          onPress={this.onCancelRequest.bind(this)}
-          />
-        <Text>
-          New Request Form
-        </Text>
-        <Text style={styles.label}>
-          Tell us your story.
-        </Text>
-        <Button
-          text={'Record Video'}
-          onPress={this.openVideoRec.bind(this)}
-          />
-        <Text style={styles.label}>
-          How many pizzas do you need?
-        </Text>
-        <SegmentedControls
-          options={ pizzas }
-          onSelection={ this.selectPizzas.bind(this) }
-          selectedOption={ this.state.pizzas }
-          />
+      <View>
+        <Nav {...this.props} />
+        <View style={styles.container}>
+          <Button
+            text={'Cancel Request'}
+            onPress={this.onCancelRequest.bind(this)}
+            />
+          <Text>
+            New Request Form
+          </Text>
+          <Text style={styles.label}>
+            Tell us your story.
+          </Text>
+          <Button
+            text={'Record Video'}
+            onPress={this.openVideoRec.bind(this)}
+            />
+          <Text style={styles.label}>
+            How many pizzas do you need?
+          </Text>
+          <SegmentedControls
+            options={ pizzas }
+            onSelection={ this.selectPizzas.bind(this) }
+            selectedOption={ this.state.pizzas }
+            />
 
-        <Text style={styles.label}>
-          Who delivers to you?
-        </Text>
-        <SegmentedControls
-          options={ vendors }
-          onSelection={ this.selectVendor.bind(this) }
-          selectedOption={ this.state.vendor }
-          />
+          <Text style={styles.label}>
+            Who delivers to you?
+          </Text>
+          <SegmentedControls
+            options={ vendors }
+            onSelection={ this.selectVendor.bind(this) }
+            selectedOption={ this.state.vendor }
+            />
 
-        <Text>
-          {this.state.errorMessage}
-        </Text>
+          <Text>
+            {this.state.errorMessage}
+          </Text>
 
 
-        <Button text={'Submit Request'}
-          onPress={this.onSubmitRequest.bind(this)}
-          />
+          <Button text={'Submit Request'}
+            onPress={this.onSubmitRequest.bind(this)}
+            />
+        </View>
       </View>
     );
   }
@@ -146,6 +150,7 @@ export default class NewRequest extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    top: 50,
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
