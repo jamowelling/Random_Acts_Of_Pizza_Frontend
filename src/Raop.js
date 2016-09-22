@@ -14,7 +14,7 @@ const ROUTES = {
   userProfile: UserProfile,
   requests: Requests,
   request: Request,
-  new_request: NewRequest,
+  newRequest: NewRequest,
   camera: Camera
 };
 
@@ -51,11 +51,20 @@ export default class Raop extends Component {
     return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas}/>;
   }
   render() {
+    const sceneConfig = (renderScene) => {
+      if (renderScene.name === 'userProfile') {
+        return Navigator.SceneConfigs.FloatFromLeft
+      } else if (renderScene.name === 'newRequest'){
+        return Navigator.SceneConfigs.FloatFromRight
+      } else if (renderScene.name === 'instructions') {
+        return Navigator.SceneConfigs.VerticalUpSwipeJump
+      }
+    }
     return (
       <Navigator
       initialRoute={{name: 'main'}}
       renderScene={this.renderScene}
-      configureScene={() =>  Navigator.SceneConfigs.FloatFromRight}
+      configureScene={sceneConfig}
       />
     );
   }

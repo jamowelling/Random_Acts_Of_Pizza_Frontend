@@ -23,9 +23,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    console.log("Donated Request", request);
-    console.log("userID", userID);
-    fetch(`http://localhost:3000/requests/${request.id}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -60,8 +58,6 @@ export default class Request extends Component {
   // }
 
   render() {
-    console.log("this", this);
-    console.log("request", this.props.request);
     let hasDonor;
     let showDonateButton;
     let showLoginDialog;

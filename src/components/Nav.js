@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import ProfileButton from './ProfileButton';
+import CreateRequestButton from './CreateRequestButton';
 
 export default class Nav extends Component {
-  onNewRequestPress() {
-    this.props.navigator.push({name: 'new_request'});
-  }
-  onProfilePress() {
-    this.props.navigator.push({name: 'userProfile'});
-  }
-
   render() {
     let profileButton, createRequestButton;
-    if (this.props.user !== null) {
-      profileButton =
-        <TouchableOpacity onPress={this.onProfilePress.bind(this)}>
-          <Image
-            style={styles.profileButton}
-            source={require('../../assets/profile.png')}
-            />
-        </TouchableOpacity>
-      createRequestButton =
-        <TouchableOpacity onPress={this.onNewRequestPress.bind(this)}>
-          <Image
-            style={styles.createRequestButton}
-            source={require('../../assets/add.png')}
-            />
-        </TouchableOpacity>
+    if (this.props.user !== null && this.props.route.name === "main") {
+      profileButton = <ProfileButton {...this.props} />
+      createRequestButton = <CreateRequestButton {...this.props} />
     }
     return (
       <View style={styles.container}>
@@ -72,14 +55,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  profileButton: {
-    left: 30,
-    height: 40,
-    width: 30,
-  },
-  createRequestButton: {
-    right: 30,
-    height: 40,
-    width: 40,
-  }
 });
