@@ -39,9 +39,9 @@ export default class VideoExample extends Component {
     let videoDisplay;
     if (this.state.showBroadchurch) {
       videoDisplay = <Video
-        source={{ uri: 'http://techslides.com/demos/sample-videos/small.mp4' }}
+        source={{ uri: 'https://s3-us-west-2.amazonaws.com/random-acts-of-pizza/iwantpizza.mp4' }}
         paused={false}
-        rate={1}
+        rate={1.0}
         volume={1}
         muted={false}
         resizeMode={'contain'}
