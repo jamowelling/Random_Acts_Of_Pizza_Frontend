@@ -53,10 +53,13 @@ export default class Raop extends Component {
   render() {
     const sceneConfig = (renderScene) => {
       if (renderScene.name === 'userProfile') {
-        return Navigator.SceneConfigs.FloatFromLeft
+        console.log("userProfile");
+        return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight
       } else if (renderScene.name === 'newRequest'){
-        return Navigator.SceneConfigs.FloatFromRight
+        console.log("newRequest");
+        return Navigator.SceneConfigs.PushFromRight
       } else if (renderScene.name === 'instructions') {
+        console.log('instructions');
         return Navigator.SceneConfigs.VerticalUpSwipeJump
       }
     }
