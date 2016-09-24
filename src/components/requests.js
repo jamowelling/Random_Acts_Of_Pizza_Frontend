@@ -50,7 +50,7 @@ export default class Requests extends Component {
         <Swiper showsButtons={true}>
           {this.props.requests.map((request, i) => {
             return (
-              <Request key={i} request={request} {...this.props}/>
+              <Request key={i} request={request} {...this.props} />
             )
           })}
         </Swiper>;

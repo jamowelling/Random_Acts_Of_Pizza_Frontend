@@ -27,7 +27,8 @@ export default class Raop extends Component {
       user: null,
       currentEmail: '',
       requests: [],
-      totalDonatedPizzas: null
+      totalDonatedPizzas: null,
+      url: 'https://random-acts-of-pizza.s3-us-west-2.amazonaws.com/iwantpizza.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJPDTXLXBYZIR4XSQ%2F20160924%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20160924T045602Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=96e38daf0a5a8f5f15bc5a86438b69f1ca9ef86b7cfe09c25a7d775bfddd1dac'
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -97,7 +98,7 @@ export default class Raop extends Component {
   }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas}/>;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} />;
   }
   render() {
     const sceneConfig = (renderScene) => {

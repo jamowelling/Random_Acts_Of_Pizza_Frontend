@@ -80,7 +80,7 @@ export default class Request extends Component {
     return (
       <View style={styles.request}>
         {hasDonor}
-        <VideoExample />
+        <VideoExample {...this.props} />
         <Text style={styles.text}>
           {request.first_name} - {request.pizzas} pizza(s) - {request.vendor}
         </Text>
