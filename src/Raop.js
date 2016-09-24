@@ -7,6 +7,7 @@ import NewRequest from './components/NewRequest';
 import Camera from './components/Camera';
 import Main from './components/Main';
 import Instructions from './components/Instructions';
+import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 const ROUTES = {
   main: Main,
@@ -34,6 +35,54 @@ export default class Raop extends Component {
     this.sumDonatedPizzas = this.sumDonatedPizzas.bind(this);
     this.renderScene = this.renderScene.bind(this);
   }
+  createSession(userInfo) {
+    fetch('http://random-acts-of-pizza.herokuapp.com/users', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({userInfo})
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      this.onUserChange(responseJson.user)
+      this.onEmailChange(responseJson.email)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+  componentDidMount() {
+    AccessToken.getCurrentAccessToken().then(
+      (data) => {
+        if (data) {
+          const accessToken = data.accessToken
+          const responseInfoCallback = (error, result) => {
+            if (error) {
+              alert('Error fetching data: ' + error.toString());
+            } else {
+              this.createSession(result)
+            }
+          }
+          const infoRequest = new GraphRequest(
+            '/me',
+            {
+              accessToken,
+              parameters: {
+                fields: {
+                  string: 'email,name,first_name,middle_name,last_name'
+                }
+              }
+            },
+            responseInfoCallback
+          );
+          new GraphRequestManager().addRequest(infoRequest).start()
+        }
+      }
+    )
+  }
   onUserChange(user) {
     this.setState({user})
   }
@@ -53,13 +102,10 @@ export default class Raop extends Component {
   render() {
     const sceneConfig = (renderScene) => {
       if (renderScene.name === 'userProfile') {
-        console.log("userProfile");
         return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight
       } else if (renderScene.name === 'newRequest'){
-        console.log("newRequest");
         return Navigator.SceneConfigs.PushFromRight
       } else if (renderScene.name === 'instructions') {
-        console.log('instructions');
         return Navigator.SceneConfigs.VerticalUpSwipeJump
       }
     }
