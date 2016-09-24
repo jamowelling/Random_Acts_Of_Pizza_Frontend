@@ -36,10 +36,11 @@ export default class VideoExample extends Component {
   }
 
   render() {
+    console.log(this.props.url);
     let videoDisplay;
     if (this.state.showBroadchurch) {
       videoDisplay = <Video
-        source={{ uri: 'https://s3-us-west-2.amazonaws.com/random-acts-of-pizza/iwantpizza.mp4' }}
+        source={{ uri: this.props.url }}
         paused={false}
         rate={1.0}
         volume={1}
