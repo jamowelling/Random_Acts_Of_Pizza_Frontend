@@ -9,20 +9,21 @@ export default class Requests extends Component {
     super(props)
 
     this.state = {
-      errorMessage: " "
+      errorMessage: ' ',
     };
   }
   componentWillMount() {
-    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
+    fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
-      if (responseJson.errorMessage === "No current requests.") {
+      if (responseJson.errorMessage) {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
         this.props.onEmailChange(responseJson.email)
         this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
         this.props.collectRequests(responseJson.requests)
         this.props.handleWelcomeUrl(responseJson.url)
+        this.props.collectActiveDonation(responseJson.activeDonation)
         this.setState({errorMessage: "Requests recieved."})
       }
     })
@@ -30,10 +31,6 @@ export default class Requests extends Component {
       console.error(error);
     });
   }
-  mapRequestsToArray() {
-
-  }
-
   render() {
     // console.log("1");
     let noRequests = <Text>Loading...</Text>;
