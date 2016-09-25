@@ -8,9 +8,11 @@ import Camera from './components/Camera';
 import Main from './components/Main';
 import Instructions from './components/Instructions';
 import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import GuestView from './components/GuestView';
 
 const ROUTES = {
   main: Main,
+  guestView: GuestView,
   instructions: Instructions,
   userProfile: UserProfile,
   requests: Requests,
@@ -25,16 +27,19 @@ export default class Raop extends Component {
 
     this.state = {
       user: null,
+      guestDonation: false,
       currentEmail: '',
       requests: [],
       totalDonatedPizzas: null,
-      url: 'https://random-acts-of-pizza.s3-us-west-2.amazonaws.com/iwantpizza.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJPDTXLXBYZIR4XSQ%2F20160924%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20160924T045602Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=96e38daf0a5a8f5f15bc5a86438b69f1ca9ef86b7cfe09c25a7d775bfddd1dac'
+      url: ''
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.collectRequests = this.collectRequests.bind(this);
     this.sumDonatedPizzas = this.sumDonatedPizzas.bind(this);
     this.renderScene = this.renderScene.bind(this);
+    this.handleGuestDonation = this.handleGuestDonation.bind(this);
+    this.handleWelcomeUrl = this.handleWelcomeUrl.bind(this);
   }
   createSession(userInfo) {
     fetch('http://random-acts-of-pizza.herokuapp.com/users', {
@@ -87,6 +92,9 @@ export default class Raop extends Component {
   onUserChange(user) {
     this.setState({user})
   }
+  handleGuestDonation(guestDonation) {
+    this.setState({guestDonation})
+  }
   onEmailChange(currentEmail) {
     this.setState({currentEmail})
   }
@@ -96,20 +104,23 @@ export default class Raop extends Component {
   sumDonatedPizzas(totalDonatedPizzas) {
     this.setState({totalDonatedPizzas})
   }
+  handleWelcomeUrl(url) {
+    this.setState({url})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} />;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} />;
   }
   render() {
     const sceneConfig = (renderScene) => {
       if (renderScene.name === 'userProfile') {
-        return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight
+        return Navigator.SceneConfigs.FloatFromLeft
       } else if (renderScene.name === 'newRequest'){
-        return Navigator.SceneConfigs.PushFromRight
+        return Navigator.SceneConfigs.FloatFromRight
       } else if (renderScene.name === 'instructions') {
         return Navigator.SceneConfigs.VerticalUpSwipeJump
       } else {
-        return Navigator.SceneConfigs.VerticalUpSwipeJump
+        return Navigator.SceneConfigs.FloatFromRight
       }
     }
     return (

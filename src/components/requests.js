@@ -22,6 +22,7 @@ export default class Requests extends Component {
         this.props.onEmailChange(responseJson.email)
         this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
         this.props.collectRequests(responseJson.requests)
+        this.props.handleWelcomeUrl(responseJson.url)
         this.setState({errorMessage: "Requests recieved."})
       }
     })
@@ -83,6 +84,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: 100,
-    borderWidth: 1,
   },
 });

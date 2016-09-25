@@ -3,23 +3,29 @@ import { AlertIOS, View, Text, TouchableOpacity, Image, StyleSheet } from 'react
 import VideoExample from './Video';
 import Login from './Login';
 import Button from './Button';
+import GuestView from './GuestView';
 
 export default class Request extends Component {
   onDonatePress(request) {
-    AlertIOS.alert(
-      `Are you sure you want to donate ${request.pizzas} pizza(s)?`,
-      `You will have 30 minutes to send a gift certificate by email from the ${request.vendor} website.`,
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        },
-        {
-          text: 'Donate',
-          onPress: this.onConfirmPress.bind(this, request)
-        }
-      ]
-    )
+    if (this.props.user === null) {
+      this.props.onGuestDonation(true)
+      this.props.navigator.push({name: 'guestView'})
+    } else {
+      AlertIOS.alert(
+        `Are you sure you want to donate ${request.pizzas} pizza(s)?`,
+        `You will have 30 minutes to send a gift certificate by email from the ${request.vendor} website.`,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          },
+          {
+            text: 'Donate',
+            onPress: this.onConfirmPress.bind(this, request)
+          }
+        ]
+      )
+    }
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
@@ -60,12 +66,8 @@ export default class Request extends Component {
   render() {
     let hasDonor;
     let showDonateButton;
-    let showLoginDialog;
     let request = this.props.request;
 
-    if (this.props.user === null) {
-      showLoginDialog = <Login {...this.props} />
-    }
     if (request.donor_id) {
       hasDonor =
         <Image
@@ -78,8 +80,13 @@ export default class Request extends Component {
           source={require('../../assets/donate.png')}
           />
     } else if (this.props.user === null) {
-      // not logged in
-      // no donate button
+      showDonateButton =
+        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
+          <Image
+            style={styles.donateButton}
+            source={require('../../assets/donate.png')}
+            />
+        </TouchableOpacity>
     } else if (this.props.user.id === this.creator_id) {
       // is not donated
       // no donate button
@@ -92,7 +99,7 @@ export default class Request extends Component {
             />
         </TouchableOpacity>
     }
-    return (
+    let display =
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.firstName}>
@@ -104,13 +111,16 @@ export default class Request extends Component {
         </View>
 
         <VideoExample {...this.props} />
-        
+
         <Text style={styles.request}>
           {request.pizzas} pizza(s) from {request.vendor}
         </Text>
         {hasDonor}
         {showDonateButton}
-        {showLoginDialog}
+      </View>
+    return (
+      <View>
+        {display}
       </View>
     )
   }
@@ -124,7 +134,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     justifyContent: 'center',
-    borderColor: 'blue',
   },
   firstName: {
     textAlign: 'center',
