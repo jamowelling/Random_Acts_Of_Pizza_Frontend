@@ -36,7 +36,6 @@ export default class VideoExample extends Component {
   }
 
   render() {
-    console.log(this.props.url);
     let videoDisplay;
     if (this.state.showBroadchurch) {
       videoDisplay = <Video
@@ -57,6 +56,10 @@ export default class VideoExample extends Component {
     }
     return (
       <View style={styles.container}>
+        <Image
+          source={require('../../assets/playButton.png')}
+          style={styles.playButton}
+          />
         <TouchableHighlight onPress={this.playBroadchurch}>
           {videoDisplay}
         </TouchableHighlight>
@@ -68,8 +71,9 @@ export default class VideoExample extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'red',
   },
   fullscreen: {
     position: 'absolute',
@@ -79,7 +83,17 @@ const styles = StyleSheet.create({
     right: 0,
   },
   image: {
-    height: 150,
-    width: 150,
-  }
+    flex: 1,
+    borderWidth: 1,
+    height: 250,
+    width: 250,
+  },
+  playButton: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 100,
+    left: 100,
+    width: 50,
+    height: 50,
+  },
 });

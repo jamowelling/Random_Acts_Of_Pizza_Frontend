@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Button from './Button';
 import Login from './Login';
 import Nav from './Nav';
@@ -16,9 +16,6 @@ export default class UserProfile extends Component {
   }
   onEmailChange(updatedEmail) {
     this.setState({updatedEmail})
-  }
-  onBackPress() {
-    this.props.navigator.pop();
   }
   onUpdateEmailPress() {
     const userID = this.props.user.id
@@ -47,51 +44,61 @@ export default class UserProfile extends Component {
     });
   }
   render() {
-    const showLogin = <Login
-      onUserChange={this.props.onUserChange}
-      navigator={this.props.navigator}
-      />
-
     return (
       <View>
-        <Nav {...this.props} />
+        <Nav backButton {...this.props} />
         <View style={styles.container}>
 
-          <Button
-            text={'Back to Requests'}
-            onPress={this.onBackPress.bind(this)}
-            />
+          <View style={styles.instructionsContainer}>
+            <Text style={styles.instructions}>
+              Make sure your email is updated below. If you make a request, a donor will send a gift card to the email address that is listed below.
+            </Text>
+          </View>
 
-          {showLogin}
+          <View style={styles.currentEmail}>
+            <Text style={styles.title}>
+              Current Email:
+            </Text>
 
-          <Text>
-            Current Email:
-          </Text>
+            <Text style={styles.email}>
+              {this.props.currentEmail}
+            </Text>
+          </View>
 
-          <Text>
-            {this.props.currentEmail}
-          </Text>
+          <View style={styles.updateEmail}>
+            <Text style={styles.title}>
+              Update Email:
+            </Text>
 
-          <Text>
-            Update Email:
-          </Text>
+            <TextInput
+              onChangeText={this.onEmailChange}
+              maxLength = {254}
+              autoCorrect={false}
+              autoCapitalize = "none"
+              value={this.state.updatedEmail}
+              style={styles.input}
+              />
 
-          <TextInput
-            onChangeText={this.onEmailChange}
-            maxLength = {254}
-            autoCorrect={false}
-            autoCapitalize = "none"
-            value={this.state.updatedEmail}
-            style={styles.input}
-            />
+          </View>
 
-          <Text>
-            {this.state.errorMessage}
-          </Text>
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>
+              {this.state.errorMessage}
+            </Text>
+          </View>
 
-          <Button
-            text={'Update Email Address'}
-            onPress={this.onUpdateEmailPress.bind(this)}
+          <View style={styles.updatedEmailButtonContainer}>
+            <Button
+              style={styles.updatedEmailButton}
+              text={'Submit'}
+              onPress={this.onUpdateEmailPress.bind(this)}
+              />
+          </View>
+
+          <Login
+            style={styles.loginButton}
+            onUserChange={this.props.onUserChange}
+            navigator={this.props.navigator}
             />
 
         </View>
@@ -102,22 +109,61 @@ export default class UserProfile extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    top: 50,
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
+    margin: 22,
+    backgroundColor: 'white',
+    height: 550,
+  },
+  instructionsContainer: {
+    width: 250,
+  },
+  instructions: {
+    textAlign: 'center',
   },
   input: {
-    fontSize: 20,
+    fontSize: 15,
     padding: 4,
-    height: 40,
+    height: 30,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     margin: 5,
-    width: 200,
+    width: 250,
     alignSelf: 'center',
     textAlign: 'center'
-  }
+  },
+  currentEmail: {
+    marginTop: 30,
+    marginBottom: 30,
+    alignItems: 'center',
+  },
+  updateEmail: {
+  },
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  updatedEmailButtonContainer: {
+    marginBottom: 50,
+  },
+  updatedEmailButton: {
+
+  },
+  email: {
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  errorContainer: {
+    height: 40,
+  },
+  error: {
+    textAlign: 'center',
+    color: '#ce0000',
+    fontWeight: 'bold',
+    paddingBottom: 5,
+  },
+  loginButton: {
+  },
 });

@@ -75,8 +75,6 @@ export default class Requests extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
     flex: 1,
   },
   text: {
@@ -85,5 +83,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: 100,
+    borderWidth: 1,
   },
 });
