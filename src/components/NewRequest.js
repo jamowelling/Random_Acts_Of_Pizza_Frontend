@@ -113,6 +113,7 @@ export default class NewRequest extends Component {
             How many pizzas do you need?
           </Text>
           <SegmentedControls
+            tint={'#ce0000'}
             options={ pizzas }
             onSelection={ this.selectPizzas.bind(this) }
             selectedOption={ this.state.pizzas }
@@ -122,6 +123,7 @@ export default class NewRequest extends Component {
             Who delivers to you?
           </Text>
           <SegmentedControls
+            tint={'#ce0000'}
             options={ vendors }
             onSelection={ this.selectVendor.bind(this) }
             selectedOption={ this.state.vendor }
@@ -165,6 +167,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 5,
     paddingTop: 15,
+  },
+  pizzas: {
+    tintColor: 'red',
+  },
+  vendor: {
+
   },
   submitButton: {
     backgroundColor: 'gray',

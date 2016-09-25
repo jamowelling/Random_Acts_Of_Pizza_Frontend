@@ -127,11 +127,12 @@ export default class Example extends React.Component {
           defaultTouchToFocus
           mirrorImage={false}
         />
+
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity
             style={styles.typeButton}
             onPress={this.cancelRecording.bind(this)}
-          >
+            >
             <Image
               source={require('../../assets/left_caret.png')}
             />
@@ -153,6 +154,7 @@ export default class Example extends React.Component {
             />
           </TouchableOpacity>
         </View>
+
         <View style={[styles.overlay, styles.bottomOverlay]}>
           <View style={styles.buttonsSpace} />
           {
