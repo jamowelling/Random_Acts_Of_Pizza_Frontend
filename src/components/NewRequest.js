@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Button from './Button';
 import { SegmentedControls } from 'react-native-radio-buttons';
 import Nav from './Nav';
+import GuestView from './GuestView';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -79,14 +80,18 @@ export default class NewRequest extends Component {
     const pizzas= [
       1,
       2,
-      3
-    ]
+      3,
+    ];
     const vendors= [
       "Papa Johns",
       "Dominos",
       "Pizza Hut",
-    ]
-    return (
+    ];
+    let display;
+    if (this.props.user === null) {
+      display = <GuestView {...this.props} />
+    } else {
+      display =
       <View>
         <Nav backButton {...this.props} />
 
@@ -143,6 +148,11 @@ export default class NewRequest extends Component {
             />
         </View>
 
+      </View>
+    }
+    return (
+      <View>
+        {display}
       </View>
     );
   }

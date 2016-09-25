@@ -7,9 +7,9 @@ export default class VideoExample extends Component {
     super(props)
 
     this.state = {
-      showBroadchurch: false
+      playing: false
     };
-    this.playBroadchurch = this.playBroadchurch.bind(this)
+    this.playVideo = this.playVideo.bind(this)
   }
 
   // source={{uri: "../../assets/broadchurch", mainVer: 1, patchVer: 0}}
@@ -31,13 +31,13 @@ export default class VideoExample extends Component {
   //   )
   // }
 
-  playBroadchurch() {
-    this.setState({showBroadchurch: true});
+  playVideo() {
+    this.setState({playing: !this.state.playing});
   }
 
   render() {
     let videoDisplay;
-    if (this.state.showBroadchurch) {
+    if (this.state.playing) {
       videoDisplay = <Video
         source={{ uri: this.props.url }}
         paused={false}
@@ -56,13 +56,16 @@ export default class VideoExample extends Component {
     }
     return (
       <View style={styles.container}>
-        <Image
-          source={require('../../assets/playButton.png')}
-          style={styles.playButton}
-          />
-        <TouchableHighlight onPress={this.playBroadchurch}>
-          {videoDisplay}
+        <TouchableHighlight
+          style={styles.playButtonContainer}
+          onPress={this.playVideo}
+          >
+            <Image
+            source={require('../../assets/playButton.png')}
+            style={styles.playButton}
+            />
         </TouchableHighlight>
+        {videoDisplay}
       </View>
     );
 
@@ -72,8 +75,6 @@ export default class VideoExample extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'red',
   },
   fullscreen: {
     position: 'absolute',
@@ -84,13 +85,18 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    borderWidth: 1,
     height: 250,
     width: 250,
   },
-  playButton: {
+  playButtonContainer: {
     position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     zIndex: 1,
+  },
+  playButton: {
     top: 100,
     left: 100,
     width: 50,

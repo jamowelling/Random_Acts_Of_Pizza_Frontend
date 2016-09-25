@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'reac
 import Button from './Button';
 import Login from './Login';
 import Nav from './Nav';
+import GuestView from './GuestView';
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -44,7 +45,11 @@ export default class UserProfile extends Component {
     });
   }
   render() {
-    return (
+    let display;
+    if (this.props.user === null) {
+      display = <GuestView {...this.props} />
+    } else {
+      display =
       <View>
         <Nav backButton {...this.props} />
         <View style={styles.container}>
@@ -99,9 +104,15 @@ export default class UserProfile extends Component {
             style={styles.loginButton}
             onUserChange={this.props.onUserChange}
             navigator={this.props.navigator}
+            {...this.props}
             />
 
         </View>
+      </View>
+    }
+    return (
+      <View>
+        {display}
       </View>
     )
   }
@@ -166,4 +177,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
   },
+  firstLoginContainer: {
+    flex: 1,
+  }
 });

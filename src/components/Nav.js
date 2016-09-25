@@ -22,7 +22,7 @@ export default class Nav extends Component {
     }
 
     let createRequestButton;
-    if (this.props.user !== null && this.props.route.name === "main") {
+    if (this.props.route.name === "main") {
       leftButton = <ProfileButton {...this.props} />
       createRequestButton = <CreateRequestButton {...this.props} />
     }
