@@ -6,6 +6,13 @@ import Button from './Button';
 import GuestView from './GuestView';
 
 export default class Request extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      errorMessage: ' ',
+    }
+  }
   onDonatePress(request) {
     if (this.props.user === null) {
       this.props.onGuestDonation(true)
@@ -13,7 +20,7 @@ export default class Request extends Component {
     } else {
       AlertIOS.alert(
         `Are you sure you want to donate ${request.pizzas} pizza(s)?`,
-        `You will have 30 minutes to send a gift certificate by email from the ${request.vendor} website.`,
+        `You will have 30 minutes to send an online gift card. Failure to complete the donation could have you removed from the community.`,
         [
           {
             text: 'Cancel',
@@ -40,16 +47,22 @@ export default class Request extends Component {
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      this.props.collectRequests(responseJson.requests)
-      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+      if (responseJson.errorMessage) {
+        this.setState({errorMessage: responseJson.errorMessage})
+      } else {
+        this.props.collectRequests(responseJson.requests)
+        this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+        this.props.collectActiveDonation(responseJson.activeDonation)
+        this.setState({errorMessage: ' '})
+        this.props.navigator.push({name: 'instructions'})
+      }
     })
     .catch((error) => {
       console.error(error);
     });
-    this.props.navigator.push({name: 'instructions'})
   }
   // componentWillMount() {
-  //   fetch(`http://localhost:3000/requests/1`)
+  //   fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`)
   //   .then((response) => response.json())
   //   .then((responseJson) => {
   //     if (responseJson.errorMessage === 'No current requests.') {
@@ -117,6 +130,9 @@ export default class Request extends Component {
         </Text>
         {hasDonor}
         {showDonateButton}
+        <Text>
+          {this.state.errorMessage}
+        </Text>
       </View>
     return (
       <View>

@@ -31,7 +31,8 @@ export default class Raop extends Component {
       currentEmail: '',
       requests: [],
       totalDonatedPizzas: null,
-      url: ''
+      url: '',
+      activeDonation: null,
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -40,6 +41,7 @@ export default class Raop extends Component {
     this.renderScene = this.renderScene.bind(this);
     this.handleGuestDonation = this.handleGuestDonation.bind(this);
     this.handleWelcomeUrl = this.handleWelcomeUrl.bind(this);
+    this.handleActiveDonation = this.handleActiveDonation.bind(this);
   }
   createSession(userInfo) {
     fetch('http://random-acts-of-pizza.herokuapp.com/users', {
@@ -55,6 +57,7 @@ export default class Raop extends Component {
     .then((responseJson) => {
       this.onUserChange(responseJson.user)
       this.onEmailChange(responseJson.email)
+      this.handleActiveDonation(responseJson.activeDonation)
     })
     .catch((error) => {
       console.error(error);
@@ -107,9 +110,12 @@ export default class Raop extends Component {
   handleWelcomeUrl(url) {
     this.setState({url})
   }
+  handleActiveDonation(activeDonation) {
+    this.setState({activeDonation})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} />;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} />;
   }
   render() {
     const sceneConfig = (renderScene) => {
