@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import ProfileButton from './ProfileButton';
 import CreateRequestButton from './CreateRequestButton';
 
 export default class Nav extends Component {
+  onBackPress() {
+    this.props.navigator.pop();
+  }
   render() {
-    let profileButton, createRequestButton;
+    let leftButton;
+    if (this.props.backButton) {
+      leftButton =
+        <TouchableOpacity
+          style={styles.backButtonContainer}
+          onPress={this.onBackPress.bind(this)}>
+            <Image
+              style={styles.backButton}
+              source={require('../../assets/backButton.png')}
+              />
+        </TouchableOpacity>
+    }
+
+    let createRequestButton;
     if (this.props.user !== null && this.props.route.name === "main") {
-      profileButton = <ProfileButton {...this.props} />
+      leftButton = <ProfileButton {...this.props} />
       createRequestButton = <CreateRequestButton {...this.props} />
     }
     return (
@@ -19,7 +35,7 @@ export default class Nav extends Component {
         </View>
         <View style={styles.navigation}>
 
-          {profileButton}
+          {leftButton}
 
           {createRequestButton}
 
@@ -32,8 +48,8 @@ export default class Nav extends Component {
 const styles = StyleSheet.create({
   container: {
     zIndex: 1,
+    height: 85,
     paddingTop: 30,
-    paddingBottom: 10,
     backgroundColor: '#ce0000',
   },
   logo: {
@@ -45,7 +61,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 5,
-    flex: 1,
     fontWeight: 'bold',
     color: 'white',
     fontSize: 20,
@@ -54,5 +69,12 @@ const styles = StyleSheet.create({
   navigation: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  backButtonContainer: {
+  },
+  backButton: {
+    left: 30,
+    height: 40,
+    width: 40,
   },
 });

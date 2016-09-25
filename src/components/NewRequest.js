@@ -9,18 +9,13 @@ export default class NewRequest extends Component {
     super(props)
 
     this.state = {
-      title: '',
       pizzas: '',
       vendor: '',
       video: '',
       errorMessage: ' '
     };
-    this.onTitleChange = this.onTitleChange.bind(this);
     this.onPizzasChange = this.onPizzasChange.bind(this);
     this.onVendorChange = this.onVendorChange.bind(this);
-  }
-  onTitleChange(title) {
-    this.setState({title})
   }
   onPizzasChange(pizzas) {
     this.setState({pizzas})
@@ -32,17 +27,14 @@ export default class NewRequest extends Component {
     const userID = this.props.user.id
     const first_name = this.props.user.first_name
     const video = '555.com'
-    if (this.state.title.length < 15) {
-      this.setState({errorMessage: 'Your title must be at least 15 characters.'})
-    } else if (this.state.pizzas.length < 1) {
-      this.setState({errorMessage: 'Please select the number of pizzas you are requesting.'})
+    if (this.state.pizzas.length < 1) {
+      this.setState({errorMessage: 'Please select how many pizzas you need.'})
     } else if (this.state.vendor.length < 5) {
       this.setState({errorMessage: 'Please choose your preferred pizza place.'})
     } else {
       this.setState({errorMessage: ' '})
 
       const {
-        title,
         pizzas,
         vendor
       } = this.state;
@@ -55,7 +47,6 @@ export default class NewRequest extends Component {
         body: JSON.stringify({
           userID,
           first_name,
-          title,
           pizzas,
           vendor,
           video
@@ -75,9 +66,6 @@ export default class NewRequest extends Component {
       });
     }
   }
-  onCancelRequest() {
-    this.props.navigator.pop();
-  }
   openVideoRec() {
     this.props.navigator.push({name: 'camera'});
   }
@@ -96,27 +84,32 @@ export default class NewRequest extends Component {
     const vendors= [
       "Papa Johns",
       "Dominos",
-      "Pizza Hut"
+      "Pizza Hut",
     ]
     return (
       <View>
-        <Nav {...this.props} />
+        <Nav backButton {...this.props} />
+
         <View style={styles.container}>
-          <Button
-            text={'Cancel Request'}
-            onPress={this.onCancelRequest.bind(this)}
-            />
-          <Text>
-            New Request Form
-          </Text>
-          <Text style={styles.label}>
-            Tell us your story.
-          </Text>
+
+          <View style={styles.formTitle}>
+            <Text style={styles.title}>
+              Submit your pizza request here:
+            </Text>
+          </View>
+
+          <View>
+            <Text style={styles.instructions}>
+              Tell us your story.
+            </Text>
+          </View>
+
           <Button
             text={'Record Video'}
             onPress={this.openVideoRec.bind(this)}
             />
-          <Text style={styles.label}>
+
+          <Text style={styles.instructions}>
             How many pizzas do you need?
           </Text>
           <SegmentedControls
@@ -125,7 +118,7 @@ export default class NewRequest extends Component {
             selectedOption={ this.state.pizzas }
             />
 
-          <Text style={styles.label}>
+          <Text style={styles.instructions}>
             Who delivers to you?
           </Text>
           <SegmentedControls
@@ -134,15 +127,20 @@ export default class NewRequest extends Component {
             selectedOption={ this.state.vendor }
             />
 
-          <Text>
-            {this.state.errorMessage}
-          </Text>
+          <View style={styles.errorContainer}>
+            <Text style={styles.error}>
+              {this.state.errorMessage}
+            </Text>
+          </View>
 
 
-          <Button text={'Submit Request'}
+          <Button
+            style={styles.submitButton}
+            text={'Submit Request'}
             onPress={this.onSubmitRequest.bind(this)}
             />
         </View>
+
       </View>
     );
   }
@@ -150,24 +148,34 @@ export default class NewRequest extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    top: 50,
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    margin: 22,
     backgroundColor: 'white',
+    height: 550,
   },
-  label: {
-    fontSize: 18
+  formTitle: {
+    marginBottom: 20.
   },
-  input: {
+  title: {
     fontSize: 20,
-    padding: 4,
-    height: 120,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    width: 200,
-    alignSelf: 'center',
-    textAlign: 'center'
-  }
+  },
+  instructions: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    paddingBottom: 5,
+    paddingTop: 15,
+  },
+  submitButton: {
+    backgroundColor: 'gray',
+  },
+  errorContainer: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  error: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#ce0000',
+  },
 });

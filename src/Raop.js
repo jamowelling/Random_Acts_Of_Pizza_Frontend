@@ -108,6 +108,8 @@ export default class Raop extends Component {
         return Navigator.SceneConfigs.PushFromRight
       } else if (renderScene.name === 'instructions') {
         return Navigator.SceneConfigs.VerticalUpSwipeJump
+      } else {
+        return Navigator.SceneConfigs.VerticalUpSwipeJump
       }
     }
     return (

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Nav from './Nav';
 import Requests from './Requests';
 
 export default class Main extends Component {
   render() {
     return (
-      <View>
+      <View style={styles.container}>
 
-        <Nav {...this.props}/>
+        <Nav {...this.props} />
 
         <Requests {...this.props} />
 
@@ -16,3 +16,9 @@ export default class Main extends Component {
     );
   };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+})

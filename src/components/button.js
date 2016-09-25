@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     borderColor: 'black',
+    backgroundColor: 'gray',
   },
   buttonText: {
     flex: 1,
     alignSelf: 'center',
-    fontSize: 20
+    fontSize: 15,
+    fontWeight: 'bold',
   }
 });

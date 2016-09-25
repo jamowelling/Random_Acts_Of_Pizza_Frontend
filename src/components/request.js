@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AlertIOS, View, Text, StyleSheet } from 'react-native';
+import { AlertIOS, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import VideoExample from './Video';
 import Login from './Login';
 import Button from './Button';
@@ -67,7 +67,16 @@ export default class Request extends Component {
       showLoginDialog = <Login {...this.props} />
     }
     if (request.donor_id) {
-      hasDonor = <Text>DONATION RECEIVED!</Text>
+      hasDonor =
+        <Image
+          style={styles.received}
+          source={require('../../assets/received.png')}
+          />
+      showDonateButton =
+        <Image
+          style={styles.donateButton}
+          source={require('../../assets/donate.png')}
+          />
     } else if (this.props.user === null) {
       // not logged in
       // no donate button
@@ -75,18 +84,31 @@ export default class Request extends Component {
       // is not donated
       // no donate button
     } else {
-      showDonateButton = <Button text={'Donate'} onPress={this.onDonatePress.bind(this, request)}/>
+      showDonateButton =
+        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
+          <Image
+            style={styles.donateButton}
+            source={require('../../assets/donate.png')}
+            />
+        </TouchableOpacity>
     }
     return (
-      <View style={styles.request}>
-        {hasDonor}
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.firstName}>
+            {request.first_name}
+          </Text>
+          <Text style={styles.dateTime}>
+            25 minutes ago
+          </Text>
+        </View>
+
         <VideoExample {...this.props} />
-        <Text style={styles.text}>
-          {request.first_name} - {request.pizzas} pizza(s) - {request.vendor}
+        
+        <Text style={styles.request}>
+          {request.pizzas} pizza(s) from {request.vendor}
         </Text>
-        <Text style={styles.text}>
-          {request.title}
-        </Text>
+        {hasDonor}
         {showDonateButton}
         {showLoginDialog}
       </View>
@@ -96,17 +118,39 @@ export default class Request extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    alignItems: 'center',
+    margin: 22,
   },
-  request: {
+  header: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    borderColor: 'blue',
   },
-  text: {
+  firstName: {
+    textAlign: 'center',
     color: '#ce0000',
     fontSize: 25,
     fontWeight: 'bold',
+  },
+  dateTime: {
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  request: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  donateButton: {
+    width: 200,
+    height: 100,
+  },
+  received: {
+    position: 'absolute',
+    zIndex: 1,
+    width: 150,
+    height: 150,
+    left: 100,
   }
 })
