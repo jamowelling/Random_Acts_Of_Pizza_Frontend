@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
+    fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage) {
@@ -45,7 +45,10 @@ export default class Requests extends Component {
     } else if (this.state.errorMessage === "Requests recieved.") {
       // console.log("3");
       currentRequests =
-        <Swiper showsButtons={true}>
+        <Swiper
+          showsButtons={true}
+          style={styles.wrapper}
+          >
           {this.props.requests.map((request, i) => {
             return (
               <Request key={i} request={request} {...this.props} />
@@ -74,6 +77,15 @@ export default class Requests extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
+    // borderWidth: 3,
+    borderColor: 'black',
+  },
+  wrapper: {
+    height: 500,
+    // flex: 1,
+    // borderWidth: 3,
+    borderColor: 'green',
   },
   text: {
     flex: 1,

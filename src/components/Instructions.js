@@ -14,7 +14,7 @@ export default class Instructions extends Component {
   }
   componentWillMount() {
     const userID = this.props.activeDonation[0].creator_id
-    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`)
+    fetch(`http://localhost:3000/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage) {
@@ -47,7 +47,7 @@ export default class Instructions extends Component {
     return (
       <View>
 
-        <Nav {...this.props} />
+        <Nav backButton {...this.props} />
 
         <View style={styles.container}>
           <Text style={styles.text}>
