@@ -50,9 +50,9 @@ export default class UserProfile extends Component {
       display = <GuestView {...this.props} />
     } else {
       display =
-      <View>
+      <View style={styles.container}>
         <Nav backButton {...this.props} />
-        <View style={styles.container}>
+        <View style={styles.wrapper}>
 
           <View style={styles.instructionsContainer}>
             <Text style={styles.instructions}>
@@ -111,7 +111,7 @@ export default class UserProfile extends Component {
       </View>
     }
     return (
-      <View>
+      <View style={styles.container}>
         {display}
       </View>
     )
@@ -120,11 +120,15 @@ export default class UserProfile extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    // borderWidth: 3,
+  },
+  wrapper: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 22,
-    backgroundColor: 'white',
-    height: 550,
+    // backgroundColor: 'white',
+    // borderWidth: 3,
   },
   instructionsContainer: {
     width: 250,
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 250,
     alignSelf: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   currentEmail: {
     marginTop: 30,
@@ -175,9 +179,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 5,
   },
-  loginButton: {
-  },
-  firstLoginContainer: {
-    flex: 1,
-  }
 });

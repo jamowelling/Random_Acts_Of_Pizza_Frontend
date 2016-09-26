@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     height: 85,
     paddingTop: 30,
     backgroundColor: '#ce0000',
+    // borderWidth: 3,
+    // borderColor: 'blue',
   },
   logo: {
     position: 'absolute',

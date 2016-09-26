@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking, View, Text, StyleSheet } from 'react-native';
+import { Linking, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import Nav from './Nav';
 import Link from './Link';
 
@@ -9,11 +9,12 @@ export default class Instructions extends Component {
 
     this.state = {
       email: ' ',
-      errorMessage: ' ',
+      vendor: this.props.activeDonation.vendor,
+      errorMessage: 'No Error.',
     };
   }
   componentWillMount() {
-    const userID = this.props.activeDonation[0].creator_id
+    const userID = this.props.activeDonation.creator_id
     fetch(`http://localhost:3000/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
@@ -28,41 +29,50 @@ export default class Instructions extends Component {
       console.error(error);
     });
   }
+  handleVendorSite = (vendorURL) => {
+    Linking.openURL(vendorURL)
+  }
   render() {
-    const request = this.props.activeDonation
-    const vendorURL = {
-      pizzaHut: 'https://pizzahutstore.wgiftcard.com/chrome/pizzahut/',
-      papaJohns: 'https://papajohns-m.cashstar.com/buy/?ref=PJ1',
-      dominos: 'https://dominosstore.wgiftcard.com/responsive/personalize_responsive/chooseDesign/dominos_responsive/1',
-    }
-    let url;
-    console.log(vendorURL.pizzaHut);
-    if (request.vendor === "Pizza Hut") {
-      url = vendorURL.pizzaHut
-    } else if (request.vendor === "Dominos") {
-      url = vendorURL.dominos
-    } else if (request.vendor === "Papa Johns") {
-      url = vendorURL.papaJohns
+    let vendorURL;
+    if (this.state.vendor === "Pizza Hut") {
+      vendorURL = 'https://pizzahutstore.wgiftcard.com/chrome/pizzahut/'
+    } else if (this.state.vendor === "Dominos") {
+      vendorURL = 'https://dominosstore.wgiftcard.com/responsive/personalize_responsive/chooseDesign/dominos_responsive/1'
+    } else if (this.state.vendor === "Papa Johns") {
+      vendorURL = 'https://papajohns-m.cashstar.com/buy/?ref=PJ1'
     }
     return (
-      <View>
+      <View style={styles.container}>
 
         <Nav backButton {...this.props} />
 
-        <View style={styles.container}>
-          <Text style={styles.text}>
-            Instructions Page.
+        <View style={styles.wrapper}>
+          <Text style={styles.header}>
+            Instructions Page
           </Text>
-          <Text>
+          <Text style={styles.instructions}>
             Copy the email address below:
           </Text>
           <Text>
             {this.state.email}
           </Text>
-          <Text>
-
+          <Text style={styles.instructions}>
+            Purchase Online Gift Card
           </Text>
-          <Link url />
+          <Text>
+            Go to the {this.state.vendor} website, paste the email address you copied, and purchase the online gift card.
+          </Text>
+          <TouchableOpacity
+            onPress={this.handleVendorSite.bind(this, vendorURL)}
+            style={styles.hyperlinkButton}
+            >
+            <Text style={styles.hyperlink}>
+              {this.state.vendor}
+            </Text>
+          </TouchableOpacity>
+          <Text>
+            {this.state.errorMessage}
+          </Text>
         </View>
 
       </View>
@@ -72,10 +82,34 @@ export default class Instructions extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    margin: 22,
+    flex: 1,
   },
-  text: {
-
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    // borderWidth: 3,
+  },
+  header: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  instructions: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    paddingBottom: 5,
+    paddingTop: 15,
+  },
+  hyperlinkButton: {
+    marginTop: 30,
+    padding: 10,
+    backgroundColor: '#3B5998',
+    marginBottom: 10,
+  },
+  hyperlink: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
