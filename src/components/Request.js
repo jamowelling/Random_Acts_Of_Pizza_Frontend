@@ -17,6 +17,10 @@ export default class Request extends Component {
     if (this.props.user === null) {
       this.props.onGuestDonation(true)
       this.props.navigator.push({name: 'guestView'})
+    } else if (this.props.user.id === request.creator_id) {
+      this.setState({errorMessage: 'Really, you want to donate to yourself?'})
+    } else if (this.props.activeDonation) {
+      this.setState({errorMessage: 'You have recently made a donation.'})
     } else {
       AlertIOS.alert(
         `Are you sure you want to donate ${request.pizzas} pizza(s)?`,
@@ -36,7 +40,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
+    fetch(`http://localhost:3000/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -61,8 +65,11 @@ export default class Request extends Component {
       console.error(error);
     });
   }
+  handleInstructions() {
+    this.props.navigator.push({name: 'instructions'})
+  }
   // componentWillMount() {
-  //   fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`)
+  //   fetch(`http://localhost:3000/requests/1`)
   //   .then((response) => response.json())
   //   .then((responseJson) => {
   //     if (responseJson.errorMessage === 'No current requests.') {
@@ -77,9 +84,12 @@ export default class Request extends Component {
   // }
 
   render() {
+    // console.log("id", this.props.user.id);
     let hasDonor;
     let showDonateButton;
     let request = this.props.request;
+    let activeDonation;
+    console.log("request", request.created_at);
 
     if (request.donor_id) {
       hasDonor =
@@ -89,20 +99,33 @@ export default class Request extends Component {
           />
       showDonateButton =
         <Image
-          style={styles.donateButton}
+          style={styles.disabledDonateButton}
           source={require('../../assets/donate.png')}
           />
     } else if (this.props.user === null) {
       showDonateButton =
         <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
           <Image
-            style={styles.donateButton}
+            style={styles.disabledDonateButton}
             source={require('../../assets/donate.png')}
             />
         </TouchableOpacity>
-    } else if (this.props.user.id === this.creator_id) {
-      // is not donated
-      // no donate button
+    } else if (this.props.user.id === request.creator_id) {
+      showDonateButton =
+        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
+          <Image
+            style={styles.disabledDonateButton}
+            source={require('../../assets/donate.png')}
+            />
+        </TouchableOpacity>
+    } else if (this.props.activeDonation) {
+      showDonateButton =
+        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
+          <Image
+            style={styles.disabledDonateButton}
+            source={require('../../assets/donate.png')}
+            />
+        </TouchableOpacity>
     } else {
       showDonateButton =
         <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
@@ -111,6 +134,30 @@ export default class Request extends Component {
             source={require('../../assets/donate.png')}
             />
         </TouchableOpacity>
+    }
+    if (this.props.activeDonation) {
+      activeDonation =
+        <View style={styles.instructionsContainer}>
+          <TouchableOpacity
+            onPress={this.handleInstructions.bind(this)}
+            >
+            <Text style={styles.instructions}>
+              You have an active donation. Click here to view the donation instructions. You will be eligible to donate 30 minutes after you've completed your active donation.
+            </Text>
+          </TouchableOpacity>
+        </View>
+    }
+    let requestText;
+    if (request.pizzas > 1) {
+      requestText =
+        <Text style={styles.request}>
+          {request.pizzas} pizzas from {request.vendor}
+        </Text>
+    } else {
+      requestText =
+        <Text style={styles.request}>
+          {request.pizzas} pizza from {request.vendor}
+        </Text>
     }
     let display =
       <View style={styles.container}>
@@ -125,14 +172,13 @@ export default class Request extends Component {
 
         <VideoExample {...this.props} />
 
-        <Text style={styles.request}>
-          {request.pizzas} pizza(s) from {request.vendor}
-        </Text>
         {hasDonor}
+        {requestText}
         {showDonateButton}
-        <Text>
+        <Text style={styles.errorMessage}>
           {this.state.errorMessage}
         </Text>
+        {activeDonation}
       </View>
     return (
       <View>
@@ -144,20 +190,28 @@ export default class Request extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
+    flex: 1,
     alignItems: 'center',
-    margin: 22,
+    marginLeft: 22,
+    marginRight: 22,
+    // borderWidth: 3,
+    borderColor: 'yellow',
   },
   header: {
-    flex: 1,
     justifyContent: 'center',
+    // borderWidth: 2,
   },
   firstName: {
+    flex: 1,
     textAlign: 'center',
     color: '#ce0000',
     fontSize: 25,
     fontWeight: 'bold',
+    // borderWidth: 3,
   },
   dateTime: {
+    flex: 1,
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold',
@@ -166,10 +220,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+    // borderWidth: 3,
+    borderColor: 'green',
   },
   donateButton: {
     width: 200,
     height: 100,
+  },
+  disabledDonateButton: {
+    width: 200,
+    height: 100,
+    opacity: .3,
   },
   received: {
     position: 'absolute',
@@ -177,5 +238,25 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     left: 100,
-  }
+  },
+  instructionsContainer: {
+    zIndex: 1,
+    flex: 1,
+    borderWidth: 1,
+    marginTop: 15,
+    borderRadius: 5,
+    borderColor: 'green',
+    backgroundColor: 'green',
+  },
+  instructions: {
+    flex: 1,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white',
+    padding: 5,
+  },
+  errorMessage: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
 })

@@ -54,16 +54,26 @@ export default class VideoExample extends Component {
         source={{uri: 'http://www.covermesongs.com/wp-content/uploads/2014/05/NotoriousBIG.jpg'}}
       />;
     }
+    let playButton;
+    if (!this.state.playing) {
+      playButton =
+        <Image
+          source={require('../../assets/playButton.png')}
+          style={styles.playButton}
+          />
+    } else {
+      playButton =
+        <Image
+          style={styles.playButton}
+          />
+    }
     return (
       <View style={styles.container}>
         <TouchableHighlight
           style={styles.playButtonContainer}
           onPress={this.playVideo}
           >
-            <Image
-            source={require('../../assets/playButton.png')}
-            style={styles.playButton}
-            />
+            {playButton}
         </TouchableHighlight>
         {videoDisplay}
       </View>
@@ -74,7 +84,13 @@ export default class VideoExample extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    height: 250,
+    width: 250,
+    // flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    // borderWidth: 2,
+    borderColor: 'red',
   },
   fullscreen: {
     position: 'absolute',
@@ -84,7 +100,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
   image: {
-    flex: 1,
     height: 250,
     width: 250,
   },

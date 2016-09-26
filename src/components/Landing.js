@@ -7,7 +7,7 @@ export default class Landing extends Component {
     return (
       <View style={styles.container}>
 
-        <View>
+        <View style={styles.header}>
           <Text style={styles.total}>
             {this.props.totalDonatedPizzas} pizzas have been donated through:
           </Text>
@@ -25,11 +25,15 @@ export default class Landing extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 22,
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    margin: 22,
-    backgroundColor: 'white',
-    height: 550,
+    // borderWidth: 3,
+    borderColor: 'blue',
+  },
+  header: {
+    // borderColor: 'green',
+    // borderWidth: 2,
   },
   title: {
     textAlign: 'center',

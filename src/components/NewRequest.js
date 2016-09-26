@@ -39,7 +39,7 @@ export default class NewRequest extends Component {
         pizzas,
         vendor
       } = this.state;
-      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+      fetch('http://localhost:3000/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -130,6 +130,7 @@ export default class NewRequest extends Component {
           </Text>
           <SegmentedControls
             tint={'#ce0000'}
+            fontSize={50}
             options={ vendors }
             onSelection={ this.selectVendor.bind(this) }
             selectedOption={ this.state.vendor }
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
   },
   pizzas: {
     tintColor: 'red',
+    fontWeight: 'bold',
   },
   vendor: {
 
