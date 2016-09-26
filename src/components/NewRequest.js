@@ -93,10 +93,10 @@ export default class NewRequest extends Component {
       display = <GuestView {...this.props} />
     } else {
       display =
-      <View>
+      <View style={styles.container}>
         <Nav backButton {...this.props} />
 
-        <View style={styles.container}>
+        <View style={styles.wrapper}>
 
           <View style={styles.formTitle}>
             <Text style={styles.title}>
@@ -115,26 +115,28 @@ export default class NewRequest extends Component {
             onPress={this.openVideoRec.bind(this)}
             />
 
-          <Text style={styles.instructions}>
-            How many pizzas do you need?
-          </Text>
-          <SegmentedControls
-            tint={'#ce0000'}
-            options={ pizzas }
-            onSelection={ this.selectPizzas.bind(this) }
-            selectedOption={ this.state.pizzas }
-            />
+          <View style={styles.choices}>
+            <Text style={styles.instructions}>
+              How many pizzas do you need?
+            </Text>
+            <SegmentedControls
+              tint={'#ce0000'}
+              options={ pizzas }
+              onSelection={ this.selectPizzas.bind(this) }
+              selectedOption={ this.state.pizzas }
+              />
 
-          <Text style={styles.instructions}>
-            Who delivers to you?
-          </Text>
-          <SegmentedControls
-            tint={'#ce0000'}
-            fontSize={50}
-            options={ vendors }
-            onSelection={ this.selectVendor.bind(this) }
-            selectedOption={ this.state.vendor }
-            />
+            <Text style={styles.instructions}>
+              Who delivers to you?
+            </Text>
+            <SegmentedControls
+              tint={'#ce0000'}
+              fontSize={50}
+              options={ vendors }
+              onSelection={ this.selectVendor.bind(this) }
+              selectedOption={ this.state.vendor }
+              />
+          </View>
 
           <View style={styles.errorContainer}>
             <Text style={styles.error}>
@@ -153,7 +155,7 @@ export default class NewRequest extends Component {
       </View>
     }
     return (
-      <View>
+      <View style={styles.container}>
         {display}
       </View>
     );
@@ -162,17 +164,24 @@ export default class NewRequest extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  wrapper: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 22,
     backgroundColor: 'white',
-    height: 550,
+    // borderWidth: 3,
   },
   formTitle: {
-    marginBottom: 20.
+    marginBottom: 20,
   },
   title: {
     fontSize: 20,
+  },
+  choices: {
+    width: 250,
+    alignItems: 'center',
   },
   instructions: {
     fontSize: 15,

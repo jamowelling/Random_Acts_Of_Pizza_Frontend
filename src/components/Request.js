@@ -11,12 +11,14 @@ export default class Request extends Component {
 
     this.state = {
       errorMessage: ' ',
+      guestView: false,
     }
   }
   onDonatePress(request) {
     if (this.props.user === null) {
       this.props.onGuestDonation(true)
       this.props.navigator.push({name: 'guestView'})
+      // this.setState({guestView: true})
     } else if (this.props.user.id === request.creator_id) {
       this.setState({errorMessage: 'Really, you want to donate to yourself?'})
     } else if (this.props.activeDonation) {
@@ -56,7 +58,7 @@ export default class Request extends Component {
       } else {
         this.props.collectRequests(responseJson.requests)
         this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-        this.props.collectActiveDonation(responseJson.activeDonation)
+        this.props.collectActiveDonation(request)
         this.setState({errorMessage: ' '})
         this.props.navigator.push({name: 'instructions'})
       }
@@ -159,7 +161,8 @@ export default class Request extends Component {
           {request.pizzas} pizza from {request.vendor}
         </Text>
     }
-    let display =
+    let display;
+    display =
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.firstName}>
@@ -193,8 +196,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flex: 1,
     alignItems: 'center',
-    marginLeft: 22,
-    marginRight: 22,
     // borderWidth: 3,
     borderColor: 'yellow',
   },
