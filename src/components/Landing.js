@@ -4,6 +4,15 @@ import VideoExample from './Video';
 
 export default class Landing extends Component {
   render() {
+    let noRequests;
+    if (this.props.noRequests) {
+      noRequests =
+        <View style={styles.noRequestsContainer}>
+          <Text style={styles.noRequests}>
+            There are no current requests. Please come back later or submit a request of your own.
+          </Text>
+        </View>
+    }
     return (
       <View style={styles.container}>
 
@@ -18,6 +27,8 @@ export default class Landing extends Component {
 
         <VideoExample {...this.props} />
 
+        {noRequests}
+
       </View>
     )
   }
@@ -25,11 +36,11 @@ export default class Landing extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    height: 500,
     padding: 22,
-    flex: 1,
     alignItems: 'center',
     // borderWidth: 3,
-    borderColor: 'blue',
+    // borderColor: 'blue',
   },
   header: {
     // borderColor: 'green',
@@ -43,5 +54,19 @@ const styles = StyleSheet.create({
   },
   total: {
     textAlign: 'center',
-  }
+  },
+  noRequestsContainer: {
+    borderWidth: 1,
+    marginTop: 15,
+    borderRadius: 5,
+    borderColor: 'green',
+    backgroundColor: 'green',
+  },
+  noRequests: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white',
+    padding: 5,
+    // borderWidth: 3,
+  },
 })

@@ -16,14 +16,12 @@ export default class Requests extends Component {
     fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
+      this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+      this.props.handleWelcomeUrl(responseJson.url)
       if (responseJson.errorMessage) {
         this.setState({errorMessage: responseJson.errorMessage})
       } else {
-        this.props.onEmailChange(responseJson.email)
-        this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
         this.props.collectRequests(responseJson.requests)
-        this.props.handleWelcomeUrl(responseJson.url)
-        this.props.collectActiveDonation(responseJson.activeDonation)
         this.setState({errorMessage: "Requests recieved."})
       }
     })
@@ -33,20 +31,25 @@ export default class Requests extends Component {
   }
   render() {
     // console.log("1");
-    let noRequests = <Text>Loading...</Text>;
-    let currentRequests;
-    const showWelcomePage = <Landing key={"welcome"} request {...this.props} />
+    let display;
+    const showWelcomePage = <Landing key={"welcome"} {...this.props} />
 
     if (this.state.errorMessage === "No current requests.") {
       // console.log("2");
-      noRequests = <Text style={styles.text}>
-        There are no current requests.
-        </Text>;
+      display =
+        <Swiper
+          showsButtons={false}
+          showsPagination={false}
+          style={styles.wrapper}
+          >
+          <Landing noRequests key={"welcome"} {...this.props} />
+        </Swiper>;
     } else if (this.state.errorMessage === "Requests recieved.") {
       // console.log("3");
-      currentRequests =
+      display =
         <Swiper
           showsButtons={true}
+          showsPagination={false}
           style={styles.wrapper}
           >
           {this.props.requests.map((request, i) => {
@@ -55,9 +58,9 @@ export default class Requests extends Component {
             )
           })}
         </Swiper>;
-        // console.log("currentRequests", currentRequests.props.children);
-        currentRequests.props.children.unshift(showWelcomePage);
-        // console.log("currentRequests", currentRequests.props.children);
+        // console.log("display", display.props.children);
+        display.props.children.unshift(showWelcomePage);
+        // console.log("display", display.props.children);
     } else {
       // console.log("4");
     }
@@ -65,9 +68,7 @@ export default class Requests extends Component {
     return (
       <View style={styles.container}>
 
-        {currentRequests}
-
-        {noRequests}
+        {display}
 
       </View>
     );

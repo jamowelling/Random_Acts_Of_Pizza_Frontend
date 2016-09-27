@@ -14,7 +14,7 @@ export default class GuestView extends Component {
       <View style={styles.container}>
         {NavBar}
         <View style={styles.wrapper}>
-          <Text style={styles.text}>
+          <Text style={styles.title}>
             Random Acts of Pizza
           </Text>
           <Text style={styles.text}>
@@ -39,17 +39,20 @@ const styles=StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: 'red',
   },
   wrapper: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
+    justifyContent: 'flex-start',
+    // borderWidth: 2,
+  },
+  title: {
+    marginVertical: 20,
+    fontSize: 20,
   },
   text: {
-    flex: 1,
-    // borderWidth: 1,
-  }
+    marginBottom: 30,
+  },
 })

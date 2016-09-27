@@ -59,8 +59,9 @@ export default class NewRequest extends Component {
         if (responseJson.errorMessage) {
           this.setState({errorMessage: responseJson.errorMessage})
         } else {
-          this.props.navigator.pop();
+          this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
           this.props.collectRequests(responseJson.requests)
+          this.props.navigator.resetTo({name: 'main'});
         }
       })
       .catch((error) => {
@@ -70,6 +71,7 @@ export default class NewRequest extends Component {
   }
   openVideoRec() {
     this.props.navigator.push({name: 'camera'});
+    // this.props.navigator.immediatelyResetRouteStack([{name: 'camera'}])
   }
   selectPizzas(pizzas){
     this.setState({pizzas});
@@ -154,6 +156,7 @@ export default class NewRequest extends Component {
 
       </View>
     }
+
     return (
       <View style={styles.container}>
         {display}

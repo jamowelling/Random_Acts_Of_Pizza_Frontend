@@ -45,6 +45,7 @@ export default class UserProfile extends Component {
     });
   }
   render() {
+    console.log("props", this.props);
     let display;
     if (this.props.user === null) {
       display = <GuestView {...this.props} />
