@@ -18,7 +18,7 @@ const ROUTES = {
   requests: Requests,
   request: Request,
   newRequest: NewRequest,
-  camera: Camera
+  camera: Camera,
 };
 
 export default class Raop extends Component {
@@ -30,7 +30,7 @@ export default class Raop extends Component {
       guestDonation: false,
       currentEmail: '',
       requests: [],
-      totalDonatedPizzas: null,
+      totalDonatedPizzas: 0,
       url: '',
       activeDonation: null,
     }

@@ -11,14 +11,12 @@ export default class Request extends Component {
 
     this.state = {
       errorMessage: ' ',
-      guestView: false,
     }
   }
   onDonatePress(request) {
     if (this.props.user === null) {
       this.props.onGuestDonation(true)
       this.props.navigator.push({name: 'guestView'})
-      // this.setState({guestView: true})
     } else if (this.props.user.id === request.creator_id) {
       this.setState({errorMessage: 'Really, you want to donate to yourself?'})
     } else if (this.props.activeDonation) {
@@ -86,12 +84,10 @@ export default class Request extends Component {
   // }
 
   render() {
-    // console.log("id", this.props.user.id);
     let hasDonor;
     let showDonateButton;
     let request = this.props.request;
     let activeDonation;
-    console.log("request", request.created_at);
 
     if (request.donor_id) {
       hasDonor =
@@ -162,6 +158,21 @@ export default class Request extends Component {
         </Text>
     }
     let display;
+    let timeAgo;
+    let displayTime;
+    if (request.minutes === 1) {
+      timeAgo = request.minutes
+      displayTime = `${timeAgo} minute ago`
+    } else if (request.minutes < 60) {
+      timeAgo = request.minutes
+      displayTime = `${timeAgo} minutes ago`
+    } else if (Math.round(request.minutes/60) === 1) {
+      timeAgo = Math.round(request.minutes/60)
+      displayTime = `${timeAgo} hour ago`
+    } else {
+      timeAgo = Math.round(request.minutes/60)
+      displayTime = `${timeAgo} hours ago`
+    }
     display =
       <View style={styles.container}>
         <View style={styles.header}>
@@ -169,7 +180,7 @@ export default class Request extends Component {
             {request.first_name}
           </Text>
           <Text style={styles.dateTime}>
-            25 minutes ago
+            {displayTime}
           </Text>
         </View>
 

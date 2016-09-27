@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StatusBar, StyleSheet, TouchableOpacity, View, } from 'react-native';
+import { Image, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Camera from 'react-native-camera';
 
 export default class Example extends React.Component {
@@ -14,7 +14,7 @@ export default class Example extends React.Component {
         captureTarget: Camera.constants.CaptureTarget.cameraRoll,
         type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.auto,
-        flashMode: Camera.constants.FlashMode.auto,
+        flashMode: Camera.constants.FlashMode.on,
       },
       isRecording: false
     };
@@ -26,6 +26,7 @@ export default class Example extends React.Component {
   }
   startRecording() {
     if (this.camera) {
+      console.log("start recording");
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
           .then((data) => console.log(data))
           .catch(err => console.error(err));
@@ -36,6 +37,7 @@ export default class Example extends React.Component {
   }
   stopRecording() {
     if (this.camera) {
+      console.log("stop recording");
       this.camera.stopCapture();
       this.setState({
         isRecording: false
@@ -44,6 +46,7 @@ export default class Example extends React.Component {
     }
   }
   switchType() {
+    console.log("switch type");
     let newType;
     const { back, front } = Camera.constants.Type;
 
@@ -73,7 +76,9 @@ export default class Example extends React.Component {
 
     return icon;
   }
+
   switchFlash() {
+    console.log("switch flash");
     let newFlashMode;
     const { auto, on, off } = Camera.constants.FlashMode;
 
@@ -107,14 +112,13 @@ export default class Example extends React.Component {
     return icon;
   }
   cancelRecording() {
+    console.log("cam", this.camera);
     this.props.navigator.pop();
+    // this.props.navigator.immediatelyResetRouteStack([{name: 'main'}, {name: 'newRequest'}])
   }
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          animated
-        />
         <Camera
           ref={(cam) => {
             this.camera = cam;
@@ -217,7 +221,7 @@ const styles = StyleSheet.create({
   },
   captureButton: {
     padding: 15,
-    backgroundColor: 'white',
+    backgroundColor: 'blue',
     borderRadius: 40,
   },
   typeButton: {
