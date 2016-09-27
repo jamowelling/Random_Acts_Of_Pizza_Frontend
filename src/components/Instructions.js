@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { Clipboard, Linking, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import Nav from './Nav';
 import Link from './Link';
 
@@ -10,12 +10,14 @@ export default class Instructions extends Component {
     this.state = {
       email: ' ',
       vendor: this.props.activeDonation.vendor,
+      copied: false,
+      content: '',
       errorMessage: 'No Error.',
     };
   }
   componentWillMount() {
     const userID = this.props.activeDonation.creator_id
-    fetch(`http://localhost:3000/users/${userID}`)
+    fetch(`http://random-acts-of-pizza.herokuapp.com/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage) {
@@ -32,6 +34,16 @@ export default class Instructions extends Component {
   handleVendorSite = (vendorURL) => {
     Linking.openURL(vendorURL)
   }
+  _setClipboardContent = async () => {
+    this.setState({copied: true})
+    Clipboard.setString(this.state.email);
+    try {
+      var content = await Clipboard.getString();
+      this.setState({content});
+    } catch (e) {
+      this.setState({content:e.message});
+    }
+  };
   render() {
     let vendorURL;
     if (this.state.vendor === "Pizza Hut") {
@@ -41,6 +53,12 @@ export default class Instructions extends Component {
     } else if (this.state.vendor === "Papa Johns") {
       vendorURL = 'https://papajohns-m.cashstar.com/buy/?ref=PJ1'
     }
+    let status;
+    if (this.state.copied) {
+      status = "Email copied to clipboard!"
+    } else {
+      status = "You have not copied the email."
+    }
     return (
       <View style={styles.container}>
 
@@ -48,19 +66,25 @@ export default class Instructions extends Component {
 
         <View style={styles.wrapper}>
           <Text style={styles.header}>
-            Instructions Page
+            Donation Instructions Page
           </Text>
           <Text style={styles.instructions}>
-            Copy the email address below:
+            Step 1: Tap the email below to copy it
           </Text>
-          <Text>
+          <Text onPress={this._setClipboardContent}>
             {this.state.email}
           </Text>
           <Text style={styles.instructions}>
-            Purchase Online Gift Card
+            Status:
           </Text>
           <Text>
-            Go to the {this.state.vendor} website, paste the email address you copied, and purchase the online gift card.
+            {status}
+          </Text>
+          <Text style={styles.instructions}>
+            Step 2: Tap the link to purchase gift card
+          </Text>
+          <Text>
+            Paste the email address you copied when prompted for the recipient's email address, and complete the gift card purchase.
           </Text>
           <TouchableOpacity
             onPress={this.handleVendorSite.bind(this, vendorURL)}
@@ -101,6 +125,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 5,
     paddingTop: 15,
+    textAlign: 'center',
   },
   hyperlinkButton: {
     marginTop: 30,

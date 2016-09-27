@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://localhost:3000/requests')
+    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
@@ -78,15 +78,14 @@ export default class Requests extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
     // borderWidth: 3,
     borderColor: 'black',
   },
   wrapper: {
-    height: 500,
+    marginTop: 50,
     // flex: 1,
     // borderWidth: 3,
-    borderColor: 'green',
+    borderColor: 'red',
   },
   text: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Camera from 'react-native-camera';
 
 export default class Example extends React.Component {
@@ -11,8 +11,8 @@ export default class Example extends React.Component {
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.fill,
-        captureTarget: Camera.constants.CaptureTarget.cameraRoll,
-        type: Camera.constants.Type.back,
+        captureTarget: Camera.constants.CaptureTarget.temp,
+        type: Camera.constants.Type.front,
         orientation: Camera.constants.Orientation.auto,
         flashMode: Camera.constants.FlashMode.on,
       },
@@ -38,6 +38,8 @@ export default class Example extends React.Component {
   stopRecording() {
     if (this.camera) {
       console.log("stop recording");
+      console.log("cam", this.camera);
+      console.log("refs", this.refs);
       this.camera.stopCapture();
       this.setState({
         isRecording: false
@@ -131,7 +133,6 @@ export default class Example extends React.Component {
           defaultTouchToFocus
           mirrorImage={false}
         />
-
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity
             style={styles.typeButton}
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
   },
   captureButton: {
     padding: 15,
-    backgroundColor: 'blue',
+    backgroundColor: 'white',
     borderRadius: 40,
   },
   typeButton: {
