@@ -28,11 +28,10 @@ export default class Request extends Component {
         [
           {
             text: 'Cancel',
-            style: 'cancel'
           },
           {
             text: 'Donate',
-            onPress: this.onConfirmPress.bind(this, request)
+            onPress: this.onConfirmPress.bind(this, request),
           }
         ]
       )
@@ -40,7 +39,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://localhost:3000/requests/${request.id}`, {
+    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -69,7 +68,7 @@ export default class Request extends Component {
     this.props.navigator.push({name: 'instructions'})
   }
   // componentWillMount() {
-  //   fetch(`http://localhost:3000/requests/1`)
+  //   fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`)
   //   .then((response) => response.json())
   //   .then((responseJson) => {
   //     if (responseJson.errorMessage === 'No current requests.') {
@@ -140,7 +139,7 @@ export default class Request extends Component {
             onPress={this.handleInstructions.bind(this)}
             >
             <Text style={styles.instructions}>
-              You have an active donation. Click here to view the donation instructions. You will be eligible to donate 30 minutes after you've completed your active donation.
+              You have an active donation. Click here to view the donation instructions. You will be eligible to donate again 30 minutes after you've completed your active donation.
             </Text>
           </TouchableOpacity>
         </View>
@@ -157,7 +156,6 @@ export default class Request extends Component {
           {request.pizzas} pizza from {request.vendor}
         </Text>
     }
-    let display;
     let timeAgo;
     let displayTime;
     if (request.minutes === 1) {
@@ -173,7 +171,7 @@ export default class Request extends Component {
       timeAgo = Math.round(request.minutes/60)
       displayTime = `${timeAgo} hours ago`
     }
-    display =
+    const display =
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.firstName}>

@@ -6,13 +6,9 @@ import Login from './Login';
 export default class GuestView extends Component {
 
   render() {
-    let NavBar;
-    if (!this.props.excludeNav) {
-      NavBar = <Nav backButton {...this.props} />
-    }
     return (
       <View style={styles.container}>
-        {NavBar}
+        <Nav backButton {...this.props} />
         <View style={styles.wrapper}>
           <Text style={styles.title}>
             Random Acts of Pizza
