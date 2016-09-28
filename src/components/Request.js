@@ -39,7 +39,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
+    fetch(`http://localhost:3000/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ export default class Request extends Component {
     this.props.navigator.push({name: 'instructions'})
   }
   // componentWillMount() {
-  //   fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`)
+  //   fetch(`http://localhost:3000/requests/1`)
   //   .then((response) => response.json())
   //   .then((responseJson) => {
   //     if (responseJson.errorMessage === 'No current requests.') {

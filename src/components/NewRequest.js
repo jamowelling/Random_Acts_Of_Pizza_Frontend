@@ -39,7 +39,7 @@ export default class NewRequest extends Component {
         pizzas,
         vendor
       } = this.state;
-      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+      fetch('http://localhost:3000/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
