@@ -4,7 +4,7 @@ import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } fr
 
 export default class Login extends Component {
   createSession(userInfo) {
-    fetch('http://random-acts-of-pizza.herokuapp.com/users', {
+    fetch('http://localhost:3000/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ export default class Login extends Component {
   }
   handleLoginFinished = (error, result) => {
     if (error) {
-      alert("Login failed with error: " + result.error);
+      alert("Login failed with error: " + error.message);
     } else if (result.isCancelled) {
       alert("Login was cancelled");
     } else {
