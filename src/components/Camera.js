@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Camera from 'react-native-camera';
 
 export default class Example extends React.Component {
@@ -12,7 +12,7 @@ export default class Example extends React.Component {
       camera: {
         aspect: Camera.constants.Aspect.fill,
         captureTarget: Camera.constants.CaptureTarget.temp,
-        type: Camera.constants.Type.front,
+        type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.auto,
         flashMode: Camera.constants.FlashMode.on,
       },
@@ -25,10 +25,13 @@ export default class Example extends React.Component {
     this.switchFlash = this.switchFlash.bind(this);
   }
   startRecording() {
+    console.log("this.camera", this.camera);
+    console.log("true?", this.camera === true);
+
     if (this.camera) {
       console.log("start recording");
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
-          .then((data) => console.log(data))
+          .then((data) => this.props.onChangeVideoData(data))
           .catch(err => console.error(err));
       this.setState({
         isRecording: true
@@ -38,8 +41,7 @@ export default class Example extends React.Component {
   stopRecording() {
     if (this.camera) {
       console.log("stop recording");
-      console.log("cam", this.camera);
-      console.log("refs", this.refs);
+      console.log("camera", this.camera);
       this.camera.stopCapture();
       this.setState({
         isRecording: false
@@ -114,14 +116,36 @@ export default class Example extends React.Component {
     return icon;
   }
   cancelRecording() {
-    console.log("cam", this.camera);
+    console.log("camera", this.camera);
     this.props.navigator.pop();
     // this.props.navigator.immediatelyResetRouteStack([{name: 'main'}, {name: 'newRequest'}])
   }
   render() {
+    let showRecordButton;
+    if (!this.state.isRecording)
+      showRecordButton =
+        <TouchableOpacity
+          style={styles.captureButton}
+          onPress={this.startRecording}
+          >
+          <Image
+            source={require('../../assets/ic_videocam_36pt.png')}
+          />
+        </TouchableOpacity>;
+    else
+      showRecordButton =
+        <TouchableOpacity
+          style={styles.captureButton}
+          onPress={this.stopRecording}
+          >
+          <Image
+            source={require('../../assets/ic_stop_36pt.png')}
+            />
+        </TouchableOpacity>
     return (
       <View style={styles.container}>
         <Camera
+          captureAudio={false}
           ref={(cam) => {
             this.camera = cam;
           }}
@@ -162,28 +186,7 @@ export default class Example extends React.Component {
 
         <View style={[styles.overlay, styles.bottomOverlay]}>
           <View style={styles.buttonsSpace} />
-          {
-              !this.state.isRecording
-              &&
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.startRecording}
-              >
-                <Image
-                    source={require('../../assets/ic_videocam_36pt.png')}
-                />
-              </TouchableOpacity>
-              ||
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.stopRecording}
-
-              >
-                <Image
-                    source={require('../../assets/ic_stop_36pt.png')}
-                />
-              </TouchableOpacity>
-          }
+          {showRecordButton}
         </View>
       </View>
     );
