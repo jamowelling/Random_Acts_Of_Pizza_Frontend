@@ -25,11 +25,7 @@ export default class Example extends React.Component {
     this.switchFlash = this.switchFlash.bind(this);
   }
   startRecording() {
-    console.log("this.camera", this.camera);
-    console.log("true?", this.camera === true);
-
     if (this.camera) {
-      console.log("start recording");
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
           .then((data) => this.props.onChangeVideoData(data))
           .catch(err => console.error(err));
@@ -40,8 +36,6 @@ export default class Example extends React.Component {
   }
   stopRecording() {
     if (this.camera) {
-      console.log("stop recording");
-      console.log("camera", this.camera);
       this.camera.stopCapture();
       this.setState({
         isRecording: false
@@ -50,7 +44,6 @@ export default class Example extends React.Component {
     }
   }
   switchType() {
-    console.log("switch type");
     let newType;
     const { back, front } = Camera.constants.Type;
 
@@ -82,7 +75,6 @@ export default class Example extends React.Component {
   }
 
   switchFlash() {
-    console.log("switch flash");
     let newFlashMode;
     const { auto, on, off } = Camera.constants.FlashMode;
 
@@ -116,7 +108,6 @@ export default class Example extends React.Component {
     return icon;
   }
   cancelRecording() {
-    console.log("camera", this.camera);
     this.props.navigator.pop();
     // this.props.navigator.immediatelyResetRouteStack([{name: 'main'}, {name: 'newRequest'}])
   }

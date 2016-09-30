@@ -123,7 +123,6 @@ export default class Raop extends Component {
     return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} videoData={this.state.videoData} onChangeVideoData={this.handleVideoData} />;
   }
   render() {
-    console.log("videoData", this.state.videoData);
     const sceneConfig = (renderScene) => {
       if (renderScene.name === 'userProfile') {
         return Navigator.SceneConfigs.FloatFromLeft
