@@ -33,6 +33,7 @@ export default class Raop extends Component {
       totalDonatedPizzas: 0,
       url: '',
       activeDonation: null,
+      videoData: null,
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -42,6 +43,7 @@ export default class Raop extends Component {
     this.handleGuestDonation = this.handleGuestDonation.bind(this);
     this.handleWelcomeUrl = this.handleWelcomeUrl.bind(this);
     this.handleActiveDonation = this.handleActiveDonation.bind(this);
+    this.handleVideoData = this.handleVideoData.bind(this);
   }
   createSession(userInfo) {
     fetch('http://random-acts-of-pizza.herokuapp.com/users', {
@@ -113,11 +115,15 @@ export default class Raop extends Component {
   handleActiveDonation(activeDonation) {
     this.setState({activeDonation})
   }
+  handleVideoData(videoData) {
+    this.setState({videoData})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} />;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} videoData={this.state.videoData} onChangeVideoData={this.handleVideoData} />;
   }
   render() {
+    console.log("videoData", this.state.videoData);
     const sceneConfig = (renderScene) => {
       if (renderScene.name === 'userProfile') {
         return Navigator.SceneConfigs.FloatFromLeft
