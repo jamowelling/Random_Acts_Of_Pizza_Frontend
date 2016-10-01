@@ -94,7 +94,7 @@ export default class NewRequest extends Component {
     let videoDisplay;
     if (this.props.videoData) {
       videoDisplay =
-        <Video url={this.props.videoData} />
+        <Video {...this.props} />
     }
     let display;
     if (this.props.user === null) {

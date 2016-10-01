@@ -12,11 +12,11 @@ export default class Example extends React.Component {
       camera: {
         aspect: Camera.constants.Aspect.fill,
         captureTarget: Camera.constants.CaptureTarget.temp,
-        type: Camera.constants.Type.back,
+        type: Camera.constants.Type.front,
         orientation: Camera.constants.Orientation.auto,
-        flashMode: Camera.constants.FlashMode.on,
+        flashMode: Camera.constants.FlashMode.auto,
       },
-      isRecording: false
+      isRecording: false,
     };
 
     this.startRecording = this.startRecording.bind(this);
@@ -136,7 +136,7 @@ export default class Example extends React.Component {
     return (
       <View style={styles.container}>
         <Camera
-          captureAudio={false}
+          captureAudio={true}
           ref={(cam) => {
             this.camera = cam;
           }}
