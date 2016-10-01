@@ -4,6 +4,7 @@ import Button from './Button';
 import { SegmentedControls } from 'react-native-radio-buttons';
 import Nav from './Nav';
 import GuestView from './GuestView';
+import Video from './Video';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -90,6 +91,11 @@ export default class NewRequest extends Component {
       "Dominos",
       "Pizza Hut",
     ];
+    let videoDisplay;
+    if (this.props.videoData) {
+      videoDisplay =
+        <Video {...this.props} />
+    }
     let display;
     if (this.props.user === null) {
       display = <GuestView {...this.props} />
@@ -116,6 +122,8 @@ export default class NewRequest extends Component {
             text={'Record Video'}
             onPress={this.openVideoRec.bind(this)}
             />
+
+          {videoDisplay}
 
           <View style={styles.choices}>
             <Text style={styles.instructions}>
