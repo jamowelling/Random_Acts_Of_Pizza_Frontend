@@ -5,6 +5,8 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 import Nav from './Nav';
 import GuestView from './GuestView';
 import Video from './Video';
+// import { file, options } from './AWS';
+import { RNS3 } from 'react-native-aws3';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -28,7 +30,6 @@ export default class NewRequest extends Component {
   onSubmitRequest() {
     const userID = this.props.user.id
     const first_name = this.props.user.first_name
-    const video = '555.com'
     if (this.state.pizzas.length < 1) {
       this.setState({errorMessage: 'Please select how many pizzas you need.'})
     } else if (this.state.vendor.length < 5) {
@@ -36,38 +37,81 @@ export default class NewRequest extends Component {
     } else {
       this.setState({errorMessage: ' '})
 
-      const {
-        pizzas,
-        vendor
-      } = this.state;
-      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          userID,
-          first_name,
-          pizzas,
-          vendor,
-          video
-        })
-      })
-      .then((response) => {
-        return response.json()})
-      .then((responseJson) => {
-        if (responseJson.errorMessage) {
-          this.setState({errorMessage: responseJson.errorMessage})
-        } else {
-          this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-          this.props.collectRequests(responseJson.requests)
-          this.props.navigator.resetTo({name: 'main'});
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+      // RNS3.put(file, options)
+      //   .catch(/* ... */)
+      //   .progress((e) => console.log(e.loaded / e.total));
+
+      let file = {
+        // `uri` can also be a file system path (i.e. file://)
+        uri: this.props.videoData.path,
+        name: "test.mov",
+        type: "video/quicktime"
+      }
+
+      let options = {
+        keyPrefix: "uploads/",
+        bucket: "random-acts-of-pizza",
+        region: "us-west-2",
+        accessKey: "",
+        secretKey: "",
+        successActionStatus: 201
+      }
+
+      console.log("file", file);
+      console.log("options", options);
+
+      RNS3.put(file, options)
+        .then(response => {
+          if (response.status !== 201)
+            throw new Error("Failed to upload image to S3");
+            console.log("response.body", response.body);
+        /**
+         * {
+         *   postResponse: {
+         *     bucket: "your-bucket",
+         *     etag : "9f620878e06d28774406017480a59fd4",
+         *     key: "uploads/image.png",
+         *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+         *   }
+         * }
+         */
       });
+
+      // Obtain AWS address
+
+      // Include AWS address in New Request Post Request
+      // const {
+      //   pizzas,
+      //   vendor
+      // } = this.state;
+      // fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/json'
+      //   },
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     userID,
+      //     first_name,
+      //     pizzas,
+      //     vendor,
+      //     video
+      //   })
+      // })
+      // .then((response) => {
+      //   return response.json()})
+      // .then((responseJson) => {
+      //   if (responseJson.errorMessage) {
+      //     this.setState({errorMessage: responseJson.errorMessage})
+      //   } else {
+      //     this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+      //     this.props.collectRequests(responseJson.requests)
+      //     this.props.navigator.resetTo({name: 'main'});
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
     }
   }
   openVideoRec() {
@@ -94,7 +138,7 @@ export default class NewRequest extends Component {
     let videoDisplay;
     if (this.props.videoData) {
       videoDisplay =
-        <Video {...this.props} />
+        <Video preview {...this.props} />
     }
     let display;
     if (this.props.user === null) {
