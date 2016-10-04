@@ -37,12 +37,9 @@ export default class VideoExample extends Component {
 
   render() {
     let content;
-    if (this.props.videoData) {
-      console.log("temp path", this.props.videoData.path);
-      console.log("hit");
+    if (this.props.preview) {
       content = this.props.videoData.path
     } else {
-      console.log("hit-2");
       content = this.props.url
     }
     let videoDisplay;
