@@ -5,7 +5,6 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 import Nav from './Nav';
 import GuestView from './GuestView';
 import Video from './Video';
-// import { file, options } from './AWS';
 import { RNS3 } from 'react-native-aws3';
 
 export default class NewRequest extends Component {
@@ -15,7 +14,7 @@ export default class NewRequest extends Component {
     this.state = {
       pizzas: '',
       vendor: '',
-      video: '',
+      videoKey: '',
       errorMessage: ' '
     };
     this.onPizzasChange = this.onPizzasChange.bind(this);
@@ -30,21 +29,22 @@ export default class NewRequest extends Component {
   onSubmitRequest() {
     const userID = this.props.user.id
     const first_name = this.props.user.first_name
-    if (this.state.pizzas.length < 1) {
+    if (!this.props.videoData) {
+      this.setState({errorMessage: 'Please record a video.'})
+    } else if (this.state.pizzas.length < 1) {
       this.setState({errorMessage: 'Please select how many pizzas you need.'})
     } else if (this.state.vendor.length < 5) {
       this.setState({errorMessage: 'Please choose your preferred pizza place.'})
     } else {
       this.setState({errorMessage: ' '})
 
-      // RNS3.put(file, options)
-      //   .catch(/* ... */)
-      //   .progress((e) => console.log(e.loaded / e.total));
+      let dateTime = Date.now()
+      let fbUserId = this.props.user.fb_userID
+      let videoKey = `${fbUserId}`+`${dateTime}`
 
       let file = {
-        // `uri` can also be a file system path (i.e. file://)
         uri: this.props.videoData.path,
-        name: "test.mov",
+        name: videoKey,
         type: "video/quicktime"
       }
 
@@ -52,71 +52,58 @@ export default class NewRequest extends Component {
         keyPrefix: "uploads/",
         bucket: "random-acts-of-pizza",
         region: "us-west-2",
-        accessKey: "",
-        secretKey: "",
+        accessKey: "AKIAJ5KBRDTVDLPNKB3Q",
+        secretKey: "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",
         successActionStatus: 201
       }
 
-      console.log("file", file);
-      console.log("options", options);
+      const {
+        pizzas,
+        vendor
+      } = this.state;
 
       RNS3.put(file, options)
         .then(response => {
-          if (response.status !== 201)
+          if (response.status !== 201) {
             throw new Error("Failed to upload image to S3");
-            console.log("response.body", response.body);
-        /**
-         * {
-         *   postResponse: {
-         *     bucket: "your-bucket",
-         *     etag : "9f620878e06d28774406017480a59fd4",
-         *     key: "uploads/image.png",
-         *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-         *   }
-         * }
-         */
-      });
+          }
+        })
+        .progress((e) => console.log(e.loaded / e.total))
+        .then(
+          fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              userID,
+              first_name,
+              pizzas,
+              vendor,
+              videoKey
+            })
+          })
+          .then((response) => {
+            return response.json()})
+          .then((responseJson) => {
+            if (responseJson.errorMessage) {
+              this.setState({errorMessage: responseJson.errorMessage})
+            } else {
+              this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+              this.props.collectRequests(responseJson.requests)
+              this.props.navigator.resetTo({name: 'main'});
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+        );
 
-      // Obtain AWS address
-
-      // Include AWS address in New Request Post Request
-      // const {
-      //   pizzas,
-      //   vendor
-      // } = this.state;
-      // fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     userID,
-      //     first_name,
-      //     pizzas,
-      //     vendor,
-      //     video
-      //   })
-      // })
-      // .then((response) => {
-      //   return response.json()})
-      // .then((responseJson) => {
-      //   if (responseJson.errorMessage) {
-      //     this.setState({errorMessage: responseJson.errorMessage})
-      //   } else {
-      //     this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-      //     this.props.collectRequests(responseJson.requests)
-      //     this.props.navigator.resetTo({name: 'main'});
-      //   }
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
     }
   }
   openVideoRec() {
     this.props.navigator.push({name: 'camera'});
-    // this.props.navigator.immediatelyResetRouteStack([{name: 'camera'}])
   }
   selectPizzas(pizzas){
     this.setState({pizzas});

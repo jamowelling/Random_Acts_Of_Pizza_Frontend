@@ -12,25 +12,6 @@ export default class VideoExample extends Component {
     this.playVideo = this.playVideo.bind(this)
   }
 
-  // source={{uri: "../../assets/broadchurch", mainVer: 1, patchVer: 0}}
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text>Video should be here.</Text>
-  //       <TouchableHighlight>
-  //         <Video
-  //           source={require('../../assets/broadchurch.mp4')}
-  //           key="video"
-  //           style={styles.fullscreen}
-  //           rate={1.0}
-  //           paused={false}
-  //           resizeMode="cover"
-  //           />
-  //       </TouchableHighlight>
-  //     </View>
-  //   )
-  // }
-
   playVideo() {
     this.setState({playing: !this.state.playing});
   }
@@ -39,6 +20,8 @@ export default class VideoExample extends Component {
     let content;
     if (this.props.preview) {
       content = this.props.videoData.path
+    } else if (this.props.request) {
+      content = this.props.request.video
     } else {
       content = this.props.url
     }
