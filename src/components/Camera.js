@@ -136,7 +136,7 @@ export default class Example extends React.Component {
     return (
       <View style={styles.container}>
         <Camera
-          captureAudio={false}
+          captureAudio={true}
           ref={(cam) => {
             this.camera = cam;
           }}

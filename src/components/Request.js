@@ -182,7 +182,7 @@ export default class Request extends Component {
           </Text>
         </View>
 
-        <VideoExample {...this.props} />
+        <VideoExample userRequest {...this.props} />
 
         {hasDonor}
         {requestText}
