@@ -53,6 +53,8 @@ export default class NewRequest extends Component {
         vendor,
       } = this.state;
 
+      let options = {};
+
       fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
         headers: {
           'Accept': 'application/json',
@@ -73,7 +75,7 @@ export default class NewRequest extends Component {
         if (responseJson.errorMessage) {
           this.setState({errorMessage: responseJson.errorMessage})
         } else {
-          let options = {
+          options = {
             keyPrefix: "uploads/",
             bucket: responseJson.signedRequest.bucket_name,
             region: responseJson.signedRequest.bucket_region,
@@ -83,21 +85,22 @@ export default class NewRequest extends Component {
           }
           this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
           this.props.collectRequests(responseJson.requests)
+          console.log("options", options);
+          RNS3.put(file, options)
+          .then(response => {
+            if (response.status !== 201) {
+              throw new Error("Failed to upload image to S3");
+              // DELETE NEW REQUEST FROM DB
+            } else {
+              this.props.navigator.resetTo({name: 'main'});
+            }
+          })
+          .progress((e) => console.log(e.loaded / e.total))
         }
       })
       .catch((error) => {
         console.error(error);
       });
-      RNS3.put(file, options)
-        .then(response => {
-          if (response.status !== 201) {
-            throw new Error("Failed to upload image to S3");
-            // DELETE NEW REQUEST FROM DB
-          } else {
-            this.props.navigator.resetTo({name: 'main'});
-          }
-        })
-        .progress((e) => console.log(e.loaded / e.total))
     }
   }
 
