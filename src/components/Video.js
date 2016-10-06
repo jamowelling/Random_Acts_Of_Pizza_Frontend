@@ -20,7 +20,7 @@ export default class VideoExample extends Component {
     let content;
     if (this.props.preview) {
       content = this.props.videoData.path
-    } else if (this.props.request) {
+    } else if (this.props.userRequest) {
       content = this.props.request.video
     } else {
       content = this.props.url

@@ -15,7 +15,7 @@ export default class NewRequest extends Component {
       pizzas: '',
       vendor: '',
       videoKey: '',
-      errorMessage: ' '
+      errorMessage: ' ',
     };
     this.onPizzasChange = this.onPizzasChange.bind(this);
     this.onVendorChange = this.onVendorChange.bind(this);
@@ -48,60 +48,59 @@ export default class NewRequest extends Component {
         type: "video/quicktime"
       }
 
-      let options = {
-        keyPrefix: "uploads/",
-        bucket: "random-acts-of-pizza",
-        region: "us-west-2",
-        accessKey: "AKIAJ5KBRDTVDLPNKB3Q",
-        secretKey: "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",
-        successActionStatus: 201
-      }
-
       const {
         pizzas,
-        vendor
+        vendor,
       } = this.state;
 
+      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          userID,
+          first_name,
+          pizzas,
+          vendor,
+          videoKey
+        })
+      })
+      .then((response) => {
+        return response.json()})
+      .then((responseJson) => {
+        if (responseJson.errorMessage) {
+          this.setState({errorMessage: responseJson.errorMessage})
+        } else {
+          let options = {
+            keyPrefix: "uploads/",
+            bucket: responseJson.signedRequest.bucket_name,
+            region: responseJson.signedRequest.bucket_region,
+            accessKey: responseJson.signedRequest.credentials.access_key_id,
+            secretKey: responseJson.signedRequest.credentials.secret_access_key,
+            successActionStatus: responseJson.signedRequest.fields.success_action_status,
+          }
+          this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+          this.props.collectRequests(responseJson.requests)
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
       RNS3.put(file, options)
         .then(response => {
           if (response.status !== 201) {
             throw new Error("Failed to upload image to S3");
+            // DELETE NEW REQUEST FROM DB
+          } else {
+            this.props.navigator.resetTo({name: 'main'});
           }
         })
         .progress((e) => console.log(e.loaded / e.total))
-        .then(
-          fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-              userID,
-              first_name,
-              pizzas,
-              vendor,
-              videoKey
-            })
-          })
-          .then((response) => {
-            return response.json()})
-          .then((responseJson) => {
-            if (responseJson.errorMessage) {
-              this.setState({errorMessage: responseJson.errorMessage})
-            } else {
-              this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
-              this.props.collectRequests(responseJson.requests)
-              this.props.navigator.resetTo({name: 'main'});
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-        );
-
     }
   }
+
   openVideoRec() {
     this.props.navigator.push({name: 'camera'});
   }

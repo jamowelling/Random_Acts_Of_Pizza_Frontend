@@ -40,6 +40,7 @@ const styles=StyleSheet.create({
   },
   wrapper: {
     flex: 1,
+    marginTop: 100,
     alignItems: 'center',
     justifyContent: 'flex-start',
     // borderWidth: 2,
