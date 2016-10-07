@@ -7,13 +7,13 @@ export default class VideoExample extends Component {
     super(props)
 
     this.state = {
-      playing: false
+      paused: true
     };
     this.playVideo = this.playVideo.bind(this)
   }
 
   playVideo() {
-    this.setState({playing: !this.state.playing});
+    this.setState({paused: !this.state.paused});
   }
 
   render() {
@@ -26,10 +26,11 @@ export default class VideoExample extends Component {
       content = this.props.url
     }
     let videoDisplay;
-    if (this.state.playing) {
+    // if (this.state.paused) {
+    if (true) {
       videoDisplay = <Video
         source={{ uri: content }}
-        paused={false}
+        paused={this.state.paused}
         rate={1.0}
         volume={1}
         muted={false}
@@ -44,7 +45,7 @@ export default class VideoExample extends Component {
       />;
     }
     let playButton;
-    if (!this.state.playing) {
+    if (this.state.paused) {
       playButton =
         <Image
           source={require('../../assets/playButton.png')}
