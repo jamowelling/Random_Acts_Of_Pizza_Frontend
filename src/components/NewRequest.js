@@ -55,7 +55,7 @@ export default class NewRequest extends Component {
 
       let options = {};
 
-      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+      fetch('http://192.168.0.101.xip.io:3000/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

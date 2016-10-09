@@ -46,7 +46,7 @@ export default class Raop extends Component {
     this.handleVideoData = this.handleVideoData.bind(this);
   }
   createSession(userInfo) {
-    fetch('http://random-acts-of-pizza.herokuapp.com/users', {
+    fetch('http://192.168.0.101.xip.io:3000/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
