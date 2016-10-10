@@ -17,7 +17,7 @@ export default class Instructions extends Component {
   }
   componentWillMount() {
     const userID = this.props.activeDonation.creator_id
-    fetch(`http://192.168.0.101.xip.io:3000/users/${userID}`)
+    fetch(`http://localhost:3000/users/${userID}`)
     .then((response) => response.json())
     .then((responseJson) => {
       if (responseJson.errorMessage) {
@@ -38,7 +38,7 @@ export default class Instructions extends Component {
     this.setState({copied: true})
     Clipboard.setString(this.state.email);
     try {
-      var content = await Clipboard.getString();
+      const content = await Clipboard.getString();
       this.setState({content});
     } catch (e) {
       this.setState({content:e.message});

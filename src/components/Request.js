@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { AlertIOS, View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import VideoExample from './Video';
-import Login from './Login';
 import Button from './Button';
-import GuestView from './GuestView';
 
 export default class Request extends Component {
   constructor(props) {
@@ -39,7 +37,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://192.168.0.101.xip.io:3000/requests/${request.id}`, {
+    fetch(`http://localhost:3000/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -67,20 +65,6 @@ export default class Request extends Component {
   handleInstructions() {
     this.props.navigator.push({name: 'instructions'})
   }
-  // componentWillMount() {
-  //   fetch(`http://192.168.0.101.xip.io:3000/requests/1`)
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {
-  //     if (responseJson.errorMessage === 'No current requests.') {
-  //       this.setState({errorMessage: responseJson.errorMessage})
-  //     } else {
-  //       this.setState({errorMessage: ' '})
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
 
   render() {
     let hasDonor;
@@ -99,23 +83,7 @@ export default class Request extends Component {
           style={styles.disabledDonateButton}
           source={require('../../assets/donate.png')}
           />
-    } else if (this.props.user === null) {
-      showDonateButton =
-        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
-          <Image
-            style={styles.disabledDonateButton}
-            source={require('../../assets/donate.png')}
-            />
-        </TouchableOpacity>
-    } else if (this.props.user.id === request.creator_id) {
-      showDonateButton =
-        <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
-          <Image
-            style={styles.disabledDonateButton}
-            source={require('../../assets/donate.png')}
-            />
-        </TouchableOpacity>
-    } else if (this.props.activeDonation) {
+    } else if (this.props.user === null || this.props.user.id === request.creator_id || this.props.activeDonation) {
       showDonateButton =
         <TouchableOpacity onPress={this.onDonatePress.bind(this, request)} >
           <Image

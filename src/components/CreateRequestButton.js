@@ -19,10 +19,10 @@ export default class createRequestButton extends Component {
   }
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   createRequestButton: {
     right: 30,
     height: 40,
     width: 40,
-  }
+  },
 })

@@ -4,7 +4,7 @@ import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } fr
 
 export default class Login extends Component {
   createSession(userInfo) {
-    fetch('http://192.168.0.101.xip.io:3000/users', {
+    fetch('http://localhost:3000/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -31,6 +31,9 @@ export default class Login extends Component {
       alert("Logout failed with error: " + result.error);
     } else {
       this.props.onUserChange(null)
+      this.props.onEmailChange('')
+      this.props.onChangeNewRequestErrorMesssage('')
+      this.props.onChangeVideoData(null)
     }
   }
   handleLoginFinished = (error, result) => {

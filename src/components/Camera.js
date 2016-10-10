@@ -14,7 +14,7 @@ export default class Example extends React.Component {
         captureTarget: Camera.constants.CaptureTarget.temp,
         type: Camera.constants.Type.front,
         orientation: Camera.constants.Orientation.auto,
-        flashMode: Camera.constants.FlashMode.auto,
+        FlashMode: Camera.constants.FlashMode.auto,
       },
       isRecording: false,
     };
@@ -27,7 +27,15 @@ export default class Example extends React.Component {
   startRecording() {
     if (this.camera) {
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
-          .then((data) => this.props.onChangeVideoData(data))
+          .then((data) => {
+            if (data.duration > 20.0) {
+              this.props.onChangeNewRequestErrorMesssage("Video length must be less than 20 seconds.")
+            } else if (data.duration < 5.0) {
+              this.props.onChangeNewRequestErrorMesssage("Video length must be at least 5 seconds.")
+            } else {
+              this.props.onChangeVideoData(data);
+            }
+          })
           .catch(err => console.error(err));
       this.setState({
         isRecording: true
@@ -78,18 +86,18 @@ export default class Example extends React.Component {
     let newFlashMode;
     const { auto, on, off } = Camera.constants.FlashMode;
 
-    if (this.state.camera.flashMode === auto) {
+    if (this.state.camera.FlashMode === auto) {
       newFlashMode = on;
-    } else if (this.state.camera.flashMode === on) {
+    } else if (this.state.camera.FlashMode === on) {
       newFlashMode = off;
-    } else if (this.state.camera.flashMode === off) {
+    } else if (this.state.camera.FlashMode === off) {
       newFlashMode = auto;
     }
 
     this.setState({
       camera: {
         ...this.state.camera,
-        flashMode: newFlashMode,
+        FlashMode: newFlashMode,
       },
     });
   }
@@ -97,11 +105,11 @@ export default class Example extends React.Component {
     let icon;
     const { auto, on, off } = Camera.constants.FlashMode;
 
-    if (this.state.camera.flashMode === auto) {
+    if (this.state.camera.FlashMode === auto) {
       icon = require('../../assets/ic_flash_auto_white.png');
-    } else if (this.state.camera.flashMode === on) {
+    } else if (this.state.camera.FlashMode === on) {
       icon = require('../../assets/ic_flash_on_white.png');
-    } else if (this.state.camera.flashMode === off) {
+    } else if (this.state.camera.FlashMode === off) {
       icon = require('../../assets/ic_flash_off_white.png');
     }
 
@@ -109,7 +117,6 @@ export default class Example extends React.Component {
   }
   cancelRecording() {
     this.props.navigator.pop();
-    // this.props.navigator.immediatelyResetRouteStack([{name: 'main'}, {name: 'newRequest'}])
   }
   render() {
     let showRecordButton;
@@ -144,9 +151,9 @@ export default class Example extends React.Component {
           aspect={this.state.camera.aspect}
           captureTarget={this.state.camera.captureTarget}
           type={this.state.camera.type}
-          flashMode={this.state.camera.flashMode}
-          defaultTouchToFocus
-          mirrorImage={false}
+          flashMode={this.state.camera.FlashMode}
+          defaultTouchToFocus={true}
+          mirrorImage={true}
         />
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity

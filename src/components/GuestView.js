@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Nav from './Nav';
-import Login from './Login';
+import LoginContainer from './LoginContainer';
 
 export default class GuestView extends Component {
 
@@ -19,8 +19,7 @@ export default class GuestView extends Component {
           <Text style={styles.text}>
             Please log in through Facebook:
           </Text>
-          <Login
-            style={styles.loginButton}
+          <LoginContainer
             onUserChange={this.props.onUserChange}
             navigator={this.props.navigator}
             {...this.props}
