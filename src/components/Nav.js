@@ -2,35 +2,25 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import ProfileButton from './ProfileButton';
 import CreateRequestButton from './CreateRequestButton';
+import BackButton from './BackButton';
 
 export default class Nav extends Component {
-  onBackPress() {
-    this.props.navigator.pop();
-  }
   render() {
     let leftButton;
-    if (this.props.backButton) {
-      leftButton =
-        <TouchableOpacity
-          style={styles.backButtonContainer}
-          onPress={this.onBackPress.bind(this)}>
-            <Image
-              style={styles.backButton}
-              source={require('../../assets/backButton.png')}
-              />
-        </TouchableOpacity>
-    }
-
     let createRequestButton;
-    if (this.props.route.name === "main") {
+
+    if (this.props.backButton) {
+      leftButton = <BackButton {...this.props} />
+    } else if (this.props.route.name === "main") {
       leftButton = <ProfileButton {...this.props} />
       createRequestButton = <CreateRequestButton {...this.props} />
     }
+
     return (
       <View style={styles.container}>
         <View style={styles.logo}>
           <Text style={styles.text}>
-            RAOP
+            RAoP
           </Text>
         </View>
         <View style={styles.navigation}>
@@ -75,12 +65,5 @@ const styles = StyleSheet.create({
   navigation: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  backButtonContainer: {
-  },
-  backButton: {
-    left: 30,
-    height: 40,
-    width: 40,
   },
 });

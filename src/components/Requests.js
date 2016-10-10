@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://192.168.0.101.xip.io:3000/requests')
+    fetch('http://localhost:3000/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
@@ -30,12 +30,10 @@ export default class Requests extends Component {
     });
   }
   render() {
-    // console.log("1");
     let display;
     const showWelcomePage = <Landing key={"welcome"} {...this.props} />
 
     if (this.state.errorMessage === "No current requests.") {
-      // console.log("2");
       display =
         <Swiper
           showsButtons={false}
@@ -45,7 +43,6 @@ export default class Requests extends Component {
           <Landing noRequests key={"welcome"} {...this.props} />
         </Swiper>;
     } else if (this.state.errorMessage === "Requests recieved.") {
-      // console.log("3");
       display =
         <Swiper
           showsButtons={true}
@@ -58,11 +55,7 @@ export default class Requests extends Component {
             )
           })}
         </Swiper>;
-        // console.log("display", display.props.children);
         display.props.children.unshift(showWelcomePage);
-        // console.log("display", display.props.children);
-    } else {
-      // console.log("4");
     }
 
     return (

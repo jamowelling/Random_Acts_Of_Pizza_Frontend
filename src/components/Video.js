@@ -10,10 +10,14 @@ export default class VideoExample extends Component {
       paused: true
     };
     this.playVideo = this.playVideo.bind(this)
+    this.onEnd = this.onEnd.bind(this)
   }
 
   playVideo() {
     this.setState({paused: !this.state.paused});
+  }
+  onEnd() {
+    this.setState({paused: true});
   }
 
   render() {
@@ -25,25 +29,19 @@ export default class VideoExample extends Component {
     } else {
       content = this.props.url
     }
-    let videoDisplay;
-    // if (this.state.paused) {
-    if (true) {
-      videoDisplay = <Video
-        source={{ uri: content }}
-        paused={this.state.paused}
-        rate={1.0}
-        volume={1}
-        muted={false}
-        resizeMode={'contain'}
-        repeat={true}
-        style={styles.image}
-        />;
-    } else {
-      videoDisplay = <Image
-        style={styles.image}
-        source={{uri: 'http://www.covermesongs.com/wp-content/uploads/2014/05/NotoriousBIG.jpg'}}
+    const videoDisplay = <Video
+      source={{ uri: content }}
+      paused={this.state.paused}
+      rate={1.0}
+      volume={1}
+      muted={false}
+      playInBackground={true}
+      playWhenInactive={true}
+      resizeMode={'contain'}
+      onEnd={this.onEnd}
+      repeat={true}
+      style={styles.image}
       />;
-    }
     let playButton;
     if (this.state.paused) {
       playButton =

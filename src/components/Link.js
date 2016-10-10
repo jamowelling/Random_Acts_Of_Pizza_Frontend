@@ -8,7 +8,6 @@ export default class Link extends Component {
   handleClick = () => {
     Linking.canOpenURL(this.props.url).then(supported => {
       if (supported) {
-        console.log(this.props.url);
         Linking.openURL(this.props.url);
       } else {
         console.log('Don\'t know how to open URI: ' + this.props.url);
@@ -30,7 +29,7 @@ export default class Link extends Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',

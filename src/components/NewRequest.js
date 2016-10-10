@@ -6,6 +6,7 @@ import Nav from './Nav';
 import GuestView from './GuestView';
 import Video from './Video';
 import { RNS3 } from 'react-native-aws3';
+import Camera from 'react-native-camera';
 
 export default class NewRequest extends Component {
   constructor(props) {
@@ -15,7 +16,6 @@ export default class NewRequest extends Component {
       pizzas: '',
       vendor: '',
       videoKey: '',
-      errorMessage: ' ',
     };
     this.onPizzasChange = this.onPizzasChange.bind(this);
     this.onVendorChange = this.onVendorChange.bind(this);
@@ -30,13 +30,13 @@ export default class NewRequest extends Component {
     const userID = this.props.user.id
     const first_name = this.props.user.first_name
     if (!this.props.videoData) {
-      this.setState({errorMessage: 'Please record a video.'})
+      this.props.onChangeNewRequestErrorMesssage('Please record a video.')
     } else if (this.state.pizzas.length < 1) {
-      this.setState({errorMessage: 'Please select how many pizzas you need.'})
+      this.props.onChangeNewRequestErrorMesssage('Please select how many pizzas you need.')
     } else if (this.state.vendor.length < 5) {
-      this.setState({errorMessage: 'Please choose your preferred pizza place.'})
+      this.props.onChangeNewRequestErrorMesssage('Please choose your preferred pizza place.')
     } else {
-      this.setState({errorMessage: ' '})
+      this.props.onChangeNewRequestErrorMesssage(' ')
 
       let dateTime = Date.now()
       let fbUserId = this.props.user.fb_userID
@@ -55,7 +55,7 @@ export default class NewRequest extends Component {
 
       let options = {};
 
-      fetch('http://192.168.0.101.xip.io:3000/requests', {
+      fetch('http://localhost:3000/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export default class NewRequest extends Component {
         return response.json()})
       .then((responseJson) => {
         if (responseJson.errorMessage) {
-          this.setState({errorMessage: responseJson.errorMessage})
+          this.props.onChangeNewRequestErrorMesssage(responseJson.errorMessage)
         } else {
           options = {
             keyPrefix: "uploads/",
@@ -85,13 +85,37 @@ export default class NewRequest extends Component {
           }
           this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
           this.props.collectRequests(responseJson.requests)
-          console.log("options", options);
           RNS3.put(file, options)
           .then(response => {
             if (response.status !== 201) {
-              throw new Error("Failed to upload image to S3");
+              // throw new Error("Failed to upload image to S3");
               // DELETE NEW REQUEST FROM DB
+              const userID = this.props.user.id
+              fetch(`http://localhost:3000/requests/1`, {
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                method: 'DELETE',
+                body: JSON.stringify({videoKey})
+              })
+              .then((response) => {
+                return response.json()
+              })
+              .then((responseJson) => {
+                if (responseJson.requests) {
+                  this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
+                  this.props.collectRequests(responseJson.requests)
+                  this.props.onChangeNewRequestErrorMesssage(responseJson.errorMessage)
+                } else {
+                  this.props.onChangeNewRequestErrorMesssage(responseJson.errorMessage)
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
             } else {
+              this.props.onChangeVideoData(null)
               this.props.navigator.resetTo({name: 'main'});
             }
           })
@@ -105,7 +129,15 @@ export default class NewRequest extends Component {
   }
 
   openVideoRec() {
-    this.props.navigator.push({name: 'camera'});
+    Camera.checkDeviceAuthorizationStatus()
+    .then((response) => {
+      if (response) {
+        this.props.onChangeNewRequestErrorMesssage("")
+        this.props.navigator.push({name: 'camera'});
+      } else {
+        this.props.onChangeNewRequestErrorMesssage("Go to Settings and allow RAoP to access the Camera and Microphone.")
+      }
+    })
   }
   selectPizzas(pizzas){
     this.setState({pizzas});
@@ -183,7 +215,7 @@ export default class NewRequest extends Component {
 
           <View style={styles.errorContainer}>
             <Text style={styles.error}>
-              {this.state.errorMessage}
+              {this.props.newRequestErrorMessage}
             </Text>
           </View>
 

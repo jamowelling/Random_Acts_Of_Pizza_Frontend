@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Button from './Button';
-import Login from './Login';
+import LoginContainer from './LoginContainer';
 import Nav from './Nav';
 import GuestView from './GuestView';
 
@@ -21,7 +21,7 @@ export default class UserProfile extends Component {
   onUpdateEmailPress() {
     const userID = this.props.user.id
     const { updatedEmail } = this.state;
-    fetch(`http://192.168.0.101.xip.io:3000/users/${userID}`, {
+    fetch(`http://localhost:3000/users/${userID}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -100,8 +100,7 @@ export default class UserProfile extends Component {
               />
           </View>
 
-          <Login
-            style={styles.loginButton}
+          <LoginContainer
             onUserChange={this.props.onUserChange}
             navigator={this.props.navigator}
             {...this.props}

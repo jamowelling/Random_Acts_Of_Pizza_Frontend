@@ -9,6 +9,7 @@ import Main from './components/Main';
 import Instructions from './components/Instructions';
 import FBSDK, { AccessToken, LoginButton, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import GuestView from './components/GuestView';
+import WebViewExample from './components/WebViewExample';
 
 const ROUTES = {
   main: Main,
@@ -19,6 +20,7 @@ const ROUTES = {
   request: Request,
   newRequest: NewRequest,
   camera: Camera,
+  webViewExample: WebViewExample
 };
 
 export default class Raop extends Component {
@@ -34,6 +36,7 @@ export default class Raop extends Component {
       url: '',
       activeDonation: null,
       videoData: null,
+      newRequestErrorMessage: '',
     }
     this.onUserChange = this.onUserChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -44,9 +47,10 @@ export default class Raop extends Component {
     this.handleWelcomeUrl = this.handleWelcomeUrl.bind(this);
     this.handleActiveDonation = this.handleActiveDonation.bind(this);
     this.handleVideoData = this.handleVideoData.bind(this);
+    this.handleNewRequestErrorMessage = this.handleNewRequestErrorMessage.bind(this);
   }
   createSession(userInfo) {
-    fetch('http://192.168.0.101.xip.io:3000/users', {
+    fetch('http://localhost:3000/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -118,9 +122,12 @@ export default class Raop extends Component {
   handleVideoData(videoData) {
     this.setState({videoData})
   }
+  handleNewRequestErrorMessage(newRequestErrorMessage) {
+    this.setState({newRequestErrorMessage})
+  }
   renderScene(route, navigator) {
     const Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} videoData={this.state.videoData} onChangeVideoData={this.handleVideoData} />;
+    return <Component route={route} navigator={navigator} onUserChange={this.onUserChange} user={this.state.user} onGuestDonation={this.handleGuestDonation} guestDonation={this.state.guestDonation} onEmailChange={this.onEmailChange} currentEmail={this.state.currentEmail} collectRequests={this.collectRequests} requests={this.state.requests} sumDonatedPizzas={this.sumDonatedPizzas} totalDonatedPizzas={this.state.totalDonatedPizzas} url={this.state.url} handleWelcomeUrl={this.handleWelcomeUrl} collectActiveDonation={this.handleActiveDonation} activeDonation={this.state.activeDonation} videoData={this.state.videoData} onChangeVideoData={this.handleVideoData} newRequestErrorMessage={this.state.newRequestErrorMessage} onChangeNewRequestErrorMesssage={this.handleNewRequestErrorMessage} />;
   }
   render() {
     const sceneConfig = (renderScene) => {
