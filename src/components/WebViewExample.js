@@ -6,25 +6,42 @@ export default class WebViewExample extends Component {
     super(props)
 
     this.state = {
-      url: '',
-      status: '',
+      redirectUri: 'http://www.google.com',
+      responseType: 'token',
+      clientId: 'djH1sd6Q0amUNw',
+      duration: 'permanent',
+      scope: 'identity',
+      url: undefined,
+      status: undefined,
+      state: undefined,
+      accessToken: undefined,
+      returnState: undefined,
+      tokenType: undefined,
     }
+    this.onLoad = this.onLoad.bind(this)
+    this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
   }
-  onLoadStart() {
-    console.log("this", this);
+  componentWillMount() {
+    this.setState({state: this.state.clientId + Date.now()})
   }
-  fetchReddit() {
-    const clientId = "djH1sd6Q0amUNw"
-    const responseType ="code"
-    const state = "noahschutte10"
-    const redirectUri = "http://www.google.com"
-    const duration = "permanent"
-    const scope = "identity"
-    const real = `https://www.reddit.com/api/v1/authorize.compact?client_id=${clientId}&response_type=${responseType}&state=${state}&redirect_uri=${redirectUri}&duration={duration}&duration=${duration}&scope=${scope}`
-    fetch(real)
+  // 'Accept': 'application/json',
+  // 'Content-Type': 'application/json',
+  // 'access_token': this.state.access_token,
+  // 'state': this.state.state,
+  // 'client_id': this.state.clientId,
+  // method: 'POST',
+  // body: `grant_type=authorization_code&code=${this.state.code}&redirect_uri=${this.state.redirectUri}`,
+  // 'scope': 'identity',
+  // 'User-Agent': `${this.state.cliendId}/0.1 by noahschutte`
+  fetchRedditToken() {
+    fetch(`https://oauth.reddit.com/api/v1/me`, {
+      headers: {
+        'Authorization': `bearer ${this.state.accessToken}`,
+      },
+    })
     .then((response) => {
-      console.log("response", response);
-      return response.json()})
+      return response.json()
+    })
     .then((responseJson) => {
       console.log("responseJson", responseJson);
     })
@@ -32,43 +49,63 @@ export default class WebViewExample extends Component {
       console.error(error);
     });
   }
+  fetchRedditRefreshToken() {
+    fetch(`https://www.reddit.com/api/v1/access_token`, {
+      headers: {
+        'scope': 'identity',
+        'Authorization': 'bearer' + this.state.accessToken
+      },
+      method: 'POST',
+      body: `grant_type=refresh_token&refresh_token=${this.state.accessToken}`
+    })
+    .then((response) => {
+      console.log("response", response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
   onNavigationStateChange = (navState) => {
-    console.log("navState", navState);
-    if (navState.title) {
-      this.setState({status: navState.title})
-    } else {
-      this.setState({status: ''})
-    }
-    if (navState.url) {
-      this.setState({url: navState.url})
-    } else {
-      this.setState({url: ''})
-    }
-    // this.setState({
-    //   url: navState.url,
-    //   status: navState.title,
-    // });
-    console.log("state", this.state);
+    this.setState({
+      url: navState.url,
+      status: navState.title,
+    });
   };
+  onLoad() {
+    if (this.state.url.indexOf('#') > -1) {
+      let queryString = this.state.url.split('#')
+      let vars = queryString[1].split('&');
+      for (let i = 0; i < vars.length; i += 1) {
+        let pair = vars[i].split('=');
+        if (pair[0] === 'access_token') {
+          let accessToken = pair[1]
+          this.setState({accessToken})
+        } else if (pair[0] === 'state') {
+          let returnState = pair[1]
+          this.setState({returnState})
+        } else if (pair[0] === 'token_type') {
+          let tokenType = pair[1]
+          this.setState({tokenType})
+        }
+      }
+    }
+  }
+
   render() {
+    if (this.state.accessToken && this.state.state === this.state.returnState) {
+      console.log("this.state", this.state);
+      this.fetchRedditToken()
+    }
 
-    const uri = "https://www.reddit.com/api/v1/authorize.compact?client_id=djH1sd6Q0amUNw&response_type=token&state=noahschutte11&redirect_uri=http://www.google.com&duration=permanent&scope=identity"
-
-    const clientId = "djH1sd6Q0amUNw"
-    const responseType ="code"
-    const state = "noahschutte10"
-    const redirectUri = "http://www.google.com"
-    const duration = "permanent"
-    const scope = "identity"
-    const real = `https://www.reddit.com/api/v1/authorize.compact?client_id=${clientId}&response_type=${responseType}&state=${state}&redirect_uri=${redirectUri}&duration={duration}&duration=${duration}&scope=${scope}`
-    // https://www.reddit.com/api/v1/access_token
+    const real = `https://www.reddit.com/api/v1/authorize.compact?client_id=${this.state.clientId}&response_type=${this.state.responseType}&state=${this.state.state}&redirect_uri=${this.state.redirectUri}&scope=${this.state.scope}`
 
     return (
       <View style={styles.container}>
         <WebView
           onNavigationStateChange={this.onNavigationStateChange}
+          onLoad={this.onLoad}
           source={{ uri: real }}
-          style={{marginTop: 20}}
+          style={styles.webView}
           />
       </View>
     );
@@ -78,5 +115,8 @@ export default class WebViewExample extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  webView: {
+    marginTop: 20,
   }
 })
