@@ -23,7 +23,7 @@ const ROUTES = {
   webViewExample: WebViewExample
 };
 
-export default class Raop extends Component {
+export default class inknead extends Component {
   constructor(props) {
     super(props)
 

@@ -135,7 +135,7 @@ export default class NewRequest extends Component {
         this.props.onChangeNewRequestErrorMesssage("")
         this.props.navigator.push({name: 'camera'});
       } else {
-        this.props.onChangeNewRequestErrorMesssage("Go to Settings and allow RAoP to access the Camera and Microphone.")
+        this.props.onChangeNewRequestErrorMesssage("Go to Settings and allow 'in knead' to access the Camera and Microphone.")
       }
     })
   }

@@ -21,7 +21,7 @@ export default class Landing extends Component {
             {this.props.totalDonatedPizzas} pizzas have been donated through:
           </Text>
           <Text style={styles.title}>
-            Random Acts of Pizza
+            in knead
           </Text>
         </View>
 
