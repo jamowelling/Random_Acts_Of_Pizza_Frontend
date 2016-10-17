@@ -1,5 +1,5 @@
 {
-  "name": "Raop",
+  "name": "inknead",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -14,5 +14,18 @@
     "react-native-radio-buttons": "^0.12.1",
     "react-native-swiper": "^1.4.8",
     "react-native-video": "^0.9.0"
-  }
+  },
+  "description": "## Our Vision To bring people together through pizza.",
+  "main": "index.ios.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noahschutte/Random_Acts_Of_Pizza_Frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noahschutte/Random_Acts_Of_Pizza_Frontend/issues"
+  },
+  "homepage": "https://github.com/noahschutte/Random_Acts_Of_Pizza_Frontend#readme"
 }
