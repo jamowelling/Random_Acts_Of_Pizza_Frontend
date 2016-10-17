@@ -50,7 +50,7 @@ export default class inknead extends Component {
     this.handleNewRequestErrorMessage = this.handleNewRequestErrorMessage.bind(this);
   }
   createSession(userInfo) {
-    fetch('http://random-acts-of-pizza.herokuapp.com/users', {
+    fetch('https://inknead.herokuapp.com/users', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

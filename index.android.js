@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import Raop from './src/inknead';
+import inknead from './src/inknead';
 
-AppRegistry.registerComponent('Raop', () => Raop);
+AppRegistry.registerComponent('Raop', () => inknead);

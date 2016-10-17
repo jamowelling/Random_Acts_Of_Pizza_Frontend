@@ -1,4 +1,4 @@
-# Random Acts of Pizza
+# in knead
 
 ## Our Vision
 To bring people together through pizza.
