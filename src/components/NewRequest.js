@@ -55,7 +55,7 @@ export default class NewRequest extends Component {
 
       let options = {};
 
-      fetch('http://random-acts-of-pizza.herokuapp.com/requests', {
+      fetch('https://inknead.herokuapp.com/requests', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ export default class NewRequest extends Component {
               // throw new Error("Failed to upload image to S3");
               // DELETE NEW REQUEST FROM DB
               const userID = this.props.user.id
-              fetch(`http://random-acts-of-pizza.herokuapp.com/requests/1`, {
+              fetch(`https://inknead.herokuapp.com/requests/1`, {
                 headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'

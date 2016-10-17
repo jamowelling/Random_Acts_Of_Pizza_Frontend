@@ -37,7 +37,7 @@ export default class Request extends Component {
   }
   onConfirmPress(request) {
     const userID = this.props.user.id;
-    fetch(`http://random-acts-of-pizza.herokuapp.com/requests/${request.id}`, {
+    fetch(`https://inknead.herokuapp.com/requests/${request.id}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

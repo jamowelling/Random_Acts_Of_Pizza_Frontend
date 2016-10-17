@@ -6,7 +6,7 @@ export default class WebViewExample extends Component {
     super(props)
 
     this.state = {
-      redirectUri: 'http://www.google.com',
+      redirectUri: 'inkneadscheme://response',
       responseType: 'token',
       clientId: 'djH1sd6Q0amUNw',
       duration: 'permanent',
