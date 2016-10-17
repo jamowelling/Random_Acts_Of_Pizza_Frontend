@@ -13,7 +13,7 @@ export default class Requests extends Component {
     };
   }
   componentWillMount() {
-    fetch('http://localhost:3000/requests')
+    fetch('http://random-acts-of-pizza.herokuapp.com/requests')
     .then((response) => response.json())
     .then((responseJson) => {
       this.props.sumDonatedPizzas(responseJson.totalDonatedPizzas)
