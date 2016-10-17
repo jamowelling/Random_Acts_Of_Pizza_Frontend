@@ -11,7 +11,7 @@ export default class GuestView extends Component {
         <Nav backButton {...this.props} />
         <View style={styles.wrapper}>
           <Text style={styles.title}>
-            Random Acts of Pizza
+            in knead
           </Text>
           <Text style={styles.text}>
             "The power of kindness, one pizza at a time."

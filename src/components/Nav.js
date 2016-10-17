@@ -20,7 +20,7 @@ export default class Nav extends Component {
       <View style={styles.container}>
         <View style={styles.logo}>
           <Text style={styles.text}>
-            RAoP
+            in knead
           </Text>
         </View>
         <View style={styles.navigation}>
